@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans>
+	<ioc id="PermissionService" scope="singleton"
+		class="org.eweb4j.solidbase.permission.model.PermissionServiceImpl">
+		<inject ref="PermissionDAO" name="permissionDAO" type="" value="" />
+		<inject ref="ResourceDAO" name="resourceDAO" type="" value="" />
+
+		<inject ref="CodeDAO" name="codeDAO" type="" value="" />
+		<inject ref="CodeService" name="codeService" type="" value="" />
+	</ioc>
+	<ioc id="CodeService" scope="singleton"
+		class="org.eweb4j.solidbase.code.model.CodeServiceImpl">
+		<inject ref="CodeDAO" name="codeDAO" type="" value="" />
+	</ioc>
+	<ioc id="PermissionDAO" scope="singleton"
+		class="org.eweb4j.solidbase.permission.dao.PermissionDAOImpl">
+		<inject ref="" name="dsName" type="string" value="myDBInfo" />
+	</ioc>
+
+	<ioc id="CodeDAO" scope="singleton" class="org.eweb4j.solidbase.code.dao.CodeDAOImpl">
+		<inject ref="" name="dsName" type="string" value="myDBInfo" />
+	</ioc>
+
+	<ioc id="ResourceDAO" scope="singleton"
+		class="org.eweb4j.solidbase.resource.dao.ResourceDAOImpl">
+		<inject ref="" name="dsName" type="string" value="myDBInfo" />
+	</ioc>
+
+
+</beans>
