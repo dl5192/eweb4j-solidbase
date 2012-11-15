@@ -15,7 +15,9 @@ import org.eweb4j.solidbase.permission.dao.PermissionDAO;
 import org.eweb4j.solidbase.resource.dao.ResourceDAO;
 import org.eweb4j.solidbase.resource.model.Resource;
 import org.eweb4j.solidbase.resource.model.ResourceCons;
-import org.eweb4j.util.StringUtil;
+import org.eweb4j.util.CommonUtil;
+
+import freemarker.template.utility.StringUtil;
 
 public class PermissionServiceImpl implements PermissionService {
 
@@ -109,7 +111,7 @@ public class PermissionServiceImpl implements PermissionService {
 
 			@Override
 			public void run(Object... args) throws Exception {
-				String now = StringUtil.getNowTime();
+				String now = CommonUtil.getNowTime();
 				permission.setAddTime(now);
 				permission.setModifyTime(now);
 				long permId = permissionDAO.insert(permission);
@@ -160,7 +162,7 @@ public class PermissionServiceImpl implements PermissionService {
 
 			@Override
 			public void run(Object... args) throws Exception {
-				String now = StringUtil.getNowTime();
+				String now = CommonUtil.getNowTime();
 				permission.setModifyTime(now);
 				permissionDAO.update(permission);
 				Permission new_perm = new Permission();

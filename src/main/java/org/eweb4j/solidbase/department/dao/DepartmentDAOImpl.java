@@ -1,16 +1,12 @@
 package org.eweb4j.solidbase.department.dao;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-import org.eweb4j.orm.dao.DAO;
 import org.eweb4j.orm.dao.DAOException;
 import org.eweb4j.orm.dao.DAOFactory;
 import org.eweb4j.orm.dao.cascade.CascadeDAO;
-import org.eweb4j.orm.dao.delete.DeleteDAO;
-import org.eweb4j.orm.dao.insert.InsertDAO;
-import org.eweb4j.orm.dao.select.DivPageDAO;
-import org.eweb4j.orm.dao.select.SelectDAO;
-import org.eweb4j.orm.dao.update.UpdateDAO;
 import org.eweb4j.solidbase.code.model.Code;
 import org.eweb4j.solidbase.department.model.Department;
 import org.eweb4j.solidbase.department.model.DepartmentCons;
@@ -18,31 +14,17 @@ import org.eweb4j.solidbase.department.model.DepartmentException;
 
 public class DepartmentDAOImpl implements DepartmentDAO {
 
-	private InsertDAO insertDAO;
-	private DivPageDAO divPageDAO;
-	private SelectDAO selectDAO;
-	private DeleteDAO deleteDAO;
-	private UpdateDAO updateDAO;
-	private DAO departDAO;
-	private DAO codeDAO;
-	private CascadeDAO cascadeDAO;
+	private String dsName ;
 	private final static Class<Department> clazz = Department.class;
 
 	public void setDsName(String dsName) {
-		insertDAO = DAOFactory.getInsertDAO(dsName);
-		divPageDAO = DAOFactory.getDivPageDAO(dsName);
-		selectDAO = DAOFactory.getSelectDAO(dsName);
-		deleteDAO = DAOFactory.getDeleteDAO(dsName);
-		updateDAO = DAOFactory.getUpdateDAO(dsName);
-		codeDAO = DAOFactory.getDAO(Code.class, dsName);
-		departDAO = DAOFactory.getDAO(clazz, dsName);
-		cascadeDAO = DAOFactory.getCascadeDAO(dsName);
+		this.dsName = dsName;
 	}
 
 	public long insert(Department department) throws DepartmentException {
 		long id = -1;
 		try {
-			id = Long.parseLong(String.valueOf(insertDAO.insert(department)));
+			id = Long.parseLong(String.valueOf(DAOFactory.getInsertDAO(dsName).insert(department)));
 		} catch (DAOException e) {
 			throw new DepartmentException(DepartmentCons.DATA_ACCESS_ERR(), e);
 		}
@@ -52,29 +34,31 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 
 	public void update(Department department) throws DepartmentException {
 		try {
-			updateDAO.update(department);
+			DAOFactory.getUpdateDAO(dsName).update(department);
 		} catch (DAOException e) {
 			throw new DepartmentException(DepartmentCons.DATA_ACCESS_ERR(), e);
 		}
 	}
 
-	public List<Department> divPage(int pageNum, int numPerPage)
-			throws DepartmentException {
-		List<Department> pojos = null;
+	public List<Department> divPage(int pageNum, int numPerPage) throws DepartmentException {
+		Collection<Department> pojos = null;
 		try {
-			pojos = divPageDAO.divPage(clazz, pageNum, numPerPage);
-
+			pojos = DAOFactory.getDAO(Department.class, dsName).selectAll().query(pageNum, numPerPage);
+			
+			if (pojos == null) return null;
+			
 		} catch (DAOException e) {
 			throw new DepartmentException(DepartmentCons.DATA_ACCESS_ERR(), e);
 		}
-		return pojos;
+		
+		return new ArrayList<Department>(pojos);
 	}
 
 	public long countAll() throws DepartmentException {
 		long count;
 
 		try {
-			count = selectDAO.selectCount(clazz);
+			count = DAOFactory.getDAO(clazz, dsName).count();
 		} catch (DAOException e) {
 			throw new DepartmentException(DepartmentCons.DATA_ACCESS_ERR(), e);
 		}
@@ -84,17 +68,16 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 
 	public void delete(long departId) throws DepartmentException {
 		try {
-			deleteDAO.deleteById(clazz, departId);
+			DAOFactory.getDeleteDAO(dsName).deleteById(Department.class, departId);
 		} catch (DAOException e) {
 			throw new DepartmentException(DepartmentCons.DATA_ACCESS_ERR(), e);
 		}
 	}
 
-	public Department selectOneByDepartId(long departId)
-			throws DepartmentException {
+	public Department selectOneByDepartId(long departId) throws DepartmentException {
 		Department department = null;
 		try {
-			department = selectDAO.selectOneById(clazz, departId);
+			department = DAOFactory.getDAO(clazz, dsName).selectAll().where().field("departId").equal(departId).queryOne();
 		} catch (DAOException e) {
 			throw new DepartmentException(DepartmentCons.DATA_ACCESS_ERR(), e);
 		}
@@ -102,9 +85,9 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 		return department;
 	}
 
-	public void cascadeSelect(Department... departments)
-			throws DepartmentException {
+	public void cascadeSelect(Department... departments) throws DepartmentException {
 		try {
+			CascadeDAO cascadeDAO = DAOFactory.getCascadeDAO(dsName);
 			for (Department department : departments) {
 				cascadeDAO.select(department);
 				cascadeDAO.select(department.getCode());
@@ -114,44 +97,60 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 		}
 	}
 
-	public List<Code> joinCodeSelectByCodeTypeId(long codeTypeId)
-			throws DepartmentException {
-		List<Code> pojos = null;
+	public List<Code> joinCodeSelectByCodeTypeId(long codeTypeId) throws DepartmentException {
+		// select * from t_code c, t_department d where c.type_id = {} and d.code.id = c.id order by {} asc ; 
+		Collection<Code> codes = null;
 		try {
-			codeDAO.clear();
-			departDAO.clear();
-			pojos = codeDAO
-					.select(new String[] { "codeId", "codeValue", "remark" })
-					.where().field("type").equal(codeTypeId).and("codeId")
-					.inSql(departDAO.select(new String[] { "code" }).toSql())
-					.asc("codeValue").query();
-
+			codes = DAOFactory
+					.getDAO(Department.class, dsName)
+					.alias("d")
+					.join("code", "c")
+					.select(Code.class)
+					.where()
+						.field("c.type").equal(codeTypeId)
+						.enableExpress(true)
+						.and("d.code").equal("c.codeId")
+						.enableExpress(false)
+					.asc("c.codeValue")
+					.query();
+			
+			if (codes == null) return null;
+			
 		} catch (DAOException e) {
 			throw new DepartmentException(DepartmentCons.DATA_ACCESS_ERR(), e);
 		}
 
-		return pojos;
+		return new ArrayList<Code>(codes);
 	}
 
-	public List<Department> selectDepartmentByParentId(long parentId,
-			final long departTypeId) throws DepartmentException {
-		List<Department> pojos = null;
+	public List<Department> selectDepartmentByParentId(long parentId, final long departTypeId) throws DepartmentException {
+		Collection<Department> pojos = null;
+		// select * from t_dept d where d.code.id in (select c.id from t_code c where c.parent.id = {} and c.type.id = {}) 
 		try {
-			departDAO.clear();
-			codeDAO.clear();
-			pojos = departDAO
-					.selectAll()
-					.where()
-					.field("code")
-					.inSql(codeDAO.select(new String[] { "codeId" }).where()
-							.field("parent").equal(parentId).and("type")
-							.equal(departTypeId).toSql()).query();
-
+			String sql = 
+				DAOFactory
+				.getDAO(Code.class, dsName)
+				.select("codeId")
+				.where()
+					.field("parent").equal(parentId)
+					.and("type").equal(departTypeId)
+				.toSql();
+			
+			pojos = 
+				DAOFactory
+				.getDAO(Department.class, dsName)
+				.selectAll()
+				.where()
+					.field("code").inSql(sql)
+				.query();
+			
+			if (pojos == null) return null;
+			
 		} catch (DAOException e) {
 			throw new DepartmentException(DepartmentCons.DATA_ACCESS_ERR(), e);
 		}
-
-		return pojos;
+		
+		return new ArrayList<Department>(pojos);
 	}
 
 }

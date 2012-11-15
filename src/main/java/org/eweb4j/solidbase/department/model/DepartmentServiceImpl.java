@@ -11,7 +11,9 @@ import org.eweb4j.solidbase.code.model.Code;
 import org.eweb4j.solidbase.code.model.CodeException;
 import org.eweb4j.solidbase.code.model.CodeService;
 import org.eweb4j.solidbase.department.dao.DepartmentDAO;
-import org.eweb4j.util.StringUtil;
+import org.eweb4j.util.CommonUtil;
+
+import freemarker.template.utility.StringUtil;
 
 public class DepartmentServiceImpl implements DepartmentService {
 	private CodeService codeService;
@@ -122,7 +124,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 				Code _code = new Code();
 				_code.setCodeId(codeId);
 				department.setCode(_code);
-				String now = StringUtil.getNowTime();
+				String now = CommonUtil.getNowTime();
 				department.setAddTime(now);
 				department.setModifyTime(now);
 
@@ -177,7 +179,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 						.DEPARTMENT_TYPE_CODE_VALUE()));
 				codeDAO.update(code);
 				department.setCode(null);
-				String now = StringUtil.getNowTime();
+				String now = CommonUtil.getNowTime();
 				department.setModifyTime(now);
 				departmentDAO.update(department);
 			}

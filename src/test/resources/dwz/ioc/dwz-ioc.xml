@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans>
+	<ioc id="DWZ" scope="prototype" class="org.eweb4j.component.dwz.EWeb4JDWZImpl">
+		<inject ref="NavMenuService" name="navMenuService" type=""
+			value="" />
+		<inject ref="TreeMenuService" name="treeMenuService" type=""
+			value="" />
+	</ioc>
+
+	<ioc id="NavMenuService" scope="singleton"
+		class="org.eweb4j.component.dwz.menu.navmenu.NavMenuServiceImpl">
+		<inject ref="NavMenuDAO" name="navMenuDAO" type="" value="" />
+	</ioc>
+
+	<ioc id="NavMenuDAO" scope="singleton"
+		class="org.eweb4j.component.dwz.menu.navmenu.NavMenuDAOImpl">
+
+		<inject ref="" name="dsName" type="string" value="myDBInfo" />
+	</ioc>
+
+	<ioc id="TreeMenuService" scope="singleton"
+		class="org.eweb4j.component.dwz.menu.treemenu.TreeMenuServiceImpl">
+		<inject ref="TreeMenuDAO" name="treeMenuDAO" type="" value="" />
+		<inject ref="NavMenuDAO" name="navMenuDAO" type="" value="" />
+	</ioc>
+
+	<ioc id="TreeMenuDAO" scope="singleton"
+		class="org.eweb4j.component.dwz.menu.treemenu.TreeMenuDAOImpl">
+		<inject ref="" name="dsName" type="string" value="myDBInfo" />
+	</ioc>
+
+</beans>

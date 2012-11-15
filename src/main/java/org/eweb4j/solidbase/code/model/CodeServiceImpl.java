@@ -9,7 +9,7 @@ import org.eweb4j.mvc.view.PageMod;
 import org.eweb4j.orm.jdbc.transaction.Trans;
 import org.eweb4j.orm.jdbc.transaction.Transaction;
 import org.eweb4j.solidbase.code.dao.CodeDAO;
-import org.eweb4j.util.StringUtil;
+import org.eweb4j.util.CommonUtil;
 
 public class CodeServiceImpl implements CodeService {
 	private CodeDAO codeDAO;
@@ -179,7 +179,7 @@ public class CodeServiceImpl implements CodeService {
 		parent.setCodeId(parentId);
 		code.setParent(parent);
 
-		String now = StringUtil.getNowTime();
+		String now = CommonUtil.getNowTime();
 		code.setAddTime(now);
 		code.setModifyTime(now);
 
@@ -214,17 +214,17 @@ public class CodeServiceImpl implements CodeService {
 
 	public EditPage<Code> getEditPage(long codeId) throws CodeException {
 		Code db_code = codeDAO.selectOneByCodeId(codeId);
+		System.out.println("fuckfuck!!!!!!!!!! " + db_code);
 		if (db_code == null)
 			throw new CodeException(CodeCons.CODE_NOT_FOUND_MESS());
 
 		String model = CodeCons.MODEL_NAME();
 		String action = model + "/" + codeId;
-		Code pojo = codeDAO.selectOneByCodeId(codeId);
-		if (pojo != null) {
-			codeDAO.cascadeSelect(new Code[] { pojo });
+		if (db_code != null) {
+			codeDAO.cascadeSelect(new Code[] { db_code });
 		}
 
-		return new EditPage<Code>(model, action, pojo);
+		return new EditPage<Code>(model, action, db_code);
 	}
 
 	public void updateCodeInfo(Code code) throws CodeException {
@@ -245,7 +245,7 @@ public class CodeServiceImpl implements CodeService {
 				&& db_code_dup_value.getCodeId() != codeId)
 			throw new CodeException(CodeCons.DUP_CODE_VALUE_MESS());
 
-		String now = StringUtil.getNowTime();
+		String now = CommonUtil.getNowTime();
 		code.setModifyTime(now);
 
 		codeDAO.update(code);

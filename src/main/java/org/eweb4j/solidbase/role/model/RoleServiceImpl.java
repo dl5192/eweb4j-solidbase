@@ -12,7 +12,7 @@ import org.eweb4j.solidbase.permission.model.Permission;
 import org.eweb4j.solidbase.permission.model.PermissionCons;
 import org.eweb4j.solidbase.role.dao.RoleDAO;
 import org.eweb4j.solidbase.role.util.RoleUtil;
-import org.eweb4j.util.StringUtil;
+import org.eweb4j.util.CommonUtil;
 
 public class RoleServiceImpl implements RoleService {
 
@@ -37,7 +37,7 @@ public class RoleServiceImpl implements RoleService {
 		if (null != db_role)
 			throw new RoleException("角色名称已经存在，请更换之");
 
-		String now = StringUtil.getNowTime();
+		String now = CommonUtil.getNowTime();
 		role.setAddTime(now);
 		role.setModifyTime(now);
 		// 存入数据库
@@ -75,7 +75,7 @@ public class RoleServiceImpl implements RoleService {
 		if (db_n_role != null && db_n_role.getRoleId() != id)
 			throw new RoleException("角色名不能重复,请更换之");
 
-		role.setModifyTime(StringUtil.getNowTime());
+		role.setModifyTime(CommonUtil.getNowTime());
 
 		this.roleDAO.update(role);
 	}

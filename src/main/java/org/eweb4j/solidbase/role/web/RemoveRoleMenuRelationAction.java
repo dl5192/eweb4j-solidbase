@@ -8,8 +8,8 @@ import javax.ws.rs.Path;
 
 import org.eweb4j.component.dwz.DWZCons;
 import org.eweb4j.solidbase.role.model.RoleException;
+import org.eweb4j.util.CommonUtil;
 import org.eweb4j.util.JsonConverter;
-import org.eweb4j.util.StringUtil;
 
 @Path("${RoleConstant.MODEL_NAME}")
 public class RemoveRoleMenuRelationAction extends BaseAction {
@@ -20,7 +20,7 @@ public class RemoveRoleMenuRelationAction extends BaseAction {
 
 	@Path("/role-menu/remove")
 	@DELETE
-	public String doRemoveRoleMenuRelation(Map model) {
+	public String doRemoveRoleMenuRelation(Map<String,Object> model) {
 
 		try {
 			service.deleteRoleMenuRelation(roleId, treeMenuIds, navMenuIds);
@@ -31,7 +31,7 @@ public class RemoveRoleMenuRelationAction extends BaseAction {
 
 			return JsonConverter.convert(success);
 		} catch (RoleException e) {
-			model.put(DWZCons.ERROR_ATTR_NAME(), StringUtil.getExceptionString(e));
+			model.put(DWZCons.ERROR_ATTR_NAME(), CommonUtil.getExceptionString(e));
 
 			Map<String, String> fail = new HashMap<String, String>();
 			fail.put("status", "false");

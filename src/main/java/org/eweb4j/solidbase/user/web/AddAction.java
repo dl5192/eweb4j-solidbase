@@ -34,6 +34,7 @@ public class AddAction extends BaseAction {
 
 			return UserCons.DWZ_SUCCESS_JSON("添加用户信息成功");
 		} catch (Exception e) {
+			e.printStackTrace();
 			return dwz.getFailedJson(e.getMessage()).toString();
 		}
 	}

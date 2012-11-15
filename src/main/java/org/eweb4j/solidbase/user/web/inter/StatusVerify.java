@@ -17,7 +17,12 @@ import org.eweb4j.solidbase.user.util.UserUtil;
  * @author weiwei
  * 
  */
-@Interceptor(priority=1, method = "check", uri = { @Uri(type = "*") })
+@Interceptor(
+	priority=1, 
+	policy = "and",
+	method = "check", 
+	uri = { @Uri(type = "*") }
+)
 @Singleton
 public class StatusVerify {
 

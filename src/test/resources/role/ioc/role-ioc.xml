@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans>
+	<ioc id="RoleService" scope="singleton"
+		class="org.eweb4j.solidbase.role.model.RoleServiceImpl">
+		<inject ref="RoleDAO" name="roleDAO" type="" value="" />
+		<inject ref="PermissionDAO" name="permDAO" type="" value="" />
+	</ioc>
+
+	<ioc id="RoleDAO" scope="singleton" class="org.eweb4j.solidbase.role.dao.RoleDAOImpl">
+		<inject ref="" name="dsName" type="string" value="myDBInfo" />
+	</ioc>
+
+	<ioc id="PermissionDAO" scope="singleton"
+		class="org.eweb4j.solidbase.permission.dao.PermissionDAOImpl">
+		<inject ref="" name="dsName" type="string" value="myDBInfo" />
+	</ioc>
+</beans>

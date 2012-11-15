@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans>
+	<ioc id="CodeService" scope="singleton"
+		class="org.eweb4j.solidbase.code.model.CodeServiceImpl">
+		<inject ref="CodeDAO" name="codeDAO" type="" value="" />
+	</ioc>
+	<ioc id="CodeDAO" scope="singleton" class="org.eweb4j.solidbase.code.dao.CodeDAOImpl">
+		<inject ref="" name="dsName" type="string" value="myDBInfo" />
+	</ioc>
+
+</beans>

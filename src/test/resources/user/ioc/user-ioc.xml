@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans>
+
+	<ioc id="UserActivityLogService" scope="singleton"
+		class="org.eweb4j.solidbase.user.model.UserActivityLogServiceImpl">
+		<inject ref="" name="dsName" type="string" value="myDBInfo" />
+	</ioc>
+
+	<ioc id="UserService" scope="singleton"
+		class="org.eweb4j.solidbase.user.model.UserServiceImpl">
+		<inject ref="UserDAO" name="userDAO" type="" value="" />
+		<inject ref="RoleDAO" name="roleDAO" type="" value="" />
+		<inject ref="DepartmentDAO" name="departmentDAO" type="" value="" />
+	</ioc>
+
+	<ioc id="UserDAO" scope="singleton" class="org.eweb4j.solidbase.user.dao.UserDAOImpl">
+		<inject ref="" name="dsName" type="string" value="myDBInfo" />
+	</ioc>
+
+	<ioc id="RoleDAO" scope="singleton" class="org.eweb4j.solidbase.role.dao.RoleDAOImpl">
+		<inject ref="" name="dsName" type="string" value="myDBInfo" />
+	</ioc>
+
+	<ioc id="DepartmentDAO" scope="singleton"
+		class="org.eweb4j.solidbase.department.dao.DepartmentDAOImpl">
+		<inject ref="" name="dsName" type="string" value="myDBInfo" />
+	</ioc>
+
+</beans>

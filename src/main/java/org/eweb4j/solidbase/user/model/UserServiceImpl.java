@@ -15,8 +15,8 @@ import org.eweb4j.solidbase.role.model.RoleCons;
 import org.eweb4j.solidbase.setting.Setting;
 import org.eweb4j.solidbase.user.dao.UserDAO;
 import org.eweb4j.solidbase.user.util.UserUtil;
+import org.eweb4j.util.CommonUtil;
 import org.eweb4j.util.MD5Util;
-import org.eweb4j.util.StringUtil;
 
 public class UserServiceImpl implements UserService {
 
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
 		}
 
 		db_User.setLastLoginIp(ip);
-		db_User.setLastLoginTime(StringUtil.getNowTime());
+		db_User.setLastLoginTime(CommonUtil.getNowTime());
 		db_User.setStatus(UserCons.NORMAL());
 		userDAO.updateLoginStatus(db_User);
 
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
 
 		userRoleAndDepartLogic(user);
 
-		String now = StringUtil.getNowTime();
+		String now = CommonUtil.getNowTime();
 		user.setPassword(MD5Util.getMD5(user.getPassword()));
 		user.setRegTime(now);
 		user.setStatus(UserCons.NORMAL());
@@ -175,7 +175,7 @@ public class UserServiceImpl implements UserService {
 
 		this.userRoleAndDepartLogic(user);
 
-		user.setModifyTime(StringUtil.getNowTime());
+		user.setModifyTime(CommonUtil.getNowTime());
 
 		Transaction.execute(new Trans() {
 
@@ -307,8 +307,7 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	public void addUserDepartmentRelation(final long[] userIds,
-			final long[] departmentIds) throws Exception {
+	public void addUserDepartmentRelation(final long[] userIds, final long[] departmentIds) throws Exception {
 		if (userIds == null || userIds.length == 0)
 			throw new Exception(UserCons.USER_NOT_SELECTED_MESS());
 

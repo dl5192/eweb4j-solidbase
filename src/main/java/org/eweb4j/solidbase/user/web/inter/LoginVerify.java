@@ -15,9 +15,11 @@ import org.eweb4j.solidbase.user.model.User;
  */
 @Interceptor(
 	priority = 0,
+	policy = "and",
 	method = "check",
 	uri = { @Uri(value="_css", type="!start"), @Uri(value="_js", type="!start") },
-	except = {"users/login.jsp", "users/register.jsp", "users/login", "users/register", "users/captcha.jsp", "dwzres/javascripts/jquery-1.4.4.min.js"}
+	except = {"users/login.jsp", "users/register.jsp", "users/login", "users/register", 
+			"users/captcha.jsp", "dwzres/javascripts/jquery-1.4.4.min.js"}
 )
 @Singleton
 public class LoginVerify {

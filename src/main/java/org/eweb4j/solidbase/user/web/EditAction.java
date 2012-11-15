@@ -16,7 +16,7 @@ import org.eweb4j.mvc.action.annotation.ShowValMess;
 import org.eweb4j.solidbase.user.model.User;
 import org.eweb4j.solidbase.user.model.UserCons;
 import org.eweb4j.solidbase.user.util.UserUtil;
-import org.eweb4j.util.StringUtil;
+import org.eweb4j.util.CommonUtil;
 
 @Path("${UserConstant.MODEL_NAME}")
 public class EditAction extends BaseAction {
@@ -49,7 +49,7 @@ public class EditAction extends BaseAction {
 			User user = (User) MVC.ctx().getSession().getAttribute(UserCons.LOGIN_USER_ATTR_NAME());
 			this.id = user.getId();
 		} catch (Exception e) {
-			model.put(DWZCons.ERROR_ATTR_NAME(),StringUtil.getExceptionString(e));
+			model.put(DWZCons.ERROR_ATTR_NAME(),CommonUtil.getExceptionString(e));
 			return DWZCons.ERROR_PAGE();
 		}
 

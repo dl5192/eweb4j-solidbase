@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans>
+	<ioc id="ResourceService" scope="singleton"
+		class="org.eweb4j.solidbase.resource.model.ResourceServiceImpl">
+		<inject ref="ResourceDAO" name="resourceDAO" type="" value="" />
+	</ioc>
+	<ioc id="ResourceDAO" scope="singleton"
+		class="org.eweb4j.solidbase.resource.dao.ResourceDAOImpl">
+		<inject ref="" name="dsName" type="string" value="myDBInfo" />
+	</ioc>
+</beans>

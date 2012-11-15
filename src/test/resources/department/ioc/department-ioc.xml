@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans>
+	<ioc id="DepartmentService" scope="singleton"
+		class="org.eweb4j.solidbase.department.model.DepartmentServiceImpl">
+		<inject ref="CodeService" name="codeService" type="" value="" />
+
+		<inject ref="DepartmentDAO" name="departmentDAO" type="" value="" />
+
+		<inject ref="CodeDAO" name="codeDAO" type="" value="" />
+	</ioc>
+	<ioc id="CodeService" scope="singleton"
+		class="org.eweb4j.solidbase.code.model.CodeServiceImpl">
+		<inject ref="CodeDAO" name="codeDAO" type="" value="" />
+	</ioc>
+
+	<ioc id="DepartmentDAO" scope="singleton"
+		class="org.eweb4j.solidbase.department.dao.DepartmentDAOImpl">
+		<inject ref="" name="dsName" type="string" value="myDBInfo" />
+	</ioc>
+
+	<ioc id="CodeDAO" scope="singleton" class="org.eweb4j.solidbase.code.dao.CodeDAOImpl">
+		<inject ref="" name="dsName" type="string" value="myDBInfo" />
+	</ioc>
+
+
+
+</beans>

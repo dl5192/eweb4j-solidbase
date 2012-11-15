@@ -24,8 +24,7 @@ import org.eweb4j.solidbase.role.model.RoleException;
 @Path("${RoleConstant.MODEL_NAME}")
 public class AllocPermissionAction extends BaseAction {
 
-	private PermissionService permService = IOC.getBean(PermissionCons
-			.IOC_SERVICE_BEAN_ID());
+	private PermissionService permService = IOC.getBean(PermissionCons.IOC_SERVICE_BEAN_ID());
 
 	@Path("/alloc-permission")
 	@POST

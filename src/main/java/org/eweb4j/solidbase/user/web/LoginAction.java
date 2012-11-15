@@ -16,7 +16,7 @@ import org.eweb4j.mvc.validator.annotation.Validate;
 import org.eweb4j.solidbase.role.model.Role;
 import org.eweb4j.solidbase.user.model.User;
 import org.eweb4j.solidbase.user.model.UserCons;
-import org.eweb4j.util.StringUtil;
+import org.eweb4j.util.CommonUtil;
 
 import com.google.code.kaptcha.Constants;
 
@@ -40,7 +40,7 @@ public class LoginAction extends BaseAction {
 		List<Long> navMenuPerms = new ArrayList<Long>();
 		try {
 			String _authCode = (String) MVC.ctx().getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
-			User loginUser = userService.login(_authCode,StringUtil.getIpAddr(MVC.ctx().getRequest()), user);
+			User loginUser = userService.login(_authCode, CommonUtil.getIpAddr(MVC.ctx().getRequest()), user);
 
 			// 登陆成功之后，将用户的权限信息查询出来放到session内存中
 			/* 权限控制 */

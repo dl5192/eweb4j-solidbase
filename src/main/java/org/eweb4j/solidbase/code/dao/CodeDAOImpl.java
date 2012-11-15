@@ -1,7 +1,10 @@
 package org.eweb4j.solidbase.code.dao;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import org.eweb4j.orm.Models;
 import org.eweb4j.orm.dao.DAO;
 import org.eweb4j.orm.dao.DAOException;
 import org.eweb4j.orm.dao.DAOFactory;
@@ -34,16 +37,13 @@ public class CodeDAOImpl implements CodeDAO {
 		dao = DAOFactory.getDAO(Code.class, dsName);
 	}
 
-	public List<Code> selectPage(int pageNum, int numPerPage)
-			throws CodeException {
+	public List<Code> selectPage(int pageNum, int numPerPage) throws CodeException {
 		try {
 			String orderField = "codeValue";
 			int orderType = 1;
-			return divPageDAO.divPage(Code.class, pageNum, numPerPage,
-					orderField, orderType);
+			return divPageDAO.divPage(Code.class, pageNum, numPerPage, orderField, orderType);
 		} catch (DAOException e) {
-			throw new CodeException(CodeCons.DATA_ACCESS_ERR() + " | "
-					+ e.getMessage());
+			throw new CodeException(CodeCons.DATA_ACCESS_ERR() + " | " + e.getMessage());
 		}
 
 	}
@@ -64,17 +64,14 @@ public class CodeDAOImpl implements CodeDAO {
 		}
 	}
 
-	public long countByCodeTypeIdAndParentId(long codeTypeId, long parentId)
-			throws CodeException {
+	public long countByCodeTypeIdAndParentId(long codeTypeId, long parentId) throws CodeException {
 		String condition = "type_id = '%s' and parent_id = '%s'";
 		return selectDAO.selectCount(Code.class,
 				String.format(condition, codeTypeId, parentId));
 	}
 
 	public Code selectOneByCodeId(long codeId) {
-		Code code = new Code();
-		code.setCodeId(codeId);
-		return selectDAO.selectOne(code, "codeId");
+		return Models.inst(Code.class).findById(codeId);
 	}
 
 	public void deleteByCodeId(long codeId) throws CodeException {
@@ -139,7 +136,6 @@ public class CodeDAOImpl implements CodeDAO {
 				new Code();
 				type.setCodeId(CodeCons.META_CODE_ID());
 				code.setType(type);
-
 			}
 
 			Code parent = code.getParent();
@@ -155,8 +151,7 @@ public class CodeDAOImpl implements CodeDAO {
 
 	}
 
-	public void cascadeSelect(Code[] codes, String... fields)
-			throws CodeException {
+	public void cascadeSelect(Code[] codes, String... fields) throws CodeException {
 		try {
 			cascadeDAO.select(codes, fields);
 		} catch (DAOException e) {
@@ -165,118 +160,124 @@ public class CodeDAOImpl implements CodeDAO {
 		}
 	}
 
-	public List<Code> selectPageByCodeTypeIdAndParentId(long codeTypeId,
-			long parentId, int pageNum, int numPerPage) throws CodeException {
+	public List<Code> selectPageByCodeTypeIdAndParentId(long codeTypeId, long parentId, int pageNum, int numPerPage) throws CodeException {
 		try {
-			Code code = new Code();
-
-			Code type = new Code();
-			type.setCodeId(codeTypeId);
-			code.setType(type);
-
-			Code parent = new Code();
-			parent.setCodeId(parentId);
-			code.setParent(parent);
-
-			String[] fields = { "type", "parent" };
-
-			String orderField = "codeValue";
-			int orderType = 1;
-			boolean isOR = false;
-			return divPageDAO.divPageByFieldIsValue(code, fields, orderField,
-					orderType, pageNum, numPerPage, isOR);
+			Collection<Code> codes = 
+				dao.clear()
+					.selectAll()
+					.where()
+						.field("type").equal(codeTypeId)
+						.and("parent").equal(parentId)
+					.asc("codeValue")
+					.query(pageNum, numPerPage);
+			
+			if (codes == null) return null;
+			
+			return new ArrayList<Code>(codes);
 		} catch (DAOException e) {
-			throw new CodeException(CodeCons.DATA_ACCESS_ERR() + " | "
-					+ e.getMessage());
+			throw new CodeException(CodeCons.DATA_ACCESS_ERR() + " | " + e.getMessage());
 		}
 	}
 
-	public List<Code> selectPageByCodeTypeId(long codeTypeId, int pageNum,
-			int numPerPage) throws CodeException {
+	public List<Code> selectPageByCodeTypeId(long codeTypeId, int pageNum, int numPerPage) throws CodeException {
 		try {
-			Code type = new Code();
-			type.setCodeId(codeTypeId);
-
-			Code code = new Code();
-			code.setType(type);
-
-			String[] fields = { "type" };
-
-			String orderField = "codeValue";
-			int orderType = 1;
-			boolean isOR = false;
-			return divPageDAO.divPageByFieldIsValue(code, fields, orderField,
-					orderType, pageNum, numPerPage, isOR);
+			Collection<Code> codes = 
+				dao.clear()
+				.selectAll()
+				.where()
+					.field("type").equal(codeTypeId)
+					.asc("codeValue")
+				.query(pageNum, numPerPage);
+			
+			if (codes == null) return null;
+			
+			return new ArrayList<Code>(codes);
 		} catch (DAOException e) {
-			throw new CodeException(CodeCons.DATA_ACCESS_ERR() + " | "
-					+ e.getMessage());
+			throw new CodeException(CodeCons.DATA_ACCESS_ERR() + " | " + e.getMessage());
 		}
 	}
 
-	public List<Code> selectByCodeTypeIdAndCodeVal(long codeTypeId,
-			String inputValue) throws CodeException {
+	public List<Code> selectByCodeTypeIdAndCodeVal(long codeTypeId, String inputValue) throws CodeException {
 		try {
 			// select codeId, codeValule, remark from t_code where code_value
 			// like '%{inputValue}%' and
 			// type_id = '{typeId}' order by code_value asc ;
-			dao.clear();
-			return dao.select(new String[] { "codeId", "codeValue", "remark" })
-					.where().field("codeValue").like(inputValue).and("type")
-					.equal(codeTypeId).asc("codeValue").query();
-
+			Collection<Code> codes = dao.clear()
+										.select("codeId", "codeValue", "remark")
+										.where()
+											.field("codeValue").like(inputValue)
+											.and("type").equal(codeTypeId)
+										.asc("codeValue")
+										.query();
+			
+			if (codes == null) return null;
+			
+			return new ArrayList<Code>(codes);
 		} catch (DAOException e) {
-			throw new CodeException(CodeCons.DATA_ACCESS_ERR() + " | "
-					+ e.getMessage());
+			throw new CodeException(CodeCons.DATA_ACCESS_ERR() + " | " + e.getMessage());
 		}
 	}
 
-	public List<Code> selectByCodeTypeIdAndIdInPIdsAndCodeVal(long codeTypeId,
-			String inputValue) throws CodeException {
+	public List<Code> selectByCodeTypeIdAndIdInPIdsAndCodeVal(long codeTypeId, String inputValue) throws CodeException {
 		try {
 			// select codeId, codeValule, remark from Code where codeValue
 			// like '%{inputValue}%' and type_id = '{typeId}' and codeId
 			// not in (select codeId from Code where parentId > '0' ) order by
 			// codeValue asc ;
-
-			dao.clear();
-			String sql = new String(dao.select(new String[] { "codeId" })
-					.where().field("parent").moreThan(CodeCons.TOP_CODE_ID())
-					.toSql());
-
-			dao.clear();
-			return dao.select(new String[] { "codeId", "codeValue", "remark" })
-					.where().field("codeValue").like(inputValue).and("type")
-					.equal(codeTypeId).and("codeId").notInSql(sql)
-					.asc("codeValue").query();
-
+			
+			String notInSql = dao.clear()
+				.select("codeId")
+				.where()
+					.field("parent").moreThan(CodeCons.TOP_CODE_ID())
+				.toSql();
+			
+			Collection<Code> codes = 
+				dao.clear()
+				.select("codeId", "codeValue", "remark")
+				.where()
+					.field("codeValue").like(inputValue)
+					.and("type").equal(codeTypeId).and("codeId")
+					.notInSql(notInSql)
+				.asc("codeValue")
+				.query();
+			
+			if (codes == null) return null;
+			
+			return new ArrayList<Code>(codes);
 		} catch (DAOException e) {
-			throw new CodeException(CodeCons.DATA_ACCESS_ERR() + " | "
-					+ e.getMessage());
+			throw new CodeException(CodeCons.DATA_ACCESS_ERR() + " | " + e.getMessage());
 		}
 	}
 
-	public List<Code> selectByCodeTypeIdAndParentIdAndCodeValue(
-			long codeTypeId, long parentId, String inputValue)
-			throws CodeException {
+	public List<Code> selectByCodeTypeIdAndParentIdAndCodeValue(long codeTypeId, long parentId, String inputValue) throws CodeException {
 		try {
-			dao.clear();
-			return dao.select(new String[] { "codeId", "codeValue", "remark" })
-					.where().field("codeValue").like(inputValue).and("type")
-					.equal(codeTypeId).and("parent").equal(parentId)
-					.asc("codeValue").query();
-
+			Collection<Code> codes = 
+				dao.clear()
+				.select("codeId", "codeValue", "remark")
+				.where()
+					.field("codeValue").like(inputValue)
+					.and("type").equal(codeTypeId)
+					.and("parent").equal(parentId)
+				.asc("codeValue")
+				.query();
+			
+			if (codes == null) return null;
+			
+			return new ArrayList<Code>(codes);
 		} catch (DAOException e) {
 			throw new CodeException(CodeCons.DATA_ACCESS_ERR() + " | " + e.getMessage());
 		}
 	}
 
 	public long insert(String[] fields, Object... values) throws CodeException {
-		dao.clear();
-		return dao.insert(fields).values(values).execute();
+		return dao.clear()
+			.insert(fields).values(values)
+			.execute();
 	}
 
 	public void update(String[] fields, Object[] values) throws CodeException {
-		dao.clear();
-		dao.update().set(fields, values).execute();
+		dao.clear()
+			.update(fields).set(values)
+			.execute();
 	}
 }

@@ -27,6 +27,7 @@ public class AllocDepartmentAction extends BaseAction {
 			model.put("departmentTree", departService.getDepartmentDWZTree(null, ulStyle, ulOncheckHandler));
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			return dwz.getFailedJson(e.getMessage()).toString();
 		}
 

@@ -4,7 +4,9 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -36,10 +38,12 @@ public class Code implements Serializable {
 	@Length(max = 50)
 	private String remark;// 类别备注
 
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="parent_id")
 	private Code parent;// 父类别
 
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="type_id")
 	private Code type;// 元类别(类别的类别)
 
 	@Transient
@@ -117,9 +121,11 @@ public class Code implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Code [codeId=" + codeId + ", codeValue=" + codeValue
-				+ ", remark=" + remark + ", inputValue=" + inputValue
-				+ ", addTime=" + addTime + ", modifyTime=" + modifyTime + "]";
+		return "Code [codeId=" + this.codeId + ", codeValue=" + this.codeValue
+				+ ", remark=" + this.remark + ", parent=" + this.parent.getCodeId()
+				+ ", type=" + this.type.getCodeId() + ", inputValue=" + this.inputValue
+				+ ", addTime=" + this.addTime + ", modifyTime="
+				+ this.modifyTime + "]";
 	}
-
+	
 }

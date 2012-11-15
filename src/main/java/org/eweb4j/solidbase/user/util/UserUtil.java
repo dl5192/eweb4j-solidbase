@@ -3,11 +3,10 @@ package org.eweb4j.solidbase.user.util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
 import org.eweb4j.solidbase.department.model.Department;
 import org.eweb4j.solidbase.role.model.Role;
 import org.eweb4j.solidbase.user.model.User;
-import org.eweb4j.util.StringUtil;
+import org.eweb4j.util.CommonUtil;
 
 public class UserUtil {
 	public static boolean isValid(User user) {
@@ -19,7 +18,7 @@ public class UserUtil {
 		} else {
 
 			SimpleDateFormat sdf = new SimpleDateFormat(format);
-			String now_str = StringUtil.getNowTime(format);
+			String now_str = CommonUtil.getNowTime(format);
 			try {
 				Date date = sdf.parse(availablePeriod);
 				Date now = sdf.parse(now_str);
@@ -44,8 +43,6 @@ public class UserUtil {
 				role.setRoleId(roleId);
 				user.getRoles().add(role);
 			}
-		} else {
-			user.setRoles(null);
 		}
 	}
 
@@ -56,15 +53,13 @@ public class UserUtil {
 				depart.setDepartId(departId);
 				user.getDepartments().add(depart);
 			}
-		} else {
-			user.setDepartments(null);
 		}
 	}
 
 	public static void main(String[] args) throws Exception {
 		String format = "yyyy-MM-dd";
 		String date = "2011-02-07";
-		String now_str = StringUtil.getNowTime(format);
+		String now_str = CommonUtil.getNowTime(format);
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		System.out.println("now_str-->" + now_str);
 		Date when = sdf.parse(date);

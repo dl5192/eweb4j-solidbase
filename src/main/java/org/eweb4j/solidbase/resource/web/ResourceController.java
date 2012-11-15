@@ -152,6 +152,7 @@ public class ResourceController {
 		try {
 			return resourceService.getAllResource();
 		} catch (ResourceException e) {
+			e.printStackTrace();
 			return dwz.getFailedJson(e.getMessage()).toString();
 		}
 	}

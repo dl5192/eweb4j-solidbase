@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans>
+	<eweb4j>
+		<reload>0</reload>
+		<debug>0</debug>
+		<locales>
+	      <locale language="zh" country="CN"/>
+	    </locales>
+		<properties>
+			<file id="PreferenceConstant" path="preference/conf/preference.properties" global="false" />
+			<file id="CodeConstant" path="code/conf/code.properties" global="false" />
+			<file id="DWZConstant" path="dwz/conf/dwz.properties" global="false" />
+			<file id="MenuConstant" path="dwz/conf/menu.properties" global="false" />
+			<file id="NavMenuConstant" path="dwz/conf/navmenu.properties" global="false" />
+			<file id="TreeMenuConstant" path="dwz/conf/treemenu.properties" global="false" />
+			<file id="UserConstant" path="user/conf/user.properties" global="false" />
+			<file id="RoleConstant" path="role/conf/role.properties" global="false" />
+			<file id="MainConstant" path="main/conf/main.properties" global="false" />
+			<file id="DepartmentConstant" path="department/conf/department.properties" global="false" />
+			<file id="PermissionConstant" path="permission/conf/permission.properties" global="false" />
+			<file id="UserActivityLogConstant" path="user/conf/user-log.properties" global="false" />
+			<file id="ResourceConstant" path="resource/conf/resource.properties" global="false" />
+		</properties>
+		<ioc>
+			<open>true</open>
+			<logs>
+		    	<log console="0" level="info" file="logs/ioc.log" size="5"/>
+		    </logs>
+			<iocXmlFiles>
+				<path>permission/ioc/permission-ioc.xml</path>
+				<path>department/ioc/department-ioc.xml</path>
+				<path>code/ioc/code-ioc.xml</path>
+				<path>user/ioc/user-ioc.xml</path>
+				<path>role/ioc/role-ioc.xml</path>
+				<path>dwz/ioc/dwz-ioc.xml</path>
+				<path>resource/ioc/resource-ioc.xml</path>
+			</iocXmlFiles>
+		</ioc>
+		<orm>
+			<open>1</open>
+			<logs>
+		    	<log console="1" level="debug" file="logs/orm.log" size="5"/>
+		   	</logs>
+			<dataSource>com.mchange.v2.c3p0.ComboPooledDataSource</dataSource>
+			<scanPojoPackage>
+				<path>org.eweb4j.solidbase</path>
+				<path>org.eweb4j.component.dwz.menu</path>
+			</scanPojoPackage>
+			<ormXmlFiles>
+				<path></path>
+			</ormXmlFiles>
+			<dbInfoXmlFiles>
+				<path>mysql.xml</path>
+			</dbInfoXmlFiles>
+		</orm>
+		<mvc>
+			<open>1</open>
+			<logs>
+		    	<log console="0" level="info" file="logs/mvc.log" size="5"/>
+		    </logs>
+		    <upload tmp="${RootPath}/WEB-INF/tmp" maxMemorySize="20M" maxRequestSize="512K" />
+			<scanActionPackage>
+				<path>org.eweb4j.solidbase</path>
+				<path>org.eweb4j.component.dwz.menu</path>
+			</scanActionPackage>
+			<scanInterceptorPackage>
+	        	<path>org.eweb4j.solidbase</path>
+	      	</scanInterceptorPackage>
+			<actionXmlFiles />
+			<interXmlFiles>
+				<path></path>
+			</interXmlFiles>
+		</mvc>
+	</eweb4j>
+</beans>

@@ -23,7 +23,7 @@ import org.eweb4j.solidbase.user.model.User;
 import org.eweb4j.solidbase.user.model.UserActivityLog;
 import org.eweb4j.solidbase.user.model.UserActivityLogCons;
 import org.eweb4j.solidbase.user.model.UserActivityLogService;
-import org.eweb4j.util.StringUtil;
+import org.eweb4j.util.CommonUtil;
 
 /**
  * 鉴权过滤器
@@ -31,7 +31,12 @@ import org.eweb4j.util.StringUtil;
  * @author weiwei
  * 
  */
-@Interceptor(priority = 2, method = "check", uri = { @Uri(type="*") }, except = {"users/captcha.jsp"})
+@Interceptor(
+		priority = 2, 
+		policy = "and",
+		method = "check", 
+		uri = { @Uri(type="*") }, 
+		except = {"users/captcha.jsp"})
 public class PermissionVerifyFilter {
 	
 	private Log log = LogFactory.getMVCLogger(getClass());
@@ -113,7 +118,7 @@ public class PermissionVerifyFilter {
 			ual.setUser(loginUser);
 			ual.setUserAccount(loginUser.getAccount());
 			ual.setUserName(loginUser.getTrueName());
-			ual.setTime(StringUtil.getNowTime());
+			ual.setTime(CommonUtil.getNowTime());
 
 			role_item: for (Role r : roles) {
 

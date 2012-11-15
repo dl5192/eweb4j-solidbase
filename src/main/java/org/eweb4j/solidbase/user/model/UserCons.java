@@ -3,7 +3,7 @@ package org.eweb4j.solidbase.user.model;
 import java.util.Map;
 
 import org.eweb4j.cache.Props;
-import org.eweb4j.config.ConfigConstant;
+import org.eweb4j.mvc.config.MVCConfigConstant;
 import org.eweb4j.mvc.view.CallBackJson;
 
 public class UserCons {
@@ -25,7 +25,7 @@ public class UserCons {
 		String mess = _mess == null ? "操作成功" : _mess;
 		String rel = map.get("SHOW_LIST_REL");
 		String path = map.get("SHOW_LIST_PATH");
-		path = ConfigConstant.BASE_URL + path;
+		path = MVCConfigConstant.BASE_URL + path;
 		String title = map.get("SHOW_LIST_TITLE");
 		return new CallBackJson("200", mess, rel, path, callbackType, title)
 				.toString();
@@ -40,7 +40,7 @@ public class UserCons {
 		String mess = _mess == null ? "操作成功" : _mess;
 		String rel = map.get("ALLOC_DEPART.SHOW_LIST_REL");
 		String path = map.get("ALLOC_DEPART.SHOW_LIST_PATH");
-		path = ConfigConstant.BASE_URL + path;
+		path = MVCConfigConstant.BASE_URL + path;
 		String title = map.get("ALLOC_DEPART.SHOW_LIST_TITLE");
 		return new CallBackJson("200", mess, rel, path, callbackType, title)
 				.toString();
@@ -55,7 +55,7 @@ public class UserCons {
 		String mess = _mess == null ? "操作成功" : _mess;
 		String rel = map.get("ALLOC_ROLET.SHOW_LIST_REL");
 		String path = map.get("ALLOC_ROLE.SHOW_LIST_PATH");
-		path = ConfigConstant.BASE_URL + path;
+		path = MVCConfigConstant.BASE_URL + path;
 		String title = map.get("ALLOC_ROLE.SHOW_LIST_TITLE");
 		return new CallBackJson("200", mess, rel, path, callbackType, title)
 				.toString();
