@@ -23,15 +23,15 @@
 				
                 <span style="clear: both; display: block; height: 10px;" />
                 
-                <label for="setting.userPermControl">权限不受控制：</label>
+                <label for="setting.userPermControl">权限控制：</label>
                 <select name="setting.userPermControl" class="required combox">
                 	<option value="">请选择</option>
                     <option value="yes" 
                     	<c:if test="${pojo.userPermControl=='yes'}">selected="selected"</c:if>
-                    >是</option>
+                    >关闭</option>
                     <option value="no" 
                     	<c:if test="${pojo.userPermControl=='no'}">selected="selected"</c:if>
-                    >否</option>
+                    >开启</option>
                 </select> 
                 
             </div>

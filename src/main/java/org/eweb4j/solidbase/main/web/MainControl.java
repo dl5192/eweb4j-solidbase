@@ -96,8 +96,7 @@ public class MainControl {
 				List<Long> navMenuPerms = loginUser.getNavMenuPerms();
 
 				/* 首先从缓存中获取 */
-				navMenus = (List<NavMenu>) session.getAttribute(NavMenu.class
-						.getName() + "_LIST_FOR_DWZ_NAVMENU");
+				navMenus = (List<NavMenu>) session.getAttribute(NavMenu.class.getName() + "_LIST_FOR_DWZ_NAVMENU");
 				if (navMenus == null)
 					navMenus = new ArrayList<NavMenu>();
 
@@ -141,8 +140,7 @@ public class MainControl {
 					}
 				}
 
-				treeMenus = (String) session.getAttribute(TreeMenu.class
-						.getName() + "_STRING_FOR_DWZ_TREE");
+				treeMenus = (String) session.getAttribute(TreeMenu.class.getName() + "_STRING_FOR_DWZ_TREE");
 				if (treeMenus == null && navMenus.size() > 0) {
 					dwz.setTreeMenuPermissions(treeMenuPerms);
 					treeMenus = dwz.getAccordion(

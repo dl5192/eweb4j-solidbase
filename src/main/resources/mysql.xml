@@ -4,15 +4,22 @@
 	<dataSource dsName="myDBInfo">
 		<dataBaseType>MYSQL</dataBaseType>
 		<property key="driverClass" value="com.mysql.jdbc.Driver" />
-		<property key="jdbcUrl" value="jdbc:mysql://localhost:3306/solidbase_db" />
+		<property key="jdbcUrl" value="jdbc:mysql://localhost:3306/solidbase_db?useUnicode=true&amp;characterEncoding=utf8" />
 		<property key="user" value="root" />
 		<property key="password" value="root" />
+		<property key="initialPoolSize" value="1" />
 		<property key="maxPoolSize" value="50" />
-		<property key="initialPoolSize" value="2" />
-		<property key="minPoolSize" value="2" />
-		<property key="acquireIncrement" value="2" />
+		<property key="minPoolSize" value="1" />
+		<property key="acquireIncrement" value="1" />
 		<property key="maxStatements" value="1000" />
-		<property key="maxIdleTime" value="3000" />
+		<property key="idleConnectionTestPeriod" value="30" />
+		<property key="maxIdleTime" value="30" />
+		<property key="autoCommitOnClose" value="true" />
+		<property key="testConnectionOnCheckout" value="false" />
+		<property key="testConnectionOnCheckin" value="false" />
+		<property key="acquireRetryAttempts" value="30" />
+		<property key="acquireRetryDelay" value="2000" />
+		<property key="breakAfterAcquireFailure" value="false" />
 		<property key="checkoutTimeout" value="5000" />
 	</dataSource>
 </beans>
