@@ -1,38 +1,39 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : MySql
-Source Server Version : 50511
+Source Server         : local
+Source Server Version : 50045
 Source Host           : localhost:3306
 Source Database       : solidbase_db
 
 Target Server Type    : MYSQL
-Target Server Version : 50511
+Target Server Version : 50045
 File Encoding         : 65001
 
-Date: 2012-06-10 11:24:26
+Date: 2012-12-07 16:16:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
 -- ----------------------------
 -- Table structure for `t_code`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_code`;
 CREATE TABLE `t_code` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `ID` bigint(20) NOT NULL auto_increment,
   `CODE_VALUE` varchar(32) NOT NULL,
-  `TYPE_ID` bigint(10) DEFAULT NULL,
-  `PARENT_ID` bigint(10) DEFAULT NULL,
-  `REMARK` varchar(50) NOT NULL DEFAULT '无',
-  `ADD_TIME` varchar(20) DEFAULT NULL,
-  `MODIFY_TIME` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+  `TYPE_ID` bigint(10) default NULL,
+  `PARENT_ID` bigint(10) default NULL,
+  `REMARK` varchar(50) NOT NULL default '无',
+  `ADD_TIME` varchar(20) default NULL,
+  `MODIFY_TIME` varchar(20) default NULL,
+  PRIMARY KEY  (`ID`),
   UNIQUE KEY `CODE_VALUE` (`CODE_VALUE`),
   KEY `TYPE_ID` (`TYPE_ID`),
   KEY `PARENT_ID` (`PARENT_ID`),
   CONSTRAINT `t_code_ibfk_1` FOREIGN KEY (`TYPE_ID`) REFERENCES `t_code` (`ID`) ON UPDATE CASCADE,
   CONSTRAINT `t_code_ibfk_2` FOREIGN KEY (`PARENT_ID`) REFERENCES `t_code` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_code
@@ -75,20 +76,20 @@ INSERT INTO `t_code` VALUES ('48', 'test', '4', '44', '测试部门', null, null
 -- ----------------------------
 DROP TABLE IF EXISTS `t_department`;
 CREATE TABLE `t_department` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `ID` bigint(20) NOT NULL auto_increment,
   `CODE_ID` bigint(20) NOT NULL,
   `DEPART_LEVEL` bigint(20) NOT NULL,
   `DEPART_CATE` bigint(20) NOT NULL,
-  `ADD_TIME` varchar(20) DEFAULT NULL,
-  `MODIFY_TIME` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `CODE_ID` (`CODE_ID`) USING BTREE,
+  `ADD_TIME` varchar(20) default NULL,
+  `MODIFY_TIME` varchar(20) default NULL,
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `CODE_ID` (`CODE_ID`),
   KEY `DEPART_LEVEL` (`DEPART_LEVEL`),
   KEY `DEPART_CATE` (`DEPART_CATE`),
   CONSTRAINT `t_department_ibfk_1` FOREIGN KEY (`CODE_ID`) REFERENCES `t_code` (`ID`) ON UPDATE CASCADE,
   CONSTRAINT `t_department_ibfk_2` FOREIGN KEY (`DEPART_LEVEL`) REFERENCES `t_code` (`ID`) ON UPDATE CASCADE,
   CONSTRAINT `t_department_ibfk_3` FOREIGN KEY (`DEPART_CATE`) REFERENCES `t_code` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_department
@@ -103,20 +104,20 @@ INSERT INTO `t_department` VALUES ('17', '48', '47', '10', '2012-06-09 19:30:19'
 -- ----------------------------
 DROP TABLE IF EXISTS `t_department_ext`;
 CREATE TABLE `t_department_ext` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `SEAL_NAME` varchar(100) DEFAULT NULL,
-  `CONTACT` varchar(20) DEFAULT NULL,
-  `CONTACT_PHONE` varchar(20) DEFAULT NULL,
-  `FAX` varchar(20) DEFAULT NULL,
-  `ZIP` varchar(20) DEFAULT NULL,
-  `CONTACT_ADDR` varchar(100) DEFAULT NULL,
-  `POLICE_NUMBER` int(11) DEFAULT NULL,
-  `ASSIST_NUMBER` int(11) DEFAULT NULL,
+  `ID` bigint(20) NOT NULL auto_increment,
+  `SEAL_NAME` varchar(100) default NULL,
+  `CONTACT` varchar(20) default NULL,
+  `CONTACT_PHONE` varchar(20) default NULL,
+  `FAX` varchar(20) default NULL,
+  `ZIP` varchar(20) default NULL,
+  `CONTACT_ADDR` varchar(100) default NULL,
+  `POLICE_NUMBER` int(11) default NULL,
+  `ASSIST_NUMBER` int(11) default NULL,
   `POLICE_KIND` bigint(20) NOT NULL,
-  `IS_TEMPORARY` enum('no','yes') NOT NULL DEFAULT 'no',
+  `IS_TEMPORARY` enum('no','yes') NOT NULL default 'no',
   `DEPARTMENT_ID` bigint(20) NOT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `DEPARTMENT_ID` (`DEPARTMENT_ID`) USING BTREE,
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `DEPARTMENT_ID` (`DEPARTMENT_ID`),
   KEY `POLICE_KIND` (`POLICE_KIND`),
   CONSTRAINT `t_department_ext_ibfk_4` FOREIGN KEY (`POLICE_KIND`) REFERENCES `t_code` (`ID`) ON UPDATE CASCADE,
   CONSTRAINT `t_department_ext_ibfk_5` FOREIGN KEY (`DEPARTMENT_ID`) REFERENCES `t_department` (`ID`) ON UPDATE CASCADE
@@ -131,13 +132,13 @@ CREATE TABLE `t_department_ext` (
 -- ----------------------------
 DROP TABLE IF EXISTS `t_nav_menu`;
 CREATE TABLE `t_nav_menu` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `ID` bigint(20) NOT NULL auto_increment,
   `NAME` varchar(16) NOT NULL,
-  `HREF` varchar(255) DEFAULT NULL,
-  `RANK` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`ID`),
+  `HREF` varchar(255) default NULL,
+  `RANK` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`ID`),
   UNIQUE KEY `NAME` (`NAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_nav_menu
@@ -150,14 +151,140 @@ INSERT INTO `t_nav_menu` VALUES ('8', '打开JSP', 'main/switchEnv/hello.jsp', '
 INSERT INTO `t_nav_menu` VALUES ('9', '打开HTML', 'main/switchEnv/hello.html', '4');
 
 -- ----------------------------
+-- Table structure for `t_permission`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_permission`;
+CREATE TABLE `t_permission` (
+  `ID` bigint(20) NOT NULL auto_increment,
+  `NAME` varchar(20) NOT NULL,
+  `RESOURCE_ID` bigint(20) NOT NULL,
+  `TYPE` bigint(20) NOT NULL,
+  `REMARK` varchar(255) default '无',
+  `ADD_TIME` varchar(20) default NULL,
+  `MODIFY_TIME` varchar(20) default NULL,
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `NAME` (`NAME`),
+  KEY `TYPE` (`TYPE`),
+  KEY `RESOURCE_ID` (`RESOURCE_ID`),
+  CONSTRAINT `t_permission_ibfk_1` FOREIGN KEY (`TYPE`) REFERENCES `t_code` (`ID`) ON UPDATE CASCADE,
+  CONSTRAINT `t_permission_ibfk_2` FOREIGN KEY (`RESOURCE_ID`) REFERENCES `t_resource` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=290 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_permission
+-- ----------------------------
+INSERT INTO `t_permission` VALUES ('183', '访问后台主页', '5', '37', '', '2012-03-06 23:24:08', '2012-03-08 07:43:42');
+INSERT INTO `t_permission` VALUES ('185', '添加代码信息', '7', '35', '', '2012-03-08 07:13:54', '2012-03-08 07:13:54');
+INSERT INTO `t_permission` VALUES ('186', '批量删除代码', '8', '35', '', '2012-03-08 07:14:05', '2012-03-08 07:14:05');
+INSERT INTO `t_permission` VALUES ('187', '查看代码列表', '9', '35', '', '2012-03-08 07:14:23', '2012-03-08 07:14:23');
+INSERT INTO `t_permission` VALUES ('188', '访问添加代码页面', '10', '35', '', '2012-03-08 07:14:44', '2012-03-08 07:14:44');
+INSERT INTO `t_permission` VALUES ('189', '查询代码', '11', '35', '', '2012-03-08 07:14:57', '2012-03-08 07:14:57');
+INSERT INTO `t_permission` VALUES ('190', '获取代码类型Json格式数据', '12', '35', '', '2012-03-08 07:15:27', '2012-03-08 07:15:27');
+INSERT INTO `t_permission` VALUES ('191', '删除某项代码', '13', '35', '', '2012-03-08 07:15:45', '2012-03-08 07:15:45');
+INSERT INTO `t_permission` VALUES ('192', '编辑某项代码', '14', '35', '', '2012-03-08 07:16:01', '2012-03-08 07:16:01');
+INSERT INTO `t_permission` VALUES ('193', '获取某类型父代码', '15', '35', '', '2012-03-08 07:16:17', '2012-03-08 07:16:17');
+INSERT INTO `t_permission` VALUES ('194', '更新某代码', '16', '35', '', '2012-03-08 07:16:34', '2012-03-08 07:16:34');
+INSERT INTO `t_permission` VALUES ('195', '添加部门', '17', '36', '', '2012-03-08 07:16:43', '2012-03-08 07:25:22');
+INSERT INTO `t_permission` VALUES ('196', '批量删除部门', '18', '36', '\n', '2012-03-08 07:25:53', '2012-03-08 07:25:53');
+INSERT INTO `t_permission` VALUES ('197', '查看部门列表', '19', '36', '', '2012-03-08 07:26:35', '2012-03-08 07:26:35');
+INSERT INTO `t_permission` VALUES ('198', '访问添加部门页面', '20', '36', '', '2012-03-08 07:26:50', '2012-03-08 07:26:50');
+INSERT INTO `t_permission` VALUES ('199', '更新某部门', '21', '36', '', '2012-03-08 07:27:02', '2012-03-08 07:27:02');
+INSERT INTO `t_permission` VALUES ('200', '删除某部门', '21', '36', '', '2012-03-08 07:27:38', '2012-03-08 07:27:38');
+INSERT INTO `t_permission` VALUES ('201', '编辑某部门', '22', '36', '', '2012-03-08 07:42:12', '2012-03-08 07:42:12');
+INSERT INTO `t_permission` VALUES ('202', '关于我们', '23', '37', '', '2012-03-08 07:43:59', '2012-03-08 07:43:59');
+INSERT INTO `t_permission` VALUES ('203', '切换左边树形菜单', '24', '37', '', '2012-03-08 07:44:17', '2012-03-08 07:44:17');
+INSERT INTO `t_permission` VALUES ('204', '切换左边显示html页面', '25', '37', '', '2012-03-08 07:44:39', '2012-03-08 07:44:39');
+INSERT INTO `t_permission` VALUES ('205', '切换左边显示JSP页面', '26', '37', '', '2012-03-08 07:44:53', '2012-03-08 07:44:53');
+INSERT INTO `t_permission` VALUES ('206', '添加导航菜单', '27', '38', '', '2012-03-08 07:45:48', '2012-03-08 07:45:48');
+INSERT INTO `t_permission` VALUES ('207', '批量删除导航菜单', '28', '38', '', '2012-03-08 07:46:01', '2012-03-08 07:46:01');
+INSERT INTO `t_permission` VALUES ('208', '查看导航菜单列表', '29', '38', '', '2012-03-08 08:22:50', '2012-03-08 08:22:50');
+INSERT INTO `t_permission` VALUES ('209', '查找带回导航菜单', '30', '38', '', '2012-03-08 08:23:09', '2012-03-08 08:23:09');
+INSERT INTO `t_permission` VALUES ('210', '查找搜索带回导航菜单', '31', '38', '', '2012-03-08 08:23:29', '2012-03-08 08:23:29');
+INSERT INTO `t_permission` VALUES ('211', '访问添加导航菜单页面', '32', '38', '', '2012-03-08 08:23:44', '2012-03-08 08:23:44');
+INSERT INTO `t_permission` VALUES ('212', '查询导航菜单', '33', '38', '', '2012-03-08 08:23:56', '2012-03-08 08:23:56');
+INSERT INTO `t_permission` VALUES ('213', '下拉获取导航菜单Json格式信息', '34', '38', '', '2012-03-08 08:24:37', '2012-03-08 08:24:37');
+INSERT INTO `t_permission` VALUES ('214', '删除某导航菜单', '35', '38', '', '2012-03-08 08:24:57', '2012-03-08 08:24:57');
+INSERT INTO `t_permission` VALUES ('215', '编辑某导航菜单', '36', '38', '', '2012-03-08 08:25:11', '2012-03-08 08:25:11');
+INSERT INTO `t_permission` VALUES ('216', '更新某导航菜单', '37', '38', '', '2012-03-08 08:25:25', '2012-03-08 08:25:25');
+INSERT INTO `t_permission` VALUES ('217', '查看用户日志', '38', '23', '', '2012-03-08 08:33:00', '2012-03-08 08:33:00');
+INSERT INTO `t_permission` VALUES ('218', '获取某用户的角色', '39', '23', '', '2012-03-08 08:34:02', '2012-03-08 08:34:02');
+INSERT INTO `t_permission` VALUES ('219', '批量删除权限', '40', '40', '', '2012-03-08 08:34:26', '2012-03-08 08:34:26');
+INSERT INTO `t_permission` VALUES ('220', '添加权限', '41', '40', '', '2012-03-08 08:34:38', '2012-03-08 08:34:38');
+INSERT INTO `t_permission` VALUES ('221', '查看权限列表', '42', '40', '', '2012-03-08 08:34:52', '2012-03-08 08:34:52');
+INSERT INTO `t_permission` VALUES ('222', '访问添加权限页面', '43', '40', '', '2012-03-08 08:35:09', '2012-03-08 08:35:09');
+INSERT INTO `t_permission` VALUES ('223', '删除某权限', '44', '40', '', '2012-03-08 08:35:25', '2012-03-08 08:35:25');
+INSERT INTO `t_permission` VALUES ('224', '更新某权限', '44', '40', '', '2012-03-08 08:35:36', '2012-03-08 08:35:36');
+INSERT INTO `t_permission` VALUES ('225', '编辑某权限', '45', '40', '', '2012-03-08 08:35:49', '2012-03-08 08:35:49');
+INSERT INTO `t_permission` VALUES ('226', '更新系统参数', '46', '41', '', '2012-03-08 08:36:19', '2012-03-08 08:36:19');
+INSERT INTO `t_permission` VALUES ('227', '查看系统参数列表', '47', '41', '', '2012-03-08 08:36:32', '2012-03-08 08:36:32');
+INSERT INTO `t_permission` VALUES ('228', '编辑某系统参数', '48', '41', '', '2012-03-08 08:36:43', '2012-03-08 08:36:43');
+INSERT INTO `t_permission` VALUES ('229', '添加资源', '49', '43', '', '2012-03-08 08:36:53', '2012-03-08 08:36:53');
+INSERT INTO `t_permission` VALUES ('230', '批量删除资源', '50', '43', '', '2012-03-08 08:37:32', '2012-03-08 08:37:32');
+INSERT INTO `t_permission` VALUES ('231', '查看资源列表', '51', '43', '', '2012-03-08 08:37:48', '2012-03-08 08:37:48');
+INSERT INTO `t_permission` VALUES ('232', '添加角色', '52', '42', '', '2012-03-08 08:38:01', '2012-03-08 08:38:01');
+INSERT INTO `t_permission` VALUES ('233', '访问分配权限页面', '53', '40', '', '2012-03-08 08:38:18', '2012-03-08 08:39:07');
+INSERT INTO `t_permission` VALUES ('234', '查看角色列表', '54', '42', '', '2012-03-08 08:38:35', '2012-03-08 08:38:35');
+INSERT INTO `t_permission` VALUES ('235', '分配权限', '55', '40', '', '2012-03-08 08:39:25', '2012-03-08 08:39:25');
+INSERT INTO `t_permission` VALUES ('236', '删除角色权限', '56', '40', '', '2012-03-08 08:39:51', '2012-03-08 08:39:51');
+INSERT INTO `t_permission` VALUES ('237', '添加树形菜单', '57', '39', '', '2012-03-08 08:40:09', '2012-03-08 08:40:09');
+INSERT INTO `t_permission` VALUES ('238', '添加用户', '58', '23', '', '2012-03-08 08:40:26', '2012-03-08 08:40:26');
+INSERT INTO `t_permission` VALUES ('239', '查看用户列表', '59', '23', '', '2012-03-08 08:40:42', '2012-03-08 08:40:42');
+INSERT INTO `t_permission` VALUES ('240', '批量删除树形菜单', '61', '39', '', '2012-06-09 23:31:29', '2012-06-09 23:31:29');
+INSERT INTO `t_permission` VALUES ('241', '查看树形菜单列表', '62', '39', '', '2012-06-09 23:32:48', '2012-06-09 23:32:48');
+INSERT INTO `t_permission` VALUES ('242', '访问添加树形菜单页面', '63', '39', '', '2012-06-09 23:33:10', '2012-06-09 23:33:10');
+INSERT INTO `t_permission` VALUES ('243', '查询树形菜单', '64', '39', '', '2012-06-09 23:33:29', '2012-06-09 23:33:29');
+INSERT INTO `t_permission` VALUES ('244', '删除某树形菜单', '65', '39', '', '2012-06-09 23:33:50', '2012-06-09 23:33:50');
+INSERT INTO `t_permission` VALUES ('245', '编辑某树形菜单', '66', '39', '', '2012-06-09 23:34:53', '2012-06-09 23:34:53');
+INSERT INTO `t_permission` VALUES ('246', '查找带回某导航菜单下的树形菜单', '67', '39', '', '2012-06-09 23:35:28', '2012-06-09 23:35:28');
+INSERT INTO `t_permission` VALUES ('247', '在查找带回中查询树形菜单', '68', '39', '', '2012-06-09 23:37:10', '2012-06-09 23:37:10');
+INSERT INTO `t_permission` VALUES ('248', '获取某导航菜单下的树形菜单JSON数据', '69', '39', '', '2012-06-09 23:37:41', '2012-06-09 23:37:41');
+INSERT INTO `t_permission` VALUES ('249', '更新某树形菜单', '70', '39', '', '2012-06-09 23:37:56', '2012-06-09 23:37:56');
+INSERT INTO `t_permission` VALUES ('250', '查看我的资料', '71', '23', '', '2012-06-09 23:42:10', '2012-06-09 23:42:10');
+INSERT INTO `t_permission` VALUES ('251', '更新某用户', '72', '23', '', '2012-06-09 23:42:32', '2012-06-09 23:42:32');
+INSERT INTO `t_permission` VALUES ('254', '退出后台', '74', '23', '', '2012-06-10 00:35:03', '2012-06-10 00:35:03');
+INSERT INTO `t_permission` VALUES ('257', '锁定用户', '76', '23', '', '2012-06-10 00:35:55', '2012-06-10 00:35:55');
+INSERT INTO `t_permission` VALUES ('258', '解锁用户', '77', '23', '', '2012-06-10 00:36:14', '2012-06-10 00:36:14');
+INSERT INTO `t_permission` VALUES ('259', '批量锁定用户', '78', '23', '', '2012-06-10 00:36:35', '2012-06-10 00:36:35');
+INSERT INTO `t_permission` VALUES ('260', '批量解锁用户', '79', '23', '', '2012-06-10 00:36:48', '2012-06-10 00:36:48');
+INSERT INTO `t_permission` VALUES ('261', '批量删除用户', '80', '23', '', '2012-06-10 00:37:03', '2012-06-10 00:37:03');
+INSERT INTO `t_permission` VALUES ('262', '分配部门', '81', '23', '', '2012-06-10 00:37:16', '2012-06-10 00:37:16');
+INSERT INTO `t_permission` VALUES ('263', '分配角色', '82', '23', '', '2012-06-10 00:37:28', '2012-06-10 00:37:28');
+INSERT INTO `t_permission` VALUES ('264', '访问添加用户页', '83', '23', '', '2012-06-10 00:38:22', '2012-06-10 01:34:03');
+INSERT INTO `t_permission` VALUES ('265', '查询用户', '84', '23', '', '2012-06-10 00:38:32', '2012-06-10 00:38:32');
+INSERT INTO `t_permission` VALUES ('266', '为用户分配部门', '85', '23', '', '2012-06-10 00:38:59', '2012-06-10 00:38:59');
+INSERT INTO `t_permission` VALUES ('267', '删除用户分配的部门', '86', '23', '', '2012-06-10 00:39:23', '2012-06-10 00:39:23');
+INSERT INTO `t_permission` VALUES ('268', '为用户分配角色', '87', '23', '', '2012-06-10 00:39:38', '2012-06-10 00:39:38');
+INSERT INTO `t_permission` VALUES ('269', '删除用户分配的角色', '88', '23', '', '2012-06-10 00:39:54', '2012-06-10 00:39:54');
+INSERT INTO `t_permission` VALUES ('270', '编辑某用户', '89', '23', '', '2012-06-10 00:41:00', '2012-06-10 00:41:00');
+INSERT INTO `t_permission` VALUES ('271', '获取为某用户已分配的部门', '90', '23', '', '2012-06-10 00:41:32', '2012-06-10 00:41:32');
+INSERT INTO `t_permission` VALUES ('272', '删除某用户', '72', '23', '', '2012-06-10 01:15:17', '2012-06-10 01:15:17');
+INSERT INTO `t_permission` VALUES ('273', '获取URI资源JSON格式', '91', '43', '', '2012-06-10 01:15:54', '2012-06-10 01:15:54');
+INSERT INTO `t_permission` VALUES ('274', '访问添加URI资源页', '92', '43', '', '2012-06-10 01:16:10', '2012-06-10 01:16:10');
+INSERT INTO `t_permission` VALUES ('275', '删除某URI资源', '60', '43', '', '2012-06-10 01:16:26', '2012-06-10 01:16:26');
+INSERT INTO `t_permission` VALUES ('276', '更新某URI资源', '60', '43', '', '2012-06-10 01:17:03', '2012-06-10 01:17:03');
+INSERT INTO `t_permission` VALUES ('277', '编辑某URI资源', '93', '43', '', '2012-06-10 01:17:18', '2012-06-10 01:17:18');
+INSERT INTO `t_permission` VALUES ('278', '分配菜单', '94', '40', '', '2012-06-10 01:20:11', '2012-06-10 01:20:11');
+INSERT INTO `t_permission` VALUES ('279', '批量删除角色', '95', '42', '', '2012-06-10 01:20:24', '2012-06-10 01:20:24');
+INSERT INTO `t_permission` VALUES ('280', '访问添加角色页', '96', '42', '', '2012-06-10 01:20:37', '2012-06-10 01:20:37');
+INSERT INTO `t_permission` VALUES ('281', '为角色分配菜单', '97', '40', '', '2012-06-10 01:20:54', '2012-06-10 01:20:54');
+INSERT INTO `t_permission` VALUES ('282', '删除角色已分配的菜单', '98', '40', '', '2012-06-10 01:21:15', '2012-06-10 01:21:15');
+INSERT INTO `t_permission` VALUES ('283', '查询角色', '99', '42', '', '2012-06-10 01:21:26', '2012-06-10 01:21:26');
+INSERT INTO `t_permission` VALUES ('284', '获取角色JSON数据', '100', '42', '', '2012-06-10 01:21:42', '2012-06-10 01:21:42');
+INSERT INTO `t_permission` VALUES ('285', '删除某角色', '101', '42', '', '2012-06-10 01:21:53', '2012-06-10 01:21:53');
+INSERT INTO `t_permission` VALUES ('286', '更新某角色', '102', '42', '', '2012-06-10 01:22:06', '2012-06-10 01:22:06');
+INSERT INTO `t_permission` VALUES ('287', '编辑某角色', '103', '42', '', '2012-06-10 01:22:17', '2012-06-10 01:22:17');
+INSERT INTO `t_permission` VALUES ('288', '获取某角色已分配的菜单', '104', '42', '', '2012-06-10 01:22:42', '2012-06-10 01:22:42');
+INSERT INTO `t_permission` VALUES ('289', '获取某角色已分配的权限', '105', '42', '', '2012-06-10 01:23:00', '2012-06-10 01:23:00');
+
+-- ----------------------------
 -- Table structure for `t_perm_http_method`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_perm_http_method`;
 CREATE TABLE `t_perm_http_method` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL auto_increment,
   `perm_id` bigint(20) NOT NULL,
   `http_method` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY  (`id`),
   KEY `perm_id` (`perm_id`),
   KEY `http_method` (`http_method`),
   CONSTRAINT `t_perm_http_method_ibfk_1` FOREIGN KEY (`perm_id`) REFERENCES `t_permission` (`ID`) ON UPDATE CASCADE,
@@ -325,139 +452,13 @@ INSERT INTO `t_perm_http_method` VALUES ('313', '264', '19');
 INSERT INTO `t_perm_http_method` VALUES ('314', '264', '20');
 
 -- ----------------------------
--- Table structure for `t_permission`
--- ----------------------------
-DROP TABLE IF EXISTS `t_permission`;
-CREATE TABLE `t_permission` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `NAME` varchar(20) NOT NULL,
-  `RESOURCE_ID` bigint(20) NOT NULL,
-  `TYPE` bigint(20) NOT NULL,
-  `REMARK` varchar(255) DEFAULT '无',
-  `ADD_TIME` varchar(20) DEFAULT NULL,
-  `MODIFY_TIME` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `NAME` (`NAME`),
-  KEY `TYPE` (`TYPE`),
-  KEY `RESOURCE_ID` (`RESOURCE_ID`),
-  CONSTRAINT `t_permission_ibfk_1` FOREIGN KEY (`TYPE`) REFERENCES `t_code` (`ID`) ON UPDATE CASCADE,
-  CONSTRAINT `t_permission_ibfk_2` FOREIGN KEY (`RESOURCE_ID`) REFERENCES `t_resource` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=290 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of t_permission
--- ----------------------------
-INSERT INTO `t_permission` VALUES ('183', '访问后台主页', '5', '37', '', '2012-03-06 23:24:08', '2012-03-08 07:43:42');
-INSERT INTO `t_permission` VALUES ('185', '添加代码信息', '7', '35', '', '2012-03-08 07:13:54', '2012-03-08 07:13:54');
-INSERT INTO `t_permission` VALUES ('186', '批量删除代码', '8', '35', '', '2012-03-08 07:14:05', '2012-03-08 07:14:05');
-INSERT INTO `t_permission` VALUES ('187', '查看代码列表', '9', '35', '', '2012-03-08 07:14:23', '2012-03-08 07:14:23');
-INSERT INTO `t_permission` VALUES ('188', '访问添加代码页面', '10', '35', '', '2012-03-08 07:14:44', '2012-03-08 07:14:44');
-INSERT INTO `t_permission` VALUES ('189', '查询代码', '11', '35', '', '2012-03-08 07:14:57', '2012-03-08 07:14:57');
-INSERT INTO `t_permission` VALUES ('190', '获取代码类型Json格式数据', '12', '35', '', '2012-03-08 07:15:27', '2012-03-08 07:15:27');
-INSERT INTO `t_permission` VALUES ('191', '删除某项代码', '13', '35', '', '2012-03-08 07:15:45', '2012-03-08 07:15:45');
-INSERT INTO `t_permission` VALUES ('192', '编辑某项代码', '14', '35', '', '2012-03-08 07:16:01', '2012-03-08 07:16:01');
-INSERT INTO `t_permission` VALUES ('193', '获取某类型父代码', '15', '35', '', '2012-03-08 07:16:17', '2012-03-08 07:16:17');
-INSERT INTO `t_permission` VALUES ('194', '更新某代码', '16', '35', '', '2012-03-08 07:16:34', '2012-03-08 07:16:34');
-INSERT INTO `t_permission` VALUES ('195', '添加部门', '17', '36', '', '2012-03-08 07:16:43', '2012-03-08 07:25:22');
-INSERT INTO `t_permission` VALUES ('196', '批量删除部门', '18', '36', '\n', '2012-03-08 07:25:53', '2012-03-08 07:25:53');
-INSERT INTO `t_permission` VALUES ('197', '查看部门列表', '19', '36', '', '2012-03-08 07:26:35', '2012-03-08 07:26:35');
-INSERT INTO `t_permission` VALUES ('198', '访问添加部门页面', '20', '36', '', '2012-03-08 07:26:50', '2012-03-08 07:26:50');
-INSERT INTO `t_permission` VALUES ('199', '更新某部门', '21', '36', '', '2012-03-08 07:27:02', '2012-03-08 07:27:02');
-INSERT INTO `t_permission` VALUES ('200', '删除某部门', '21', '36', '', '2012-03-08 07:27:38', '2012-03-08 07:27:38');
-INSERT INTO `t_permission` VALUES ('201', '编辑某部门', '22', '36', '', '2012-03-08 07:42:12', '2012-03-08 07:42:12');
-INSERT INTO `t_permission` VALUES ('202', '关于我们', '23', '37', '', '2012-03-08 07:43:59', '2012-03-08 07:43:59');
-INSERT INTO `t_permission` VALUES ('203', '切换左边树形菜单', '24', '37', '', '2012-03-08 07:44:17', '2012-03-08 07:44:17');
-INSERT INTO `t_permission` VALUES ('204', '切换左边显示html页面', '25', '37', '', '2012-03-08 07:44:39', '2012-03-08 07:44:39');
-INSERT INTO `t_permission` VALUES ('205', '切换左边显示JSP页面', '26', '37', '', '2012-03-08 07:44:53', '2012-03-08 07:44:53');
-INSERT INTO `t_permission` VALUES ('206', '添加导航菜单', '27', '38', '', '2012-03-08 07:45:48', '2012-03-08 07:45:48');
-INSERT INTO `t_permission` VALUES ('207', '批量删除导航菜单', '28', '38', '', '2012-03-08 07:46:01', '2012-03-08 07:46:01');
-INSERT INTO `t_permission` VALUES ('208', '查看导航菜单列表', '29', '38', '', '2012-03-08 08:22:50', '2012-03-08 08:22:50');
-INSERT INTO `t_permission` VALUES ('209', '查找带回导航菜单', '30', '38', '', '2012-03-08 08:23:09', '2012-03-08 08:23:09');
-INSERT INTO `t_permission` VALUES ('210', '查找搜索带回导航菜单', '31', '38', '', '2012-03-08 08:23:29', '2012-03-08 08:23:29');
-INSERT INTO `t_permission` VALUES ('211', '访问添加导航菜单页面', '32', '38', '', '2012-03-08 08:23:44', '2012-03-08 08:23:44');
-INSERT INTO `t_permission` VALUES ('212', '查询导航菜单', '33', '38', '', '2012-03-08 08:23:56', '2012-03-08 08:23:56');
-INSERT INTO `t_permission` VALUES ('213', '下拉获取导航菜单Json格式信息', '34', '38', '', '2012-03-08 08:24:37', '2012-03-08 08:24:37');
-INSERT INTO `t_permission` VALUES ('214', '删除某导航菜单', '35', '38', '', '2012-03-08 08:24:57', '2012-03-08 08:24:57');
-INSERT INTO `t_permission` VALUES ('215', '编辑某导航菜单', '36', '38', '', '2012-03-08 08:25:11', '2012-03-08 08:25:11');
-INSERT INTO `t_permission` VALUES ('216', '更新某导航菜单', '37', '38', '', '2012-03-08 08:25:25', '2012-03-08 08:25:25');
-INSERT INTO `t_permission` VALUES ('217', '查看用户日志', '38', '23', '', '2012-03-08 08:33:00', '2012-03-08 08:33:00');
-INSERT INTO `t_permission` VALUES ('218', '获取某用户的角色', '39', '23', '', '2012-03-08 08:34:02', '2012-03-08 08:34:02');
-INSERT INTO `t_permission` VALUES ('219', '批量删除权限', '40', '40', '', '2012-03-08 08:34:26', '2012-03-08 08:34:26');
-INSERT INTO `t_permission` VALUES ('220', '添加权限', '41', '40', '', '2012-03-08 08:34:38', '2012-03-08 08:34:38');
-INSERT INTO `t_permission` VALUES ('221', '查看权限列表', '42', '40', '', '2012-03-08 08:34:52', '2012-03-08 08:34:52');
-INSERT INTO `t_permission` VALUES ('222', '访问添加权限页面', '43', '40', '', '2012-03-08 08:35:09', '2012-03-08 08:35:09');
-INSERT INTO `t_permission` VALUES ('223', '删除某权限', '44', '40', '', '2012-03-08 08:35:25', '2012-03-08 08:35:25');
-INSERT INTO `t_permission` VALUES ('224', '更新某权限', '44', '40', '', '2012-03-08 08:35:36', '2012-03-08 08:35:36');
-INSERT INTO `t_permission` VALUES ('225', '编辑某权限', '45', '40', '', '2012-03-08 08:35:49', '2012-03-08 08:35:49');
-INSERT INTO `t_permission` VALUES ('226', '更新系统参数', '46', '41', '', '2012-03-08 08:36:19', '2012-03-08 08:36:19');
-INSERT INTO `t_permission` VALUES ('227', '查看系统参数列表', '47', '41', '', '2012-03-08 08:36:32', '2012-03-08 08:36:32');
-INSERT INTO `t_permission` VALUES ('228', '编辑某系统参数', '48', '41', '', '2012-03-08 08:36:43', '2012-03-08 08:36:43');
-INSERT INTO `t_permission` VALUES ('229', '添加资源', '49', '43', '', '2012-03-08 08:36:53', '2012-03-08 08:36:53');
-INSERT INTO `t_permission` VALUES ('230', '批量删除资源', '50', '43', '', '2012-03-08 08:37:32', '2012-03-08 08:37:32');
-INSERT INTO `t_permission` VALUES ('231', '查看资源列表', '51', '43', '', '2012-03-08 08:37:48', '2012-03-08 08:37:48');
-INSERT INTO `t_permission` VALUES ('232', '添加角色', '52', '42', '', '2012-03-08 08:38:01', '2012-03-08 08:38:01');
-INSERT INTO `t_permission` VALUES ('233', '访问分配权限页面', '53', '40', '', '2012-03-08 08:38:18', '2012-03-08 08:39:07');
-INSERT INTO `t_permission` VALUES ('234', '查看角色列表', '54', '42', '', '2012-03-08 08:38:35', '2012-03-08 08:38:35');
-INSERT INTO `t_permission` VALUES ('235', '分配权限', '55', '40', '', '2012-03-08 08:39:25', '2012-03-08 08:39:25');
-INSERT INTO `t_permission` VALUES ('236', '删除角色权限', '56', '40', '', '2012-03-08 08:39:51', '2012-03-08 08:39:51');
-INSERT INTO `t_permission` VALUES ('237', '添加树形菜单', '57', '39', '', '2012-03-08 08:40:09', '2012-03-08 08:40:09');
-INSERT INTO `t_permission` VALUES ('238', '添加用户', '58', '23', '', '2012-03-08 08:40:26', '2012-03-08 08:40:26');
-INSERT INTO `t_permission` VALUES ('239', '查看用户列表', '59', '23', '', '2012-03-08 08:40:42', '2012-03-08 08:40:42');
-INSERT INTO `t_permission` VALUES ('240', '批量删除树形菜单', '61', '39', '', '2012-06-09 23:31:29', '2012-06-09 23:31:29');
-INSERT INTO `t_permission` VALUES ('241', '查看树形菜单列表', '62', '39', '', '2012-06-09 23:32:48', '2012-06-09 23:32:48');
-INSERT INTO `t_permission` VALUES ('242', '访问添加树形菜单页面', '63', '39', '', '2012-06-09 23:33:10', '2012-06-09 23:33:10');
-INSERT INTO `t_permission` VALUES ('243', '查询树形菜单', '64', '39', '', '2012-06-09 23:33:29', '2012-06-09 23:33:29');
-INSERT INTO `t_permission` VALUES ('244', '删除某树形菜单', '65', '39', '', '2012-06-09 23:33:50', '2012-06-09 23:33:50');
-INSERT INTO `t_permission` VALUES ('245', '编辑某树形菜单', '66', '39', '', '2012-06-09 23:34:53', '2012-06-09 23:34:53');
-INSERT INTO `t_permission` VALUES ('246', '查找带回某导航菜单下的树形菜单', '67', '39', '', '2012-06-09 23:35:28', '2012-06-09 23:35:28');
-INSERT INTO `t_permission` VALUES ('247', '在查找带回中查询树形菜单', '68', '39', '', '2012-06-09 23:37:10', '2012-06-09 23:37:10');
-INSERT INTO `t_permission` VALUES ('248', '获取某导航菜单下的树形菜单JSON数据', '69', '39', '', '2012-06-09 23:37:41', '2012-06-09 23:37:41');
-INSERT INTO `t_permission` VALUES ('249', '更新某树形菜单', '70', '39', '', '2012-06-09 23:37:56', '2012-06-09 23:37:56');
-INSERT INTO `t_permission` VALUES ('250', '查看我的资料', '71', '23', '', '2012-06-09 23:42:10', '2012-06-09 23:42:10');
-INSERT INTO `t_permission` VALUES ('251', '更新某用户', '72', '23', '', '2012-06-09 23:42:32', '2012-06-09 23:42:32');
-INSERT INTO `t_permission` VALUES ('254', '退出后台', '74', '23', '', '2012-06-10 00:35:03', '2012-06-10 00:35:03');
-INSERT INTO `t_permission` VALUES ('257', '锁定用户', '76', '23', '', '2012-06-10 00:35:55', '2012-06-10 00:35:55');
-INSERT INTO `t_permission` VALUES ('258', '解锁用户', '77', '23', '', '2012-06-10 00:36:14', '2012-06-10 00:36:14');
-INSERT INTO `t_permission` VALUES ('259', '批量锁定用户', '78', '23', '', '2012-06-10 00:36:35', '2012-06-10 00:36:35');
-INSERT INTO `t_permission` VALUES ('260', '批量解锁用户', '79', '23', '', '2012-06-10 00:36:48', '2012-06-10 00:36:48');
-INSERT INTO `t_permission` VALUES ('261', '批量删除用户', '80', '23', '', '2012-06-10 00:37:03', '2012-06-10 00:37:03');
-INSERT INTO `t_permission` VALUES ('262', '分配部门', '81', '23', '', '2012-06-10 00:37:16', '2012-06-10 00:37:16');
-INSERT INTO `t_permission` VALUES ('263', '分配角色', '82', '23', '', '2012-06-10 00:37:28', '2012-06-10 00:37:28');
-INSERT INTO `t_permission` VALUES ('264', '访问添加用户页', '83', '23', '', '2012-06-10 00:38:22', '2012-06-10 01:34:03');
-INSERT INTO `t_permission` VALUES ('265', '查询用户', '84', '23', '', '2012-06-10 00:38:32', '2012-06-10 00:38:32');
-INSERT INTO `t_permission` VALUES ('266', '为用户分配部门', '85', '23', '', '2012-06-10 00:38:59', '2012-06-10 00:38:59');
-INSERT INTO `t_permission` VALUES ('267', '删除用户分配的部门', '86', '23', '', '2012-06-10 00:39:23', '2012-06-10 00:39:23');
-INSERT INTO `t_permission` VALUES ('268', '为用户分配角色', '87', '23', '', '2012-06-10 00:39:38', '2012-06-10 00:39:38');
-INSERT INTO `t_permission` VALUES ('269', '删除用户分配的角色', '88', '23', '', '2012-06-10 00:39:54', '2012-06-10 00:39:54');
-INSERT INTO `t_permission` VALUES ('270', '编辑某用户', '89', '23', '', '2012-06-10 00:41:00', '2012-06-10 00:41:00');
-INSERT INTO `t_permission` VALUES ('271', '获取为某用户已分配的部门', '90', '23', '', '2012-06-10 00:41:32', '2012-06-10 00:41:32');
-INSERT INTO `t_permission` VALUES ('272', '删除某用户', '72', '23', '', '2012-06-10 01:15:17', '2012-06-10 01:15:17');
-INSERT INTO `t_permission` VALUES ('273', '获取URI资源JSON格式', '91', '43', '', '2012-06-10 01:15:54', '2012-06-10 01:15:54');
-INSERT INTO `t_permission` VALUES ('274', '访问添加URI资源页', '92', '43', '', '2012-06-10 01:16:10', '2012-06-10 01:16:10');
-INSERT INTO `t_permission` VALUES ('275', '删除某URI资源', '60', '43', '', '2012-06-10 01:16:26', '2012-06-10 01:16:26');
-INSERT INTO `t_permission` VALUES ('276', '更新某URI资源', '60', '43', '', '2012-06-10 01:17:03', '2012-06-10 01:17:03');
-INSERT INTO `t_permission` VALUES ('277', '编辑某URI资源', '93', '43', '', '2012-06-10 01:17:18', '2012-06-10 01:17:18');
-INSERT INTO `t_permission` VALUES ('278', '分配菜单', '94', '40', '', '2012-06-10 01:20:11', '2012-06-10 01:20:11');
-INSERT INTO `t_permission` VALUES ('279', '批量删除角色', '95', '42', '', '2012-06-10 01:20:24', '2012-06-10 01:20:24');
-INSERT INTO `t_permission` VALUES ('280', '访问添加角色页', '96', '42', '', '2012-06-10 01:20:37', '2012-06-10 01:20:37');
-INSERT INTO `t_permission` VALUES ('281', '为角色分配菜单', '97', '40', '', '2012-06-10 01:20:54', '2012-06-10 01:20:54');
-INSERT INTO `t_permission` VALUES ('282', '删除角色已分配的菜单', '98', '40', '', '2012-06-10 01:21:15', '2012-06-10 01:21:15');
-INSERT INTO `t_permission` VALUES ('283', '查询角色', '99', '42', '', '2012-06-10 01:21:26', '2012-06-10 01:21:26');
-INSERT INTO `t_permission` VALUES ('284', '获取角色JSON数据', '100', '42', '', '2012-06-10 01:21:42', '2012-06-10 01:21:42');
-INSERT INTO `t_permission` VALUES ('285', '删除某角色', '101', '42', '', '2012-06-10 01:21:53', '2012-06-10 01:21:53');
-INSERT INTO `t_permission` VALUES ('286', '更新某角色', '102', '42', '', '2012-06-10 01:22:06', '2012-06-10 01:22:06');
-INSERT INTO `t_permission` VALUES ('287', '编辑某角色', '103', '42', '', '2012-06-10 01:22:17', '2012-06-10 01:22:17');
-INSERT INTO `t_permission` VALUES ('288', '获取某角色已分配的菜单', '104', '42', '', '2012-06-10 01:22:42', '2012-06-10 01:22:42');
-INSERT INTO `t_permission` VALUES ('289', '获取某角色已分配的权限', '105', '42', '', '2012-06-10 01:23:00', '2012-06-10 01:23:00');
-
--- ----------------------------
 -- Table structure for `t_resource`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_resource`;
 CREATE TABLE `t_resource` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL auto_increment,
   `uri` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `uri` (`uri`)
 ) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8;
 
@@ -570,15 +571,15 @@ INSERT INTO `t_resource` VALUES ('39', 'users/{userId}/roles');
 -- ----------------------------
 DROP TABLE IF EXISTS `t_role`;
 CREATE TABLE `t_role` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `ID` bigint(20) NOT NULL auto_increment,
   `NAME` varchar(32) NOT NULL,
-  `DESCRIPTION` varchar(50) NOT NULL DEFAULT '无',
-  `ADD_TIME` varchar(20) DEFAULT NULL,
-  `MODIFY_TIME` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+  `DESCRIPTION` varchar(50) NOT NULL default '无',
+  `ADD_TIME` varchar(20) default NULL,
+  `MODIFY_TIME` varchar(20) default NULL,
+  PRIMARY KEY  (`ID`),
   UNIQUE KEY `NAME` (`NAME`),
   KEY `ID` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_role
@@ -593,10 +594,10 @@ INSERT INTO `t_role` VALUES ('8', '文章发布员', '文章发布', '2012-03-28
 -- ----------------------------
 DROP TABLE IF EXISTS `t_role_menu`;
 CREATE TABLE `t_role_menu` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `ID` bigint(20) NOT NULL auto_increment,
   `ROLE_ID` bigint(20) NOT NULL,
   `MENU_ID` bigint(20) NOT NULL,
-  PRIMARY KEY (`ID`),
+  PRIMARY KEY  (`ID`),
   KEY `ROLE_ID` (`ROLE_ID`),
   KEY `MENU_ID` (`MENU_ID`),
   CONSTRAINT `t_role_menu_ibfk_3` FOREIGN KEY (`ROLE_ID`) REFERENCES `t_role` (`ID`) ON UPDATE CASCADE,
@@ -650,10 +651,10 @@ INSERT INTO `t_role_menu` VALUES ('205', '5', '395');
 -- ----------------------------
 DROP TABLE IF EXISTS `t_role_navmenu`;
 CREATE TABLE `t_role_navmenu` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `ID` bigint(20) NOT NULL auto_increment,
   `ROLE_ID` bigint(20) NOT NULL,
   `NAVMENU_ID` bigint(20) NOT NULL,
-  PRIMARY KEY (`ID`),
+  PRIMARY KEY  (`ID`),
   KEY `ROLE_ID` (`ROLE_ID`),
   KEY `NAVMENU_ID` (`NAVMENU_ID`),
   CONSTRAINT `t_role_navmenu_ibfk_1` FOREIGN KEY (`ROLE_ID`) REFERENCES `t_role` (`ID`) ON UPDATE CASCADE,
@@ -672,15 +673,15 @@ INSERT INTO `t_role_navmenu` VALUES ('12', '5', '8');
 -- ----------------------------
 DROP TABLE IF EXISTS `t_role_permission`;
 CREATE TABLE `t_role_permission` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `ID` bigint(20) NOT NULL auto_increment,
   `ROLE_ID` bigint(20) NOT NULL,
   `PERM_ID` bigint(20) NOT NULL,
-  PRIMARY KEY (`ID`),
+  PRIMARY KEY  (`ID`),
   KEY `ROLE_ID` (`ROLE_ID`),
   KEY `PERM_ID` (`PERM_ID`),
   CONSTRAINT `t_role_permission_ibfk_1` FOREIGN KEY (`ROLE_ID`) REFERENCES `t_role` (`ID`) ON UPDATE CASCADE,
   CONSTRAINT `t_role_permission_ibfk_2` FOREIGN KEY (`PERM_ID`) REFERENCES `t_permission` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=458 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=468 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_role_permission
@@ -796,25 +797,35 @@ INSERT INTO `t_role_permission` VALUES ('454', '5', '254');
 INSERT INTO `t_role_permission` VALUES ('455', '5', '251');
 INSERT INTO `t_role_permission` VALUES ('456', '5', '250');
 INSERT INTO `t_role_permission` VALUES ('457', '5', '239');
+INSERT INTO `t_role_permission` VALUES ('458', '8', '194');
+INSERT INTO `t_role_permission` VALUES ('459', '8', '193');
+INSERT INTO `t_role_permission` VALUES ('460', '8', '192');
+INSERT INTO `t_role_permission` VALUES ('461', '8', '191');
+INSERT INTO `t_role_permission` VALUES ('462', '8', '190');
+INSERT INTO `t_role_permission` VALUES ('463', '8', '189');
+INSERT INTO `t_role_permission` VALUES ('464', '8', '188');
+INSERT INTO `t_role_permission` VALUES ('465', '8', '187');
+INSERT INTO `t_role_permission` VALUES ('466', '8', '186');
+INSERT INTO `t_role_permission` VALUES ('467', '8', '185');
 
 -- ----------------------------
 -- Table structure for `t_tree_menu`
 -- ----------------------------
 DROP TABLE IF EXISTS `t_tree_menu`;
 CREATE TABLE `t_tree_menu` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `ID` bigint(20) NOT NULL auto_increment,
   `NAME` varchar(16) NOT NULL,
-  `TARGET` varchar(20) DEFAULT NULL,
-  `REL` varchar(20) DEFAULT NULL,
-  `RELOAD_FLAG` varchar(1) NOT NULL DEFAULT '1',
-  `HREF` varchar(255) DEFAULT NULL,
-  `PID` bigint(20) DEFAULT NULL,
-  `RANK` int(11) NOT NULL DEFAULT '0',
-  `NAV_MENU_ID` bigint(20) DEFAULT NULL,
-  `EXTERNAL` varchar(5) NOT NULL DEFAULT 'false',
-  `WIDTH` int(11) NOT NULL DEFAULT '400',
-  `HEIGHT` int(11) NOT NULL DEFAULT '200',
-  PRIMARY KEY (`ID`),
+  `TARGET` varchar(20) default NULL,
+  `REL` varchar(20) default NULL,
+  `RELOAD_FLAG` varchar(1) NOT NULL default '1',
+  `HREF` varchar(255) default NULL,
+  `PID` bigint(20) default NULL,
+  `RANK` int(11) NOT NULL default '0',
+  `NAV_MENU_ID` bigint(20) default NULL,
+  `EXTERNAL` varchar(5) NOT NULL default 'false',
+  `WIDTH` int(11) NOT NULL default '400',
+  `HEIGHT` int(11) NOT NULL default '200',
+  PRIMARY KEY  (`ID`),
   UNIQUE KEY `NAME` (`NAME`),
   KEY `NAV_MENU_ID` (`NAV_MENU_ID`),
   KEY `PID` (`PID`),
@@ -873,34 +884,34 @@ INSERT INTO `t_tree_menu` VALUES ('395', 'Web爬虫抓取', 'navTab', '', '0', '
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `ID` bigint(20) NOT NULL auto_increment,
   `ACCOUNT` varchar(16) NOT NULL,
   `PASSWORD` varchar(32) NOT NULL,
-  `STATUS` enum('锁定','正常') NOT NULL DEFAULT '正常',
-  `LAST_LOGIN_TIME` varchar(19) DEFAULT NULL,
-  `LAST_LOGIN_IP` varchar(19) NOT NULL DEFAULT '',
-  `REGISTER_TIME` varchar(20) DEFAULT NULL,
-  `ADD_TIME` varchar(20) DEFAULT NULL,
-  `MODIFY_TIME` varchar(20) DEFAULT NULL,
-  `TRUE_NAME` varchar(20) NOT NULL DEFAULT '匿名',
-  `EMAIL` varchar(20) NOT NULL DEFAULT '无',
-  `FAX` varchar(20) NOT NULL DEFAULT '无',
-  `ADDR` varchar(20) DEFAULT NULL,
-  `OFFICE_PHONE` varchar(20) DEFAULT NULL,
-  `MOBILE_NUM` varchar(20) DEFAULT NULL,
-  `HOME_PHONE` varchar(20) DEFAULT NULL,
-  `AVAILABLE_PERIOD` varchar(20) DEFAULT NULL,
-  `ID_NUM` varchar(20) DEFAULT NULL,
-  `SUPER_POWER` enum('yes','no') NOT NULL DEFAULT 'yes',
-  PRIMARY KEY (`ID`),
+  `STATUS` enum('锁定','正常') NOT NULL default '正常',
+  `LAST_LOGIN_TIME` varchar(19) default NULL,
+  `LAST_LOGIN_IP` varchar(19) NOT NULL default '',
+  `REGISTER_TIME` varchar(20) default NULL,
+  `ADD_TIME` varchar(20) default NULL,
+  `MODIFY_TIME` varchar(20) default NULL,
+  `TRUE_NAME` varchar(20) NOT NULL default '匿名',
+  `EMAIL` varchar(20) NOT NULL default '无',
+  `FAX` varchar(20) NOT NULL default '无',
+  `ADDR` varchar(20) default NULL,
+  `OFFICE_PHONE` varchar(20) default NULL,
+  `MOBILE_NUM` varchar(20) default NULL,
+  `HOME_PHONE` varchar(20) default NULL,
+  `AVAILABLE_PERIOD` varchar(20) default NULL,
+  `ID_NUM` varchar(20) default NULL,
+  `SUPER_POWER` enum('yes','no') NOT NULL default 'yes',
+  PRIMARY KEY  (`ID`),
   UNIQUE KEY `ACCOUNT` (`ACCOUNT`),
-  KEY `TRUE_NAME` (`TRUE_NAME`) USING BTREE
+  KEY `TRUE_NAME` (`TRUE_NAME`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('9', 'solidbase', '4c5531126fd5b96261ebb2637c299e34', '正常', '2012-06-10 01:33:04', '127.0.0.1', '2012-03-06 21:55:51', '2012-03-06 21:55:51', '2012-06-10 01:32:52', '演示账号', 'eweb4j@163.com', '', '中国广东', '', '', '', '', '', 'yes');
+INSERT INTO `t_user` VALUES ('9', 'solidbase', '4c5531126fd5b96261ebb2637c299e34', '正常', '2012-12-04 15:57:21', '127.0.0.1', '2012-03-06 21:55:51', '2012-03-06 21:55:51', '2012-06-10 01:32:52', '演示账号', 'eweb4j@163.com', '', '中国广东', '', '', '', '', '', 'yes');
 INSERT INTO `t_user` VALUES ('17', 'weiwei', '7bc16d8f67f52d74f0fc2df48096204a', '正常', '2012-06-10 11:09:34', '127.0.0.1', '2012-03-07 20:33:21', '2012-03-07 20:33:21', '2012-06-10 11:10:06', '匿名', '无', '无', '', '', '', '', '', '44162544554878985', 'no');
 INSERT INTO `t_user` VALUES ('18', 'code', 'c13367945d5d4c91047b3b50234aa7ab', '正常', '2012-06-10 00:42:14', '127.0.0.1', '2012-03-28 01:51:02', '2012-03-28 01:51:02', '2012-06-09 23:43:25', 'weiwei2', '', '', '', '', '', '', '', '', 'no');
 INSERT INTO `t_user` VALUES ('19', 'article', '92a2b5cb9c6906035c2864fa225e1940', '正常', '2012-03-30 17:03:44', '192.168.0.25', '2012-03-28 13:32:38', '2012-03-28 13:32:38', '2012-03-28 22:31:19', '', '', '', '', '', '', '', '', '', 'no');
@@ -914,15 +925,15 @@ INSERT INTO `t_user` VALUES ('23', 'test2', 'e10adc3949ba59abbe56e057f20f883e', 
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user_activity_log`;
 CREATE TABLE `t_user_activity_log` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `USER_ID` bigint(20) DEFAULT NULL,
+  `ID` bigint(20) NOT NULL auto_increment,
+  `USER_ID` bigint(20) default NULL,
   `TIME` varchar(20) NOT NULL,
-  `ACTIVITY` varchar(500) NOT NULL DEFAULT '',
+  `ACTIVITY` varchar(500) NOT NULL default '',
   `RESULT` enum('success','false') NOT NULL,
-  `FAILURE_CAUSE` varchar(1000) NOT NULL DEFAULT '',
-  `USER_NAME` varchar(20) NOT NULL DEFAULT '''佚名''',
-  `USER_ACCOUNT` varchar(32) NOT NULL DEFAULT '''匿名账号''',
-  PRIMARY KEY (`ID`),
+  `FAILURE_CAUSE` varchar(1000) NOT NULL default '',
+  `USER_NAME` varchar(20) NOT NULL default '''佚名''',
+  `USER_ACCOUNT` varchar(32) NOT NULL default '''匿名账号''',
+  PRIMARY KEY  (`ID`),
   KEY `USER_ID` (`USER_ID`),
   CONSTRAINT `t_user_activity_log_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `t_user` (`ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=300 DEFAULT CHARSET=utf8;
@@ -1235,10 +1246,10 @@ INSERT INTO `t_user_activity_log` VALUES ('299', '17', '2012-06-10 11:10:48', '�
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user_department`;
 CREATE TABLE `t_user_department` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `ID` bigint(20) NOT NULL auto_increment,
   `USER_ID` bigint(20) NOT NULL,
   `DEPARTMENT_ID` bigint(20) NOT NULL,
-  PRIMARY KEY (`ID`),
+  PRIMARY KEY  (`ID`),
   KEY `USER_ID` (`USER_ID`),
   KEY `DEPARTMENT_ID` (`DEPARTMENT_ID`),
   CONSTRAINT `t_user_department_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `t_user` (`ID`) ON UPDATE CASCADE,
@@ -1264,11 +1275,11 @@ INSERT INTO `t_user_department` VALUES ('27', '9', '17');
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user_ext`;
 CREATE TABLE `t_user_ext` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `ID` bigint(20) NOT NULL auto_increment,
   `USER_ID` bigint(20) NOT NULL,
-  `BADGE_NUM` varchar(20) DEFAULT NULL,
-  `LOGIN_TYPE` enum('normal','pki') NOT NULL DEFAULT 'normal',
-  PRIMARY KEY (`ID`),
+  `BADGE_NUM` varchar(20) default NULL,
+  `LOGIN_TYPE` enum('normal','pki') NOT NULL default 'normal',
+  PRIMARY KEY  (`ID`),
   KEY `USER_ID` (`USER_ID`),
   CONSTRAINT `t_user_ext_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `t_user` (`ID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
@@ -1284,10 +1295,10 @@ INSERT INTO `t_user_ext` VALUES ('7', '9', 'asfasf', 'normal');
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user_role`;
 CREATE TABLE `t_user_role` (
-  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `ID` bigint(20) NOT NULL auto_increment,
   `USER_ID` bigint(20) NOT NULL,
   `ROLE_ID` bigint(20) NOT NULL,
-  PRIMARY KEY (`ID`),
+  PRIMARY KEY  (`ID`),
   KEY `USER_ID` (`USER_ID`),
   KEY `ROLE_ID` (`ROLE_ID`),
   CONSTRAINT `t_user_role_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `t_user` (`ID`) ON UPDATE CASCADE,
@@ -1308,3 +1319,22 @@ INSERT INTO `t_user_role` VALUES ('20', '17', '5');
 INSERT INTO `t_user_role` VALUES ('21', '19', '8');
 INSERT INTO `t_user_role` VALUES ('22', '21', '6');
 INSERT INTO `t_user_role` VALUES ('23', '21', '5');
+
+
+-- ----------------------------
+-- Table structure for `t_setting`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_setting`;
+CREATE TABLE `t_setting` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_default_role` bigint(20) DEFAULT NULL,
+  `user_perm_control` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_default_role` (`user_default_role`),
+  CONSTRAINT `user_default_role` FOREIGN KEY (`user_default_role`) REFERENCES `t_role` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_setting
+-- ----------------------------
+INSERT INTO `t_setting` VALUES ('1', '5', 'no');
