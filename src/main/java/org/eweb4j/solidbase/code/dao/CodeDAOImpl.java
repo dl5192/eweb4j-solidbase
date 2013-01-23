@@ -270,9 +270,7 @@ public class CodeDAOImpl implements CodeDAO {
 	}
 
 	public long insert(String[] fields, Object... values) throws CodeException {
-		return dao.clear()
-			.insert(fields).values(values)
-			.execute();
+		return dao.clear().insert(fields).values(values).execute().longValue();
 	}
 
 	public void update(String[] fields, Object[] values) throws CodeException {

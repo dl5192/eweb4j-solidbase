@@ -1,6 +1,5 @@
 package org.eweb4j.solidbase.preference.model;
 
-import java.io.IOException;
 import java.util.Map;
 
 import org.eweb4j.cache.Props;
@@ -12,12 +11,8 @@ public class PreferCons {
 
 	private static Map<String, String> map = Props.getMap(propId);
 
-	public static void write(String key, Object value) throws Exception {
-		try {
-			Props.writeProp(propId, key, value);
-		} catch (IOException e) {
-			throw new Exception("系统参数写入失败", e);
-		}
+	public static void write(String key, String value) throws Exception {
+		Props.write(propId, key, value);
 	}
 	
 	public static String DWZ_SUCCESS_JSON(String _mess) {

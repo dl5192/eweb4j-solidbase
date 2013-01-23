@@ -887,7 +887,7 @@ CREATE TABLE `t_user` (
   `ID` bigint(20) NOT NULL auto_increment,
   `ACCOUNT` varchar(16) NOT NULL,
   `PASSWORD` varchar(32) NOT NULL,
-  `STATUS` enum('锁定','正常') NOT NULL default '正常',
+  `STATUS` varchar(32) NOT NULL default '正常',
   `LAST_LOGIN_TIME` varchar(19) default NULL,
   `LAST_LOGIN_IP` varchar(19) NOT NULL default '',
   `REGISTER_TIME` varchar(20) default NULL,
