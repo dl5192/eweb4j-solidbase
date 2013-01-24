@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50045
 File Encoding         : 65001
 
-Date: 2012-12-07 16:16:53
+Date: 2013-01-24 13:29:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -125,6 +125,40 @@ CREATE TABLE `t_department_ext` (
 
 -- ----------------------------
 -- Records of t_department_ext
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `t_files`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_files`;
+CREATE TABLE `t_files` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `save_path` varchar(255) NOT NULL,
+  `cate_id` bigint(20) NOT NULL,
+  `file_name` varchar(255) NOT NULL,
+  `intro` varchar(1024) default NULL,
+  `size` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_files
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `t_file_cate`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_file_cate`;
+CREATE TABLE `t_file_cate` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL,
+  `thumb` varchar(255) default NULL,
+  `sort` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_file_cate
 -- ----------------------------
 
 -- ----------------------------
@@ -681,7 +715,7 @@ CREATE TABLE `t_role_permission` (
   KEY `PERM_ID` (`PERM_ID`),
   CONSTRAINT `t_role_permission_ibfk_1` FOREIGN KEY (`ROLE_ID`) REFERENCES `t_role` (`ID`) ON UPDATE CASCADE,
   CONSTRAINT `t_role_permission_ibfk_2` FOREIGN KEY (`PERM_ID`) REFERENCES `t_permission` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=468 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=478 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_role_permission
@@ -742,42 +776,6 @@ INSERT INTO `t_role_permission` VALUES ('255', '7', '239');
 INSERT INTO `t_role_permission` VALUES ('256', '7', '238');
 INSERT INTO `t_role_permission` VALUES ('257', '7', '218');
 INSERT INTO `t_role_permission` VALUES ('258', '7', '217');
-INSERT INTO `t_role_permission` VALUES ('259', '6', '194');
-INSERT INTO `t_role_permission` VALUES ('260', '6', '193');
-INSERT INTO `t_role_permission` VALUES ('261', '6', '192');
-INSERT INTO `t_role_permission` VALUES ('262', '6', '191');
-INSERT INTO `t_role_permission` VALUES ('263', '6', '190');
-INSERT INTO `t_role_permission` VALUES ('264', '6', '189');
-INSERT INTO `t_role_permission` VALUES ('265', '6', '188');
-INSERT INTO `t_role_permission` VALUES ('266', '6', '187');
-INSERT INTO `t_role_permission` VALUES ('267', '6', '186');
-INSERT INTO `t_role_permission` VALUES ('268', '6', '185');
-INSERT INTO `t_role_permission` VALUES ('280', '6', '183');
-INSERT INTO `t_role_permission` VALUES ('292', '6', '236');
-INSERT INTO `t_role_permission` VALUES ('293', '6', '235');
-INSERT INTO `t_role_permission` VALUES ('294', '6', '233');
-INSERT INTO `t_role_permission` VALUES ('302', '6', '228');
-INSERT INTO `t_role_permission` VALUES ('303', '6', '227');
-INSERT INTO `t_role_permission` VALUES ('305', '6', '231');
-INSERT INTO `t_role_permission` VALUES ('306', '6', '230');
-INSERT INTO `t_role_permission` VALUES ('307', '6', '229');
-INSERT INTO `t_role_permission` VALUES ('308', '6', '234');
-INSERT INTO `t_role_permission` VALUES ('309', '6', '232');
-INSERT INTO `t_role_permission` VALUES ('310', '6', '237');
-INSERT INTO `t_role_permission` VALUES ('311', '6', '239');
-INSERT INTO `t_role_permission` VALUES ('312', '6', '238');
-INSERT INTO `t_role_permission` VALUES ('427', '6', '208');
-INSERT INTO `t_role_permission` VALUES ('428', '6', '250');
-INSERT INTO `t_role_permission` VALUES ('429', '6', '197');
-INSERT INTO `t_role_permission` VALUES ('430', '6', '203');
-INSERT INTO `t_role_permission` VALUES ('431', '6', '202');
-INSERT INTO `t_role_permission` VALUES ('432', '6', '212');
-INSERT INTO `t_role_permission` VALUES ('433', '6', '221');
-INSERT INTO `t_role_permission` VALUES ('434', '6', '283');
-INSERT INTO `t_role_permission` VALUES ('435', '6', '241');
-INSERT INTO `t_role_permission` VALUES ('436', '6', '265');
-INSERT INTO `t_role_permission` VALUES ('437', '6', '254');
-INSERT INTO `t_role_permission` VALUES ('438', '6', '251');
 INSERT INTO `t_role_permission` VALUES ('439', '5', '189');
 INSERT INTO `t_role_permission` VALUES ('440', '5', '187');
 INSERT INTO `t_role_permission` VALUES ('441', '5', '197');
@@ -807,6 +805,42 @@ INSERT INTO `t_role_permission` VALUES ('464', '8', '188');
 INSERT INTO `t_role_permission` VALUES ('465', '8', '187');
 INSERT INTO `t_role_permission` VALUES ('466', '8', '186');
 INSERT INTO `t_role_permission` VALUES ('467', '8', '185');
+INSERT INTO `t_role_permission` VALUES ('468', '6', '194');
+INSERT INTO `t_role_permission` VALUES ('469', '6', '193');
+INSERT INTO `t_role_permission` VALUES ('470', '6', '192');
+INSERT INTO `t_role_permission` VALUES ('471', '6', '191');
+INSERT INTO `t_role_permission` VALUES ('472', '6', '190');
+INSERT INTO `t_role_permission` VALUES ('473', '6', '189');
+INSERT INTO `t_role_permission` VALUES ('474', '6', '188');
+INSERT INTO `t_role_permission` VALUES ('475', '6', '187');
+INSERT INTO `t_role_permission` VALUES ('476', '6', '186');
+INSERT INTO `t_role_permission` VALUES ('477', '6', '185');
+
+-- ----------------------------
+-- Table structure for `t_setting`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_setting`;
+CREATE TABLE `t_setting` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `user_default_role` bigint(20) default NULL,
+  `user_perm_control` varchar(255) NOT NULL,
+  `site_title` varchar(255) default NULL,
+  `seo_keyword` varchar(1024) default NULL,
+  `favicon_id` bigint(20) default NULL,
+  `seo_desc` varchar(1024) default NULL,
+  `logo_id` bigint(20) default NULL,
+  `foot_info` varchar(1024) default NULL,
+  `hot_num` int(11) NOT NULL default '4',
+  `new_num` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `user_default_role` (`user_default_role`),
+  CONSTRAINT `user_default_role` FOREIGN KEY (`user_default_role`) REFERENCES `t_role` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_setting
+-- ----------------------------
+INSERT INTO `t_setting` VALUES ('1', '5', 'no', null, null, null, null, null, null, '4', '0');
 
 -- ----------------------------
 -- Table structure for `t_tree_menu`
@@ -906,12 +940,12 @@ CREATE TABLE `t_user` (
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `ACCOUNT` (`ACCOUNT`),
   KEY `TRUE_NAME` (`TRUE_NAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('9', 'solidbase', '4c5531126fd5b96261ebb2637c299e34', '正常', '2012-12-04 15:57:21', '127.0.0.1', '2012-03-06 21:55:51', '2012-03-06 21:55:51', '2012-06-10 01:32:52', '演示账号', 'eweb4j@163.com', '', '中国广东', '', '', '', '', '', 'yes');
+INSERT INTO `t_user` VALUES ('9', 'solidbase', '4c5531126fd5b96261ebb2637c299e34', '正常', '2013-01-23 23:40:10', '127.0.0.1', '2012-03-06 21:55:51', '2012-03-06 21:55:51', '2012-06-10 01:32:52', '演示账号', 'eweb4j@163.com', '', '中国广东', '', '', '', '', '', 'yes');
 INSERT INTO `t_user` VALUES ('17', 'weiwei', '7bc16d8f67f52d74f0fc2df48096204a', '正常', '2012-06-10 11:09:34', '127.0.0.1', '2012-03-07 20:33:21', '2012-03-07 20:33:21', '2012-06-10 11:10:06', '匿名', '无', '无', '', '', '', '', '', '44162544554878985', 'no');
 INSERT INTO `t_user` VALUES ('18', 'code', 'c13367945d5d4c91047b3b50234aa7ab', '正常', '2012-06-10 00:42:14', '127.0.0.1', '2012-03-28 01:51:02', '2012-03-28 01:51:02', '2012-06-09 23:43:25', 'weiwei2', '', '', '', '', '', '', '', '', 'no');
 INSERT INTO `t_user` VALUES ('19', 'article', '92a2b5cb9c6906035c2864fa225e1940', '正常', '2012-03-30 17:03:44', '192.168.0.25', '2012-03-28 13:32:38', '2012-03-28 13:32:38', '2012-03-28 22:31:19', '', '', '', '', '', '', '', '', '', 'no');
@@ -919,6 +953,8 @@ INSERT INTO `t_user` VALUES ('20', 'website', 'd1befa03c79ca0b84ecc488dea96bc68'
 INSERT INTO `t_user` VALUES ('21', 'test', '098f6bcd4621d373cade4e832627b4f6', '正常', '2012-03-28 15:44:31', '127.0.0.1', '2012-03-28 14:03:22', '2012-03-28 14:03:22', '2012-03-28 14:03:22', '', '', '', '', '', '', '', '', '', 'yes');
 INSERT INTO `t_user` VALUES ('22', 'testweiwei', '71f62e874c426cfc9169e58a4e87cb4a', '正常', '2012-06-09 18:34:19', '127.0.0.1', '2012-06-09 18:34:10', '2012-06-09 18:34:10', '2012-06-09 18:36:35', '匿名', '无', '无', '', '', '', '', '', '', 'yes');
 INSERT INTO `t_user` VALUES ('23', 'test2', 'e10adc3949ba59abbe56e057f20f883e', '锁定', '2012-06-09 22:46:51', '127.0.0.1', '2012-06-09 22:46:40', '2012-06-09 22:46:40', '2012-06-09 22:46:40', '匿名', '无', '无', null, null, null, null, null, null, 'yes');
+INSERT INTO `t_user` VALUES ('24', 'eweb4j', '42853b07c1ca6f09a166c54c63671d0f', '正常', '2013-01-03 18:57:57', '127.0.0.1', '2013-01-03 18:57:50', '2013-01-03 18:57:50', '2013-01-03 18:57:50', '匿名', '无', '无', null, null, null, null, null, null, 'no');
+INSERT INTO `t_user` VALUES ('25', 'test111', '4061863caf7f28c0b0346719e764d561', '正常', '2013-01-24 12:41:36', '127.0.0.1', '2013-01-24 12:41:27', '2013-01-24 12:41:27', '2013-01-24 12:41:27', '匿名', '无', '无', null, null, null, null, null, null, 'no');
 
 -- ----------------------------
 -- Table structure for `t_user_activity_log`
@@ -936,7 +972,7 @@ CREATE TABLE `t_user_activity_log` (
   PRIMARY KEY  (`ID`),
   KEY `USER_ID` (`USER_ID`),
   CONSTRAINT `t_user_activity_log_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `t_user` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=300 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=306 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_user_activity_log
@@ -1240,6 +1276,12 @@ INSERT INTO `t_user_activity_log` VALUES ('296', '17', '2012-06-10 11:10:30', '�
 INSERT INTO `t_user_activity_log` VALUES ('297', '17', '2012-06-10 11:10:33', '切换左边显示html页面', 'false', '用户权限不足, 无法执行[切换左边显示html页面]功能', '匿名', 'weiwei');
 INSERT INTO `t_user_activity_log` VALUES ('298', '17', '2012-06-10 11:10:35', '访问后台主页', 'success', '', '匿名', 'weiwei');
 INSERT INTO `t_user_activity_log` VALUES ('299', '17', '2012-06-10 11:10:48', '查看系统参数列表', 'success', '', '匿名', 'weiwei');
+INSERT INTO `t_user_activity_log` VALUES ('300', '24', '2013-01-03 18:57:57', '访问后台主页', 'success', '', '匿名', 'eweb4j');
+INSERT INTO `t_user_activity_log` VALUES ('301', '24', '2013-01-03 18:58:02', '查看导航菜单列表', 'success', '', '匿名', 'eweb4j');
+INSERT INTO `t_user_activity_log` VALUES ('302', '24', '2013-01-03 18:58:03', '查看树形菜单列表', 'success', '', '匿名', 'eweb4j');
+INSERT INTO `t_user_activity_log` VALUES ('303', '24', '2013-01-03 18:58:08', '访问添加树形菜单页面', 'false', '用户权限不足, 无法执行[访问添加树形菜单页面]功能', '匿名', 'eweb4j');
+INSERT INTO `t_user_activity_log` VALUES ('304', '24', '2013-01-03 18:58:17', '退出后台', 'success', '', '匿名', 'eweb4j');
+INSERT INTO `t_user_activity_log` VALUES ('305', null, '2013-01-24 12:43:47', 'main', 'false', '系统出现异常：java.lang.Exception: 数据库操作错误', '\'佚名\'', '\'匿名账号\'');
 
 -- ----------------------------
 -- Table structure for `t_user_department`
@@ -1303,7 +1345,7 @@ CREATE TABLE `t_user_role` (
   KEY `ROLE_ID` (`ROLE_ID`),
   CONSTRAINT `t_user_role_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `t_user` (`ID`) ON UPDATE CASCADE,
   CONSTRAINT `t_user_role_ibfk_2` FOREIGN KEY (`ROLE_ID`) REFERENCES `t_role` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_user_role
@@ -1319,22 +1361,8 @@ INSERT INTO `t_user_role` VALUES ('20', '17', '5');
 INSERT INTO `t_user_role` VALUES ('21', '19', '8');
 INSERT INTO `t_user_role` VALUES ('22', '21', '6');
 INSERT INTO `t_user_role` VALUES ('23', '21', '5');
-
-
--- ----------------------------
--- Table structure for `t_setting`
--- ----------------------------
-DROP TABLE IF EXISTS `t_setting`;
-CREATE TABLE `t_setting` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_default_role` bigint(20) DEFAULT NULL,
-  `user_perm_control` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_default_role` (`user_default_role`),
-  CONSTRAINT `user_default_role` FOREIGN KEY (`user_default_role`) REFERENCES `t_role` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of t_setting
--- ----------------------------
-INSERT INTO `t_setting` VALUES ('1', '5', 'no');
+INSERT INTO `t_user_role` VALUES ('24', '24', '5');
+INSERT INTO `t_user_role` VALUES ('25', '24', '8');
+INSERT INTO `t_user_role` VALUES ('26', '24', '7');
+INSERT INTO `t_user_role` VALUES ('27', '24', '6');
+INSERT INTO `t_user_role` VALUES ('28', '25', '5');
