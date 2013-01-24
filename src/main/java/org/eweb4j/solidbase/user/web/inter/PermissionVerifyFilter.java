@@ -64,7 +64,7 @@ public class PermissionVerifyFilter {
 		if (uri.endsWith("/"))
 			uri = uri.substring(0, uri.length() - 1);
 
-		log.info("uri -> " + uri);
+//		log.info("uri -> " + uri);
 		
 		session = context.getRequest().getSession(true);
 		loginUser = (User) session.getAttribute("loginUser");

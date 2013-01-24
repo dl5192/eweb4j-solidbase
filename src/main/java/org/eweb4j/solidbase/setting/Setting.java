@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.eweb4j.mvc.validator.annotation.Enumer;
 import org.eweb4j.mvc.validator.annotation.Required;
@@ -132,10 +133,6 @@ public class Setting extends Model<Setting>{
 
 	public void setNewNum(Integer newNum) {
 		this.newNum = newNum;
-	}
-
-	public static Setting getInst() {
-		return inst;
 	}
 	
 }

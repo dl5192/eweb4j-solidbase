@@ -28,7 +28,9 @@ import org.eweb4j.solidbase.role.model.Role;
 @Entity
 @Table(name = "t_user")
 public class User implements Serializable {
+	
 	private static final long serialVersionUID = -3248564641931360005L;
+	
 	@Id
 	private long id;// 自增长id
 
@@ -39,21 +41,28 @@ public class User implements Serializable {
 	@Required
 	@Length(min=5, max=5)
 	private String authcode;// 验证码，非数据表字段
+	
 	@Required
 	@Length(min=4, max=16)
 	private String account;// 账号,4-16
+	
 	@Required
 	@Length(min=4, max=32)
 	private String password;// 密码，4-32,MD5加密
+	
 	@Transient
 	@Required
 	@Equals(to="password")
 	private String rePwd;
+	
 	private String status;// 用户状态：'正常'、'锁定'
+	
 	@Column(name = "last_login_time")
 	private String lastLoginTime;// 上一次登陆时间
+	
 	@Column(name = "last_login_ip")
 	private String lastLoginIp;// 上一次登陆IP
+	
 	@Column(name = "register_time")
 	private String regTime;
 
@@ -70,18 +79,26 @@ public class User implements Serializable {
 
 	@Column(name = "true_name")
 	private String trueName; // 用户姓名
+	
 	private String email; // 电子邮箱
+	
 	@Column(name = "id_num")
 	private String idNum; // 证件号码
+	
 	private String fax; // 联系传真
+	
 	private String addr; // 联系地址
+	
 	@Column(name = "office_phone")
 	private String officePhone;
+	
 	@Column(name = "mobile_num")
 	private String mobileNum; // 手机号码
+	
 
 	@Column(name = "home_phone")
 	private String homePhone; // 家庭电话
+	
 	@Column(name = "available_period")
 	private String availablePeriod; // 帐号有效期
 

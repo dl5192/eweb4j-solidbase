@@ -102,8 +102,7 @@ public class UserServiceImpl implements UserService {
 
 		Transaction.execute(new Trans() {
 			public void run(Object... args) throws Exception {
-				long id = userDAO.insert(user);
-				user.setId(id);
+				userDAO.insert(user);
 				userDAO.cascadeInsert(user);
 			}
 		});
