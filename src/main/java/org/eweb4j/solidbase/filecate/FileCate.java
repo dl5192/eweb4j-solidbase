@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -29,6 +30,7 @@ public class FileCate {
 	private int sort;// 类别排序
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="parent_id")
 	private FileCate parent;// 父类别
 
 	@OneToMany(mappedBy = "parent")

@@ -39,11 +39,15 @@ public class Setting extends Model<Setting>{
 	@Column(name = "seo_keyword")
 	private String seoKeyword;//网站seo关键词
 	
+	@OneToOne
+	@JoinColumn(name="favicon_id")
 	private Files favicon;//网站favicon
 	
 	@Column(name = "seo_desc")
 	private String seoDesc;//网站SEO描述
 	
+	@OneToOne
+	@JoinColumn(name="logo_id")
 	private Files logo;//网站LOGO图片
 	
 	@Column(name = "foot_info")

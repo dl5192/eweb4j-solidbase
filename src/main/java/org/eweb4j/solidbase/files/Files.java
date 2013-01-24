@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -25,6 +26,7 @@ public class Files {
 	private String savePath; //文件保存相对路径
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="cate_id")
 	private FileCate cate; //文件类别
 	
 	@Column(name = "file_name")

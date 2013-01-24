@@ -8,6 +8,7 @@ import org.eweb4j.orm.dao.cascade.CascadeDAO;
 import org.eweb4j.orm.dao.insert.InsertDAO;
 import org.eweb4j.orm.dao.select.DivPageDAO;
 import org.eweb4j.orm.dao.select.SelectDAO;
+import org.eweb4j.util.CommonUtil;
 
 public class UserActivityLogServiceImpl implements UserActivityLogService {
 
@@ -41,6 +42,7 @@ public class UserActivityLogServiceImpl implements UserActivityLogService {
 	}
 
 	public void createLogInfo(UserActivityLog log) throws Exception {
+		log.setTime(CommonUtil.getNowTime());
 		insertDAO.insert(log);
 	}
 
