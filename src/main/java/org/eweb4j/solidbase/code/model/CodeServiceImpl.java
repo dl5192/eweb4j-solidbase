@@ -2,6 +2,7 @@ package org.eweb4j.solidbase.code.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.eweb4j.mvc.view.EditPage;
@@ -276,14 +277,12 @@ public class CodeServiceImpl implements CodeService {
 		return code;
 	}
 
-	public List<Code> queryByCodeValueAndParentId(String codeValue,
-			long parentId, int pageNum, int numPerPage) throws CodeException {
+	public Collection<Code> queryByCodeValueAndParentId(String codeValue, long parentId, int pageNum, int numPerPage) throws CodeException {
 		Code code = codeDAO.selectOneByCodeValue(codeValue);
 		if (code == null)
 			throw new CodeException("code value " + codeValue + " invalid ");
 
-		return this.queryByCodeTypeIdAndParentId(code.getCodeId(), parentId,
-				pageNum, numPerPage).getPojos();
+		return this.queryByCodeTypeIdAndParentId(code.getCodeId(), parentId, pageNum, numPerPage).getPojos();
 	}
 
 	public Code getAndCreateCodeByCodeValue(String codeValue)

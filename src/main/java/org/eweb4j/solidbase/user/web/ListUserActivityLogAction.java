@@ -1,6 +1,6 @@
 package org.eweb4j.solidbase.user.web;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.ws.rs.GET;
@@ -29,7 +29,7 @@ public class ListUserActivityLogAction {
 
 	private PageMod<UserActivityLog> pageMod = null;
 	private long allCount = 0;
-	private List<UserActivityLog> pojos = null;
+	private Collection<UserActivityLog> pojos = null;
 	private DivPageComp dpc = null;
 	private ListPage listPage = null;
 	private SearchForm searchForm = new SearchForm("users/logs/search", "");
@@ -37,7 +37,7 @@ public class ListUserActivityLogAction {
 	@Path("/logs")
 	@GET
 	@POST
-	public String doGet(Map model) {
+	public String doGet(Map<String, Object> model) {
 		try {
 			pageMod = service.getListPage(pageNum, numPerPage);
 			allCount = pageMod.getAllCount();

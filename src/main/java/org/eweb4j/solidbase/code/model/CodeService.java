@@ -1,6 +1,6 @@
 package org.eweb4j.solidbase.code.model;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.eweb4j.mvc.view.EditPage;
 import org.eweb4j.mvc.view.PageMod;
@@ -38,7 +38,7 @@ public interface CodeService {
 	 * @return
 	 * @throws CodeException
 	 */
-	public List<Code> queryByCodeValueAndParentId(String codeValue,
+	public Collection<Code> queryByCodeValueAndParentId(String codeValue,
 			long parentId, int pageNum, int numPerPage) throws CodeException;
 
 	/**
@@ -49,7 +49,7 @@ public interface CodeService {
 	 * @return
 	 * @throws CodeException
 	 */
-	public List<Code> getTypes(long typeId, String inputValue)
+	public Collection<Code> getTypes(long typeId, String inputValue)
 			throws CodeException;
 
 	/**
@@ -60,7 +60,7 @@ public interface CodeService {
 	 * @return
 	 * @throws CodeException
 	 */
-	public List<Code> getParents(long codeTypeId, String inputValue)
+	public Collection<Code> getParents(long codeTypeId, String inputValue)
 			throws CodeException;
 
 	/**
@@ -113,7 +113,7 @@ public interface CodeService {
 	 * @param inputValue
 	 * @return
 	 */
-	public List<Code> getChildren(long bkTypeCodeTypeId, long pid,
+	public Collection<Code> getChildren(long bkTypeCodeTypeId, long pid,
 			String inputValue) throws CodeException;
 
 	/**

@@ -17,7 +17,7 @@ public class AllocDepartmentAction extends BaseAction {
 	@Path("/alloc-department")
 	@GET
 	@POST
-	public String doAllocDepartment(Map model) {
+	public String doAllocDepartment(Map<String, Object> model) {
 
 		try {
 			model.put("openType", UserCons.ALLOC_DEPART_OPEN_TYPE());
@@ -25,7 +25,6 @@ public class AllocDepartmentAction extends BaseAction {
 			model.put("action", UserCons.ADD_USER_DEPART_ACTOIN());
 			model.put("users", userService.getListPage(-1, -1).getPojos());
 			model.put("departmentTree", departService.getDepartmentDWZTree(null, ulStyle, ulOncheckHandler));
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			return dwz.getFailedJson(e.getMessage()).toString();

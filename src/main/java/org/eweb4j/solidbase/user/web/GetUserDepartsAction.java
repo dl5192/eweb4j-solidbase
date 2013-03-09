@@ -17,7 +17,7 @@ public class GetUserDepartsAction extends BaseAction {
 	@Path("/{userId}/departments")
 	@GET
 	@POST
-	public String getUserDepartments(Map model) {
+	public String getUserDepartments(Map<String, Object> model) {
 		try {
 
 			User user = this.userService.queryUserById(userId);

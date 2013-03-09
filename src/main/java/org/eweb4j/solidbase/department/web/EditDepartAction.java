@@ -16,7 +16,7 @@ public class EditDepartAction extends DepartCodeSelecter {
 	@Path("/{departId}/edit")
 	@GET
 	@POST
-	public String doEdit(Map model) {
+	public String doEdit(Map<String, Object> model) {
 		try {
 			doSetDateModel(model);
 			model.put("editPage", departService.getEditPage(departId));

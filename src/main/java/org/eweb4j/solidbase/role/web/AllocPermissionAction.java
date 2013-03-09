@@ -28,7 +28,7 @@ public class AllocPermissionAction extends BaseAction {
 
 	@Path("/alloc-permission")
 	@POST
-	public String doAllocPerm(Map model) {
+	public String doAllocPerm(Map<String, Object> model) {
 		try {
 			model.put("roles", service.getAll());
 			model.put("permissions", permService.assemPermissionMod());

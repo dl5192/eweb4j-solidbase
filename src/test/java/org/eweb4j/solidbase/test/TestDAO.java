@@ -25,7 +25,6 @@ public class TestDAO {
 			System.out.println(err);
 	}
 	
-	@Test
 	public void test() throws Exception{
 //		Department d = DAOFactory.getDAO(Department.class).selectAll().where().field("departId").equal(18).queryOne();
 //		if (d == null)

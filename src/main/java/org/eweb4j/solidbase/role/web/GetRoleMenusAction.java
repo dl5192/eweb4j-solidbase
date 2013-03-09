@@ -18,7 +18,7 @@ public class GetRoleMenusAction extends BaseAction {
 	@Path("/{roleId}/menus")
 	@GET
 	@POST
-	public String doGetRoleMenu(Map model) {
+	public String doGetRoleMenu(Map<String, Object> model) {
 		try {
 
 			Role role = service.findTreeMenuByRoleId(roleId);

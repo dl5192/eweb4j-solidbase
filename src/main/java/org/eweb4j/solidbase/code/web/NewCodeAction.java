@@ -13,7 +13,7 @@ public class NewCodeAction extends CodeBaseAction {
 	@Path("/new")
 	@GET
 	@POST
-	public String doNew(Map model) {
+	public String doNew(Map<String, Object> model) {
 		model.put("openType", CodeCons.OPEN_TYPE());
 		model.put("model", CodeCons.MODEL_NAME());
 		return CodeCons.NEW_ACTION_RESULT();

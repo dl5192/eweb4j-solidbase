@@ -19,7 +19,7 @@ public class RemoveRolePermissionRelationAction extends BaseAction {
 
 	@Path("/role-permission/remove")
 	@DELETE
-	public String doRemoveRolePermissionRelation(Map model) {
+	public String doRemoveRolePermissionRelation(Map<String, Object> model) {
 
 		try {
 			service.deleteRolePermissionRelation(roleId, permissionIds);

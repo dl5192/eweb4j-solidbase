@@ -1,6 +1,6 @@
 package org.eweb4j.solidbase.permission.model;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.eweb4j.mvc.view.EditPage;
 import org.eweb4j.mvc.view.PageMod;
@@ -19,12 +19,10 @@ public interface PermissionService {
 
 	void update(Permission permission) throws Exception;
 
-	Permission findByURIAndHttpMethod(String uri, String httpMethod)
-			throws Exception;
+	Permission findByURIAndHttpMethod(String uri, String httpMethod) throws Exception;
 
-	List<Permission> findByTypeId(long permTypeId) throws Exception;
+	Collection<Permission> findByTypeId(long permTypeId) throws Exception;
 
-	List<PermissionMod> assemPermissionMod()
-			throws Exception;
+	Collection<PermissionMod> assemPermissionMod() throws Exception;
 
 }

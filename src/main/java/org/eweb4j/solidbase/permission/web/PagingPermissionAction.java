@@ -1,6 +1,6 @@
 package org.eweb4j.solidbase.permission.web;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.ws.rs.GET;
@@ -23,7 +23,7 @@ public class PagingPermissionAction extends PermissionBaseAction {
 
 	private PageMod<Permission> pageMod;
 	private long allCount = 0;
-	private List<Permission> pojos;
+	private Collection<Permission> pojos;
 	private ListPage listPage;
 	private DivPageComp dpc;
 	private SearchForm searchForm = new SearchForm(PermissionCons.MODEL_NAME() + "/list", "");
@@ -31,7 +31,7 @@ public class PagingPermissionAction extends PermissionBaseAction {
 	@Path("/list")
 	@GET
 	@POST
-	public String doPaging(Map model) {
+	public String doPaging(Map<String, Object> model) {
 		try {
 			pageMod = permService.getPage(pageNum, numPerPage);
 			allCount = pageMod.getAllCount();

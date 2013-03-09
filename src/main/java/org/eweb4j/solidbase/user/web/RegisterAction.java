@@ -19,7 +19,7 @@ public class RegisterAction extends BaseAction {
 	}
 
 	@Validate({ "user.authcode", "user.account", "user.password", "user.rePwd" })
-	public String doRegisterAtPost(Validation val, Map model) {
+	public String doRegisterAtPost(Validation val, Map<String, Object> model) {
 		if (val.hasErr()){
 			model.put("valError", val.getAllErr());
 			return UserCons.REGISTER_ACTION_RESULT();

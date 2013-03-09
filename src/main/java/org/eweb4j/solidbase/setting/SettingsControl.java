@@ -20,7 +20,7 @@ public class SettingsControl {
 	private DWZ dwz = IOC.getBean(DWZCons.IOC_DWZ_BEAN_ID());
 	private RoleService roleService = IOC.getBean(RoleCons.IOC_SERVICE_BEAN_ID());
 	
-	public String doAtGetOrPost(Map model){
+	public String doAtGetOrPost(Map<String, Object> model){
 		
 		model.put("pojo", Setting.inst.find().first());
 		

@@ -1,6 +1,6 @@
 package org.eweb4j.solidbase.permission.web;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.ws.rs.GET;
@@ -18,19 +18,19 @@ public class NewPermissionAction extends PermissionBaseAction {
 	@Path("/new")
 	@GET
 	@POST
-	public String doNewPermission(Map model) {
+	public String doNewPermission(Map<String, Object> model) {
 
 		try {
 			model.put("model", PermissionCons.MODEL_NAME());
 			Code httpType = codeService.getAndCreateCodeByCodeValue(PermissionCons.HTTP_METHOD_CODE_VALUE());
-			List<Code> httpMethods = codeService.queryByCodeTypeIdAndParentId(httpType.getCodeId(), 0, -1, -1).getPojos();
+			Collection<Code> httpMethods = codeService.queryByCodeTypeIdAndParentId(httpType.getCodeId(), 0, -1, -1).getPojos();
 			if (httpMethods == null || httpMethods.size() == 0)
 				return dwz.getFailedJson("缺少HTTP操作信息，请先到代码管理添加操作信息").toString();
 
 			model.put("httpMethodList", httpMethods);
 
 			Code permType = codeService.getAndCreateCodeByCodeValue(PermissionCons.PERMISSION_TYPE_CODE_VALUE());
-			List<Code> permTypes = codeService.queryByCodeTypeIdAndParentId(permType.getCodeId(), 0, -1, -1).getPojos();
+			Collection<Code> permTypes = codeService.queryByCodeTypeIdAndParentId(permType.getCodeId(), 0, -1, -1).getPojos();
 			if (permTypes == null || permTypes.size() == 0)
 				return dwz.getFailedJson("缺少权限分类信息，请先到代码管理添加权限类别").toString();
 

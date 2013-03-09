@@ -29,7 +29,7 @@ public class EditAction extends BaseAction {
 	@Path("{id}/edit")
 	@Result("${UserConstant.EDIT_ACTION_RESULT}")
 	@ShowValMess("dwzJson")
-	public String doEdit(Map model) {
+	public String doEdit(Map<String, Object> model) {
 		try {
 			model.put("openType", UserCons.OPEN_TYPE());
 			model.put("editPage", userService.getEditPage(id));
@@ -44,7 +44,7 @@ public class EditAction extends BaseAction {
 	@POST
 	@Path("profile")
 	@Result("${UserConstant.PROFILE_ACTION_RESULT}")
-	public String doProfile(Map model) {
+	public String doProfile(Map<String, Object> model) {
 		try {
 			User user = (User) MVC.ctx().getSession().getAttribute(UserCons.LOGIN_USER_ATTR_NAME());
 			this.id = user.getId();

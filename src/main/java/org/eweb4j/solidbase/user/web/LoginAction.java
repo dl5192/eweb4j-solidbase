@@ -30,7 +30,7 @@ public class LoginAction extends BaseAction {
 	}
 
 	@Validate({ "user.authcode", "user.account", "user.password" })
-	public Object doLoginAtPut(Validation val, Map model) {
+	public Object doLoginAtPut(Validation val, Map<String, Object> model) {
 		if (val.hasErr()){
 			model.put("valError", val.getAllErr());
 			return UserCons.LOGIN_ACTION_RESULT();

@@ -24,7 +24,7 @@ public class AllocMenuAction extends BaseAction {
 
 	@Path("/alloc-menu")
 	@POST
-	public String doAllocMenu(Map model) {
+	public String doAllocMenu(Map<String, Object> model) {
 		try {
 			dwz.setRootUlStyleClass("expand tree treeFolder treeCheck");
 			model.put("roles", service.getAll());

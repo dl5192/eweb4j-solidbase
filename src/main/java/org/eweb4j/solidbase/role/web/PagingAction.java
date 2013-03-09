@@ -17,7 +17,7 @@ public class PagingAction extends BaseAction {
 	@GET
 	@POST
 	@Path("/list")
-	public String doPaging(Map model) {
+	public String doPaging(Map<String, Object> model) {
 		try {
 			pageMod = service.getPage(pageNum, numPerPage);
 			allCount = pageMod.getAllCount();

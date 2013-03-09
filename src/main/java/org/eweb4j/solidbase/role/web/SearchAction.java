@@ -19,7 +19,7 @@ public class SearchAction extends BaseAction {
 	@Path("/search")
 	@GET
 	@POST
-	public String doSearch(Map model) {
+	public String doSearch(Map<String, Object> model) {
 		try {
 			pageMod = service.queryByKeyword(keyword, pageNum, numPerPage);
 			allCount = pageMod.getAllCount();

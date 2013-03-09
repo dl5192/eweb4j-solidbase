@@ -16,7 +16,7 @@ public class PagingAction extends BaseAction {
 	@GET
 	@POST
 	@Path("list")
-	public String listHandler(Map model) {
+	public String listHandler(Map<String, Object> model) {
 		try {
 			pageMod = userService.getListPage(pageNum, numPerPage);
 			allCount = pageMod.getAllCount();
@@ -24,8 +24,7 @@ public class PagingAction extends BaseAction {
 
 			DivPageComp dpc = new DivPageComp(pageNum, numPerPage, allCount, 20);
 
-			listPage = new ListPage(UserCons.MODEL_NAME(), searchForm, pojos,
-					dpc);
+			listPage = new ListPage(UserCons.MODEL_NAME(), searchForm, pojos, dpc);
 
 			model.put("listPage", listPage);
 			model.put("random", Math.random());

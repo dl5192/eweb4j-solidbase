@@ -1,6 +1,6 @@
 package org.eweb4j.solidbase.department.web;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.ws.rs.GET;
@@ -23,14 +23,14 @@ public class PagingDepartmentAction extends DepartmentBaseAction {
 	private SearchForm searchForm = new SearchForm(DepartmentCons.MODEL_NAME() + "/list", "");
 	private PageMod<Department> pageMod;
 	private long allCount;
-	private List<Department> pojos;
+	private Collection<Department> pojos;
 	private DivPageComp dpc;
 	private ListPage listPage;
 
 	@Path("/list")
 	@GET
 	@POST
-	public String doGet(Map model) {
+	public String doGet(Map<String, Object> model) {
 
 		try {
 			pageMod = departService.getPageDepartInfo(pageNum, numPerPage);

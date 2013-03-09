@@ -16,7 +16,7 @@ public class RemoveUserRoleRelationAction extends BaseAction {
 
 	@Path("/user-role/remove")
 	@DELETE
-	public String doRemoveUserRoleRelation(Map model) {
+	public String doRemoveUserRoleRelation(Map<String, Object> model) {
 
 		try {
 			userService.deleteUserRoleRelation(userId, roleIds);

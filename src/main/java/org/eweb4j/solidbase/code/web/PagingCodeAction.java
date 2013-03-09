@@ -1,6 +1,6 @@
 package org.eweb4j.solidbase.code.web;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.ws.rs.GET;
@@ -22,7 +22,7 @@ public class PagingCodeAction extends CodeBaseAction {
 	private DivPageComp dpc = null;
 	private SearchForm searchForm = new SearchForm(CodeCons.MODEL_NAME() + "/search", "");
 	private long allCount = 0;
-	private List<Code> pojos = null;
+	private Collection<Code> pojos = null;
 	private PageMod<Code> pageMod = null;
 
 	/**
@@ -31,7 +31,7 @@ public class PagingCodeAction extends CodeBaseAction {
 	@Path("/list")
 	@GET
 	@POST
-	public String doList(Map model) {
+	public String doList(Map<String, Object> model) {
 		try {
 			pageMod = service.queryByCodeTypeIdAndParentId(codeTypeId,parentId, pageNum, numPerPage);
 			allCount = pageMod.getAllCount();
@@ -60,7 +60,8 @@ public class PagingCodeAction extends CodeBaseAction {
 	@Path("/search")
 	@GET
 	@POST
-	public String doSearch(Map model, @QueryParam(value = "codeSearch.dwz_codeType.codeId") long codeTypeId, @QueryParam(value = "codeSearch.dwz_codeParent.codeId") long parentId) {
+	public String doSearch(Map<String,Object> model, @QueryParam(value = "codeSearch.dwz_codeType.codeId") long codeTypeId, 
+			@QueryParam(value = "codeSearch.dwz_codeParent.codeId") long parentId) {
 
 		this.codeTypeId = codeTypeId;
 		if (parentId <= 0)

@@ -15,7 +15,7 @@ public class SearchAction extends BaseAction {
 	@GET
 	@POST
 	@Path("search")
-	public String searchKeyword(Map model) {
+	public String searchKeyword(Map<String, Object> model) {
 		try {
 			pageMod = userService.getSearchResult(keyword, pageNum, numPerPage);
 			allCount = pageMod.getAllCount();

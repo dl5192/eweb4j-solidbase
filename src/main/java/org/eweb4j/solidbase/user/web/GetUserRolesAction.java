@@ -17,7 +17,7 @@ public class GetUserRolesAction extends BaseAction {
 	@Path("/{userId}/roles")
 	@GET
 	@POST
-	public String getUserRoles(Map model) {
+	public String getUserRoles(Map<String, Object> model) {
 		try {
 
 			User user = this.userService.queryUserById(userId);

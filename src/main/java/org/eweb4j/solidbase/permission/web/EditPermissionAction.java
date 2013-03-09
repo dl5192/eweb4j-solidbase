@@ -19,7 +19,7 @@ public class EditPermissionAction extends PermissionBaseAction {
 	@Path("/{permId}/edit")
 	@GET
 	@POST
-	public String doEdit(Map model) {
+	public String doEdit(Map<String, Object> model) {
 		try {
 			EditPage<Permission> editPage = permService.getEditPage(permId);
 			model.put("editPage", editPage);

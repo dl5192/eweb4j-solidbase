@@ -22,7 +22,7 @@ public class EditCodeAction extends CodeBaseAction {
 	@GET
 	@POST
 	@Path("/{codeId}/edit")
-	public String doEdit(Map model) {
+	public String doEdit(Map<String, Object> model) {
 		try {
 			model.put("openType", CodeCons.OPEN_TYPE());
 			model.put("editPage", service.getEditPage(codeId));

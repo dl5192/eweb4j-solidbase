@@ -22,7 +22,7 @@ public class PagingAction {
 	@Path("/list")
 	@GET
 	@POST
-	public String doList(Map model) {
+	public String doList(Map<String, Object> model) {
 
 		List<Preference> pojos = new ArrayList<Preference>();
 		Set<Entry<String, Map<String, String>>> set = Props.getProps().entrySet();

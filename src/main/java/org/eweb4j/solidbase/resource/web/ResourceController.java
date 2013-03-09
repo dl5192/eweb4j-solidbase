@@ -1,6 +1,6 @@
 package org.eweb4j.solidbase.resource.web;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.ws.rs.DELETE;
@@ -79,7 +79,7 @@ public class ResourceController {
 	@Path("/new")
 	@POST
 	@GET
-	public String doNew(Map model) {
+	public String doNew(Map<String, Object> model) {
 		model.put("openType", ResourceCons.OPEN_TYPE());
 		model.put("model", ResourceCons.MODEL_NAME());
 
@@ -106,7 +106,7 @@ public class ResourceController {
 	@Path("/{resId}/edit")
 	@GET
 	@POST
-	public String doEdit(@PathParam("resId") long resId, Map model) {
+	public String doEdit(@PathParam("resId") long resId, Map<String, Object> model) {
 		try {
 			model.put("openType", ResourceCons.OPEN_TYPE());
 			model.put("editPage", resourceService.getEditPage(resId));
@@ -160,11 +160,11 @@ public class ResourceController {
 	@Path("/list")
 	@GET
 	@POST
-	public String doList(Map model) {
+	public String doList(Map<String, Object> model) {
 		try {
 			PageMod<Resource> pageMod = resourceService.getPageDepartInfo(pageNum, numPerPage);
 			long allCount = pageMod.getAllCount();
-			List<Resource> pojos = pageMod.getPojos();
+			Collection<Resource> pojos = pageMod.getPojos();
 
 			DivPageComp dpc = new DivPageComp(pageNum, numPerPage,
 					allCount - 1, 8);

@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.eweb4j.mvc.validator.annotation.Enumer;
 import org.eweb4j.mvc.validator.annotation.Required;

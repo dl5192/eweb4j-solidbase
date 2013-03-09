@@ -13,8 +13,6 @@ import org.eweb4j.solidbase.code.model.CodeService;
 import org.eweb4j.solidbase.department.dao.DepartmentDAO;
 import org.eweb4j.util.CommonUtil;
 
-import freemarker.template.utility.StringUtil;
-
 public class DepartmentServiceImpl implements DepartmentService {
 	private CodeService codeService;
 

@@ -16,7 +16,7 @@ public class RemoveUserDepartmentRelationAction extends BaseAction {
 
 	@Path("/user-department/remove")
 	@DELETE
-	public String doRemoveUserDepartmentRelation(Map model) {
+	public String doRemoveUserDepartmentRelation(Map<String, Object> model) {
 
 		try {
 			userService.deleteUserDepartmentRelation(userId, departmentIds);

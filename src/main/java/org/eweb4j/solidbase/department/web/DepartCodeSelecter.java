@@ -1,6 +1,6 @@
 package org.eweb4j.solidbase.department.web;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 import org.eweb4j.component.dwz.DWZ;
@@ -19,12 +19,12 @@ public abstract class DepartCodeSelecter {
 
 	protected CodeService codeService = IOC.getBean(CodeCons.IOC_SERVICE_BEAN_ID());
 
-	protected List<Code> levels; // 部门级别
-	protected List<Code> parents; // 上级部门
-	protected List<Code> cates; // 部门类型
-	protected List<Code> policeKinds; // 警种
+	protected Collection<Code> levels; // 部门级别
+	protected Collection<Code> parents; // 上级部门
+	protected Collection<Code> cates; // 部门类型
+	protected Collection<Code> policeKinds; // 警种
 
-	protected void doSetDateModel(Map model) throws Exception {
+	protected void doSetDateModel(Map<String, Object> model) throws Exception {
 		Code levelType = codeService.getAndCreateCodeByCodeValue(DepartmentCons.LEVEL_TYPE_CODE_VALUE());
 
 		levels = codeService.queryByCodeTypeIdAndParentId(levelType.getCodeId(), -1, -1, -1).getPojos();

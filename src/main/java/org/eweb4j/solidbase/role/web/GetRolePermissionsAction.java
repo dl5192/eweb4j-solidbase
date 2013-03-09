@@ -18,7 +18,7 @@ public class GetRolePermissionsAction extends BaseAction {
 	@Path("/{roleId}/permissions")
 	@GET
 	@POST
-	public String doGetRolePermission(Map model) {
+	public String doGetRolePermission(Map<String, Object> model) {
 		try {
 
 			Role role = service.findPermissionByRoleId(roleId);

@@ -14,7 +14,7 @@ public class AddAction extends BaseAction {
 
 	private long[] departIds;
 
-	public String doNewAtGetOrPost(Map model) {
+	public String doNewAtGetOrPost(Map<String, Object> model) {
 		try {
 			model.put("model", UserCons.MODEL_NAME());
 			model.put("openType", UserCons.OPEN_TYPE());

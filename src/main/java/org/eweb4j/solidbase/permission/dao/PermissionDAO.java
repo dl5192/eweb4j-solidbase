@@ -1,8 +1,8 @@
 package org.eweb4j.solidbase.permission.dao;
 
-import java.util.List;
-import java.util.Map;
+import java.util.Collection;
 
+import org.eweb4j.solidbase.permission.model.PermHttpIndex;
 import org.eweb4j.solidbase.permission.model.Permission;
 
 public interface PermissionDAO {
@@ -11,10 +11,9 @@ public interface PermissionDAO {
 
 	Permission selectOneById(long permId) throws Exception;
 
-	void cascadeSelect(Permission[] permissions, String... fields)
-			throws Exception;
+	void cascadeSelect(Permission[] permissions, String... fields) throws Exception;
 
-	List<Permission> divPage(int pageNum, int numPerPage) throws Exception;
+	Collection<Permission> divPage(int pageNum, int numPerPage) throws Exception;
 
 	long countAll() throws Exception;
 
@@ -24,20 +23,16 @@ public interface PermissionDAO {
 
 	Permission selectOneByName(String name) throws Exception;
 
-	Permission selectOneByResourceAndHttpMethod(long resId, long[] httpMethods)
-			throws Exception;
+	Permission selectOneByResourceAndHttpMethod(long resId, long[] httpMethods) throws Exception;
 
-	List<Permission> selectByTypeId(long permTypeId) throws Exception;
+	Collection<Permission> selectByTypeId(long permTypeId) throws Exception;
 
-	List<Permission> selectByResource(long resId) throws Exception;
+	Collection<Permission> selectByResource(long resId) throws Exception;
 
-	Map<String, Object> selectRelTableData(long permId, long codeId)
-			throws Exception;
+	PermHttpIndex selectRelTableData(long permId, long codeId) throws Exception;
 
-	void cascadeInsert(Permission permission, String... fields)
-			throws Exception;
+	void cascadeInsert(Permission permission, String... fields) throws Exception;
 
-	void cascadeDelete(Permission permission, String... fields)
-			throws Exception;
+	void cascadeDelete(Permission permission, String... fields) throws Exception;
 
 }

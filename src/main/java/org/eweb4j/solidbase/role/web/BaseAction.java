@@ -1,6 +1,6 @@
 package org.eweb4j.solidbase.role.web;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.eweb4j.component.dwz.DWZ;
 import org.eweb4j.component.dwz.DWZCons;
@@ -27,10 +27,9 @@ public class BaseAction {
 
 	protected DWZ dwz = IOC.getBean(DWZCons.IOC_DWZ_BEAN_ID());
 
-	protected SearchForm searchForm = new SearchForm(RoleCons.MODEL_NAME()
-			+ "/search", "");
+	protected SearchForm searchForm = new SearchForm(RoleCons.MODEL_NAME() + "/search", "");
 	protected ListPage listPage = null;
-	protected List<Role> pojos = null;
+	protected Collection<Role> pojos = null;
 	protected PageMod<Role> pageMod = null;
 	protected long allCount = 0;
 

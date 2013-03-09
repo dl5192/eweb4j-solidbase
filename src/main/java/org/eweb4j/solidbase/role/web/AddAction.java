@@ -19,7 +19,7 @@ public class AddAction extends BaseAction {
 	@GET
 	@POST
 	@Path("/new")
-	public String doNew(Map model) {
+	public String doNew(Map<String, Object> model) {
 		model.put("model", RoleCons.MODEL_NAME());
 		model.put("openType", RoleCons.OPEN_TYPE());
 		return RoleCons.NEW_ACTION_RESULT();

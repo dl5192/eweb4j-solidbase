@@ -18,7 +18,7 @@ public class EditAction extends BaseAction {
 	@GET
 	@POST
 	@Path("/{roleId}/edit")
-	public String doEdit(@PathParam("roleId") long id, Map model) {
+	public String doEdit(@PathParam("roleId") long id, Map<String, Object> model) {
 		try {
 			model.put("editPage", this.service.getEditPage(id));
 			model.put("openType", RoleCons.OPEN_TYPE());

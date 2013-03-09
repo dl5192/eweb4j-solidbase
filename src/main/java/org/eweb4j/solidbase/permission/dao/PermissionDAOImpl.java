@@ -1,105 +1,67 @@
 package org.eweb4j.solidbase.permission.dao;
 
-import java.util.List;
-import java.util.Map;
+import java.util.Collection;
 
-import org.eweb4j.orm.dao.DAO;
+import org.eweb4j.orm.Db;
 import org.eweb4j.orm.dao.DAOException;
 import org.eweb4j.orm.dao.DAOFactory;
-import org.eweb4j.orm.dao.cascade.CascadeDAO;
-import org.eweb4j.orm.dao.delete.DeleteDAO;
-import org.eweb4j.orm.dao.insert.InsertDAO;
-import org.eweb4j.orm.dao.select.DivPageDAO;
-import org.eweb4j.orm.dao.select.SearchDAO;
-import org.eweb4j.orm.dao.select.SelectDAO;
-import org.eweb4j.orm.dao.update.UpdateDAO;
-import org.eweb4j.solidbase.code.model.Code;
+import org.eweb4j.solidbase.permission.model.PermHttpIndex;
 import org.eweb4j.solidbase.permission.model.Permission;
 import org.eweb4j.solidbase.permission.model.PermissionCons;
 
 public class PermissionDAOImpl implements PermissionDAO {
-
-	private final static Class<Permission> clazz = Permission.class;
-
-	private DivPageDAO divPageDAO = null;
-	private SelectDAO selectDAO = null;
-	private DeleteDAO deleteDAO = null;
-	private InsertDAO insertDAO = null;
-	private UpdateDAO updateDAO = null;
-	private CascadeDAO cascadeDAO = null;
-	private SearchDAO searchDAO = null;
-	private DAO dao = null;
-	private DAO mapDAO = null;
-
+	
+	private String dsName;
+	private static Class<Permission> clazz = Permission.class;
+	
 	public void setDsName(String dsName) {
-		divPageDAO = DAOFactory.getDivPageDAO(dsName);
-		selectDAO = DAOFactory.getSelectDAO(dsName);
-		deleteDAO = DAOFactory.getDeleteDAO(dsName);
-		insertDAO = DAOFactory.getInsertDAO(dsName);
-		updateDAO = DAOFactory.getUpdateDAO(dsName);
-		cascadeDAO = DAOFactory.getCascadeDAO(dsName);
-		searchDAO = DAOFactory.getSearchDAO(dsName);
-		dao = DAOFactory.getDAO(clazz, dsName);
-		mapDAO = DAOFactory.getDAO(Map.class, dsName);
-		mapDAO.setTable("t_perm_http_method");
+		this.dsName = dsName;
 	}
 
 	public long insert(Permission permission) throws Exception {
-		long id = -1;
 		try {
-			id = Long.parseLong(String.valueOf(insertDAO.insert(permission)));
+			Db.ar(permission).create();
+			return permission.getPermId();
 		} catch (DAOException e) {
 			throw new Exception(PermissionCons.DATA_ACCESS_ERR(), e);
 		}
-
-		return id;
 	}
 
 	public Permission selectOneById(long permId) throws Exception {
-		Permission permission = null;
 		try {
-			permission = selectDAO.selectOneById(clazz, permId);
-		} catch (DAOException e) {
-			throw new Exception(PermissionCons.DATA_ACCESS_ERR(), e);
-		}
-
-		return permission;
-	}
-
-	public void cascadeSelect(Permission[] permissions, String... fields)
-			throws Exception {
-		try {
-			cascadeDAO.select(permissions, fields);
+			return Db.ar(clazz).findById(permId);
 		} catch (DAOException e) {
 			throw new Exception(PermissionCons.DATA_ACCESS_ERR(), e);
 		}
 	}
 
-	public List<Permission> divPage(int pageNum, int numPerPage)
-			throws Exception {
-		List<Permission> pojos = null;
+	public void cascadeSelect(Permission[] permissions, String... fields) throws Exception {
 		try {
-			pojos = divPageDAO.divPage(clazz, pageNum, numPerPage);
+			DAOFactory.getCascadeDAO(dsName).select(permissions, fields);
 		} catch (DAOException e) {
 			throw new Exception(PermissionCons.DATA_ACCESS_ERR(), e);
 		}
+	}
 
-		return pojos;
+	public Collection<Permission> divPage(int pageNum, int numPerPage) throws Exception {
+		try {
+			return Db.ar(clazz).find().fetch(pageNum, numPerPage);
+		} catch (DAOException e) {
+			throw new Exception(PermissionCons.DATA_ACCESS_ERR(), e);
+		}
 	}
 
 	public long countAll() throws Exception {
-		long count = 0;
 		try {
-			count = selectDAO.selectCount(clazz);
+			return Db.ar(clazz).count();
 		} catch (DAOException e) {
 			throw new Exception(PermissionCons.DATA_ACCESS_ERR(), e);
 		}
-		return count;
 	}
 
 	public void update(Permission permission) throws Exception {
 		try {
-			updateDAO.update(permission);
+			Db.ar(permission).save();
 		} catch (DAOException e) {
 			throw new Exception(PermissionCons.DATA_ACCESS_ERR(), e);
 		}
@@ -107,117 +69,115 @@ public class PermissionDAOImpl implements PermissionDAO {
 
 	public void delete(long permId) throws Exception {
 		try {
-			deleteDAO.deleteById(clazz, permId);
+			Db.ar(clazz).delete("byPermId", permId);
 		} catch (DAOException e) {
 			throw new Exception(PermissionCons.DATA_ACCESS_ERR(), e);
 		}
 	}
 
 	public Permission selectOneByName(String name) throws Exception {
-		Permission pojo = null;
 		try {
-			Permission perm = new Permission();
-			perm.setName(name);
-			pojo = selectDAO.selectOne(perm, "name");
+			return Db.ar(clazz).find("byName", name).first();
 		} catch (DAOException e) {
 			throw new Exception(PermissionCons.DATA_ACCESS_ERR(), e);
 		}
-
-		return pojo;
 	}
 
-	public Permission selectOneByResourceAndHttpMethod(long resId, long[] httpMethods)
-			throws Exception {
-		Permission pojo = null;
+	public Permission selectOneByResourceAndHttpMethod(long resId, long[] httpMethods) throws Exception {
 		try {
 
 			/**
-			 * select * from t_permission where id in (SELECT perm_id FROM
-			 * t_perm_http_method WHERE perm_id in (select id from t_permission
-			 * where resource_id = {resId} ) and http_method in('529', '530'))
+			 * select * from t_permission where id in (
+			 		SELECT perm_id FROM t_perm_http_method WHERE perm_id in (
+			 				select id from t_permission where resource_id = {resId} 
+			 		) and http_method in('529', '530')
+			 	)
 			 */
-			dao.clear();
-			String selectPermByUriSql = dao.select(new String[] { "permId" })
-					.where().field("resource").equal(resId).toSql();
+			
+			/**
+			 * select * from 
+			 * 		t_permission p, 
+			 * 		t_perm_http_method ph 
+			 * where
+			 * 		p.resource_id = {resId}
+			 * 		and ph.http_method in ()
+			 * 		and p.id = ph.perm_id
+			 */
+			
+			return Db.ar(PermHttpIndex.class)
+						.dao()
+						.alias("ph")
+						.join("perm", "p")
+						.select(Permission.class)
+						.where()
+							.field("p.resource").equal(resId)
+							.and("ph.http").in(new Object[]{httpMethods})
+							.enableExpress(true)
+							.and("ph.perm").equal("p.permId")
+						.queryOne();
+			
+//			String selectPermByUriSql = 
+//					Db.ar(clazz).dao()
+//					.select("permId")
+//					.where()
+//						.field("resource").equal(resId)
+//					.toSql();
+//			
+//			String selectPermByIdAndHttpMethodSql = 
+//					Db.ar(Map.class).dao()
+//					.setTable("t_perm_http_method")
+//					.select("perm_id")
+//					.where()
+//						.field("perm_id").inSql(selectPermByUriSql)
+//						.and("http_method").in(new Object[]{httpMethods})
+//					.toSql();
+//
+//			return Db.ar(clazz).dao()
+//						.selectAll()
+//						.where()
+//							.field("permId").inSql(selectPermByIdAndHttpMethodSql)
+//						.queryOne();
 
-			mapDAO.clear();
-			Long[] httpMethodIds = new Long[httpMethods.length];
-			for (int i = 0; i < httpMethods.length; i++)
-				httpMethodIds[i] = httpMethods[i];
-
-			String selectPermByIdAndHttpMethodSql = mapDAO
-					.select(new String[] { "perm_id" }).where()
-					.field("perm_id").inSql(selectPermByUriSql)
-					.and("http_method").in(httpMethodIds).toSql();
-
-			dao.clear();
-			pojo = dao.selectAll().where().field("permId")
-					.inSql(selectPermByIdAndHttpMethodSql).queryOne();
-
-		} catch (DAOException e) {
-			throw new Exception(PermissionCons.DATA_ACCESS_ERR(), e);
-		}
-
-		return pojo;
-	}
-
-	public List<Permission> selectByTypeId(long permTypeId) throws Exception {
-		List<Permission> pojos = null;
-		try {
-			Code type = new Code();
-			type.setCodeId(permTypeId);
-			Permission perm = new Permission();
-			perm.setType(type);
-			String[] fields = { "type" };
-			boolean isOR = false;
-			pojos = searchDAO.searchByExactAndOrderByIdFieldDESC(perm, fields,
-					isOR);
-		} catch (DAOException e) {
-			throw new Exception(PermissionCons.DATA_ACCESS_ERR(), e);
-		}
-
-		return pojos;
-	}
-
-	public List<Permission> selectByResource(long resId) throws Exception {
-		try {
-			String[] fields = { "resource" };
-			String[] values = { String.valueOf(resId) };
-			boolean isOR = false;
-			return searchDAO.searchByExactAndOrderByIdFieldDESC(clazz, fields,
-					values, isOR);
 		} catch (DAOException e) {
 			throw new Exception(PermissionCons.DATA_ACCESS_ERR(), e);
 		}
 	}
 
-	public Map<String, Object> selectRelTableData(long permId, long codeId)
-			throws Exception {
+	public Collection<Permission> selectByTypeId(long permTypeId) throws Exception {
 		try {
-			mapDAO.clear();
-			Map<String, Object> map = mapDAO.selectAll().where()
-					.field("perm_id").equal(permId).and("http_method")
-					.equal(codeId).queryOne();
-
-			return map;
+			return Db.ar(clazz).find("byType", permTypeId).fetch();
 		} catch (DAOException e) {
 			throw new Exception(PermissionCons.DATA_ACCESS_ERR(), e);
 		}
 	}
 
-	public void cascadeInsert(Permission permission, String... fields)
-			throws Exception {
+	public Collection<Permission> selectByResource(long resId) throws Exception {
 		try {
-			this.cascadeDAO.insert(permission, fields);
+			return Db.ar(clazz).find("byResource", resId).fetch();
 		} catch (DAOException e) {
 			throw new Exception(PermissionCons.DATA_ACCESS_ERR(), e);
 		}
 	}
 
-	public void cascadeDelete(Permission permission, String... fields)
-			throws Exception {
+	public PermHttpIndex selectRelTableData(long permId, long codeId) throws Exception {
 		try {
-			this.cascadeDAO.delete(permission, fields);
+			return Db.ar(PermHttpIndex.class).find("byPermAndHttp", permId, codeId).first();
+		} catch (DAOException e) {
+			throw new Exception(PermissionCons.DATA_ACCESS_ERR(), e);
+		}
+	}
+
+	public void cascadeInsert(Permission permission, String... fields) throws Exception {
+		try {
+			Db.ar(permission).cascade().persist(fields);
+		} catch (DAOException e) {
+			throw new Exception(PermissionCons.DATA_ACCESS_ERR(), e);
+		}
+	}
+
+	public void cascadeDelete(Permission permission, String... fields) throws Exception {
+		try {
+			Db.ar(permission).cascade().remove(fields);
 		} catch (DAOException e) {
 			throw new Exception(PermissionCons.DATA_ACCESS_ERR(), e);
 		}

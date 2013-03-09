@@ -14,7 +14,7 @@ public class AllocRoleAction extends BaseAction {
 	@Path("/alloc-role")
 	@GET
 	@POST
-	public String doAllocRole(Map model) {
+	public String doAllocRole(Map<String, Object> model) {
 
 		try {
 			model.put("openType", UserCons.ALLOC_ROLE_OPEN_TYPE());

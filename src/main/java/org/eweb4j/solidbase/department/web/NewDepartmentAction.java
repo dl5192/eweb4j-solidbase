@@ -14,7 +14,7 @@ public class NewDepartmentAction extends DepartCodeSelecter {
 	@Path("/new")
 	@GET
 	@POST
-	public String doGet(Map model) {
+	public String doGet(Map<String, Object> model) {
 		try {
 			this.doSetDateModel(model);
 			model.put("model", DepartmentCons.MODEL_NAME());

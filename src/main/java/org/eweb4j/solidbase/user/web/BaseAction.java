@@ -1,6 +1,6 @@
 package org.eweb4j.solidbase.user.web;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.eweb4j.component.dwz.DWZ;
 import org.eweb4j.component.dwz.DWZCons;
@@ -32,7 +32,7 @@ public abstract class BaseAction {
 
 	protected SearchForm searchForm = new SearchForm(UserCons.MODEL_NAME() + "/search", "");
 	protected ListPage listPage = null;
-	protected List<User> pojos = null;
+	protected Collection<User> pojos = null;
 	protected PageMod<User> pageMod = null;
 	protected long allCount = 0;
 
