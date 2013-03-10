@@ -1,12 +1,12 @@
 package org.eweb4j.solidbase.resource.model;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.eweb4j.mvc.view.EditPage;
 import org.eweb4j.mvc.view.PageMod;
 
 public interface ResourceService {
-	public List<Resource> getAllResource() throws ResourceException;
+	public Collection<Resource> getAllResource() throws ResourceException;
 
 	public long createResourceInfo(Resource resource) throws ResourceException;
 
@@ -18,6 +18,5 @@ public interface ResourceService {
 
 	public void removeResourceInfo(long resId) throws ResourceException;
 
-	public PageMod<Resource> getPageDepartInfo(int pageNum, int numPerPage)
-			throws ResourceException;
+	public PageMod<Resource> getPageDepartInfo(int pageNum, int numPerPage) throws ResourceException;
 }

@@ -130,7 +130,7 @@ public class ResourceController {
 
 	@Path("/batchRemove")
 	@DELETE
-	public String doDELETE(@QueryParam("ids") long[] ids) {
+	public String doBatchDELETE(@QueryParam("ids") long[] ids) {
 		try {
 			resourceService.batchRemoveResourceInfo(ids);
 			return ResourceCons.DWZ_SUCCESS_JSON("删除资源信息成功!");

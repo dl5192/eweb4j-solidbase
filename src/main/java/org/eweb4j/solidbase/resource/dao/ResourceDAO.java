@@ -1,6 +1,6 @@
 package org.eweb4j.solidbase.resource.dao;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.eweb4j.solidbase.resource.model.Resource;
 import org.eweb4j.solidbase.resource.model.ResourceException;
@@ -11,7 +11,7 @@ public interface ResourceDAO {
 
 	long insert(Resource resource) throws ResourceException;
 
-	List<Resource> selectAll() throws ResourceException;
+	Collection<Resource> selectAll() throws ResourceException;
 
 	void update(Resource resource) throws ResourceException;
 
@@ -21,7 +21,8 @@ public interface ResourceDAO {
 
 	long countAll() throws ResourceException;
 
-	List<Resource> divPage(int pageNum, int numPerPage)
-			throws ResourceException;
+	Collection<Resource> divPage(int pageNum, int numPerPage) throws ResourceException;
+
+	void batchDelete(Resource... resources) throws ResourceException;
 
 }

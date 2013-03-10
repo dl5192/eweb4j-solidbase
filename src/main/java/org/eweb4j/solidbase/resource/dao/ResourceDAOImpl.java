@@ -1,60 +1,42 @@
 package org.eweb4j.solidbase.resource.dao;
 
-import java.util.List;
+import java.util.Collection;
 
+import org.eweb4j.orm.Db;
 import org.eweb4j.orm.dao.DAOException;
-import org.eweb4j.orm.dao.DAOFactory;
-import org.eweb4j.orm.dao.delete.DeleteDAO;
-import org.eweb4j.orm.dao.insert.InsertDAO;
-import org.eweb4j.orm.dao.select.DivPageDAO;
-import org.eweb4j.orm.dao.select.SelectDAO;
-import org.eweb4j.orm.dao.update.UpdateDAO;
 import org.eweb4j.solidbase.resource.model.Resource;
 import org.eweb4j.solidbase.resource.model.ResourceCons;
 import org.eweb4j.solidbase.resource.model.ResourceException;
 
 public class ResourceDAOImpl implements ResourceDAO {
 
-	private Class<Resource> clazz = Resource.class;
-
-	private SelectDAO selectDAO;
-	private InsertDAO insertDAO;
-	private UpdateDAO updateDAO;
-	private DeleteDAO deleteDAO;
-	private DivPageDAO divPageDAO;
+	private String dsName;
+	private static Class<Resource> clazz = Resource.class;
 
 	public void setDsName(String dsName) {
-		this.selectDAO = DAOFactory.getSelectDAO(dsName);
-		this.insertDAO = DAOFactory.getInsertDAO(dsName);
-		this.updateDAO = DAOFactory.getUpdateDAO(dsName);
-		this.deleteDAO = DAOFactory.getDeleteDAO(dsName);
-		this.divPageDAO = DAOFactory.getDivPageDAO(dsName);
+		this.dsName = dsName;
 	}
 
 	public Resource selectOneByUri(String uri) throws ResourceException {
 		try {
-			String[] fields = { "uri" };
-			String[] values = { uri };
-			return selectDAO.selectOne(clazz, fields, values);
+			return Db.ar(clazz, dsName).find("byUri", uri).first();
 		} catch (DAOException e) {
 			throw new ResourceException(ResourceCons.DATA_ACCESS_ERR(), e);
 		}
 	}
 
 	public long insert(Resource resource) throws ResourceException {
-		long id = -1;
 		try {
-			id = Long
-					.parseLong(String.valueOf(this.insertDAO.insert(resource)));
+			Db.ar(resource, dsName).create();
+			return resource.getResId();
 		} catch (DAOException e) {
 			throw new ResourceException(ResourceCons.DATA_ACCESS_ERR(), e);
 		}
-		return id;
 	}
 
-	public List<Resource> selectAll() throws ResourceException {
+	public Collection<Resource> selectAll() throws ResourceException {
 		try {
-			return this.selectDAO.selectAll(clazz);
+			return Db.ar(clazz, dsName).findAll();
 		} catch (DAOException e) {
 			throw new ResourceException(ResourceCons.DATA_ACCESS_ERR(), e);
 		}
@@ -62,7 +44,7 @@ public class ResourceDAOImpl implements ResourceDAO {
 
 	public void update(Resource resource) throws ResourceException {
 		try {
-			this.updateDAO.update(resource);
+			Db.ar(resource, dsName).save();
 		} catch (DAOException e) {
 			throw new ResourceException(ResourceCons.DATA_ACCESS_ERR(), e);
 		}
@@ -70,7 +52,7 @@ public class ResourceDAOImpl implements ResourceDAO {
 
 	public Resource selectOneByResId(long resId) throws ResourceException {
 		try {
-			return this.selectDAO.selectOneById(clazz, resId);
+			return Db.ar(clazz, dsName).findById(resId);
 		} catch (DAOException e) {
 			throw new ResourceException(ResourceCons.DATA_ACCESS_ERR(), e);
 		}
@@ -78,7 +60,7 @@ public class ResourceDAOImpl implements ResourceDAO {
 
 	public void deleteByResId(long id) throws ResourceException {
 		try {
-			this.deleteDAO.deleteById(clazz, id);
+			Db.ar(clazz, dsName).delete("byResId", id);
 		} catch (DAOException e) {
 			throw new ResourceException(ResourceCons.DATA_ACCESS_ERR(), e);
 		}
@@ -86,17 +68,24 @@ public class ResourceDAOImpl implements ResourceDAO {
 
 	public long countAll() throws ResourceException {
 		try {
-			return this.selectDAO.selectCount(clazz);
+			return Db.ar(clazz, dsName).count();
 		} catch (DAOException e) {
 			throw new ResourceException(ResourceCons.DATA_ACCESS_ERR(), e);
 		}
 	}
 
-	public List<Resource> divPage(int pageNum, int numPerPage)
-			throws ResourceException {
+	public Collection<Resource> divPage(int pageNum, int numPerPage) throws ResourceException {
 		try {
-			return this.divPageDAO.divPage(clazz, pageNum, numPerPage);
+			return Db.ar(clazz, dsName).find().fetch(pageNum, numPerPage);
 		} catch (DAOException e) {
+			throw new ResourceException(ResourceCons.DATA_ACCESS_ERR(), e);
+		}
+	}
+
+	public void batchDelete(Resource... resources) throws ResourceException {
+		try {
+			Db.batchDelete(resources, dsName);
+		} catch (DAOException e){
 			throw new ResourceException(ResourceCons.DATA_ACCESS_ERR(), e);
 		}
 	}
