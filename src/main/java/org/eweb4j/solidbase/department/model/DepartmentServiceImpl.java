@@ -1,6 +1,6 @@
 package org.eweb4j.solidbase.department.model;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.eweb4j.mvc.view.EditPage;
 import org.eweb4j.mvc.view.PageMod;
@@ -14,31 +14,26 @@ import org.eweb4j.solidbase.department.dao.DepartmentDAO;
 import org.eweb4j.util.CommonUtil;
 
 public class DepartmentServiceImpl implements DepartmentService {
+	
 	private CodeService codeService;
+	private DepartmentDAO departmentDAO;
+	private CodeDAO codeDAO;
+	private Code code;
+	private final static String format = "<li><a tname='%s', tvalue='%s' checked='%s' >%s</a>%s</li>";
 
 	public void setCodeService(CodeService codeService) {
 		this.codeService = codeService;
 	}
-
-	private DepartmentDAO departmentDAO;
-	private CodeDAO codeDAO;
-
-	private Code code;
-
-	private final static String format = "<li><a tname='%s', tvalue='%s' checked='%s' >%s</a>%s</li>";
-
+	
 	private void checkDepartExist(long departId) throws DepartmentException {
 		Department db_depart = departmentDAO.selectOneByDepartId(departId);
 		if (db_depart == null)
-			throw new DepartmentException(
-					DepartmentCons.DEPARTMENT_NOT_FOUND_MESS());
+			throw new DepartmentException(DepartmentCons.DEPARTMENT_NOT_FOUND_MESS());
 	}
 
-	private void departCodeLogic(final Department department)
-			throws DepartmentException {
+	private void departCodeLogic(final Department department) throws DepartmentException {
 		if (department == null)
-			throw new DepartmentException(
-					DepartmentCons.IN_COMPLETE_DEPARTMENT_INFO_MESS());
+			throw new DepartmentException(DepartmentCons.IN_COMPLETE_DEPARTMENT_INFO_MESS());
 
 		code = department.getCode();
 
@@ -61,18 +56,15 @@ public class DepartmentServiceImpl implements DepartmentService {
 			try {
 				db_parent = codeDAO.selectOneByCodeId(parent.getCodeId());
 			} catch (CodeException e) {
-				throw new DepartmentException(
-						DepartmentCons.CODE_DATA_OP_EXP(), e);
+				throw new DepartmentException(DepartmentCons.CODE_DATA_OP_EXP(), e);
 			}
 			if (db_parent == null)
-				throw new DepartmentException(
-						DepartmentCons.PARENT_DEPARTMENT_NOT_FOUND_MESS());
+				throw new DepartmentException(DepartmentCons.PARENT_DEPARTMENT_NOT_FOUND_MESS());
 		}
 
 		Code cate = department.getDepartCate();
 		if (cate == null)
-			throw new DepartmentException(
-					DepartmentCons.DEPARTMENT_CATE_NOT_FOUND_MESS());
+			throw new DepartmentException(DepartmentCons.DEPARTMENT_CATE_NOT_FOUND_MESS());
 
 		Code db_cate = null;
 		try {
@@ -82,13 +74,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 		}
 
 		if (db_cate == null)
-			throw new DepartmentException(
-					DepartmentCons.DEPARTMENT_CATE_NOT_FOUND_MESS());
+			throw new DepartmentException(DepartmentCons.DEPARTMENT_CATE_NOT_FOUND_MESS());
 
 	}
 
-	public void createDepartInfo(final Department department)
-			throws DepartmentException {
+	public void createDepartInfo(final Department department) throws DepartmentException {
 		this.departCodeLogic(department);
 
 		Code db_code = null;
@@ -98,8 +88,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 			throw new DepartmentException(DepartmentCons.CODE_DATA_OP_EXP(), e);
 		}
 		if (db_code != null)
-			throw new DepartmentException(
-					DepartmentCons.DUP_DEPARTMENT_NAME_MESS());
+			throw new DepartmentException(DepartmentCons.DUP_DEPARTMENT_NAME_MESS());
 
 		Code db_code2 = null;
 		try {
@@ -108,16 +97,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 			throw new DepartmentException(DepartmentCons.CODE_DATA_OP_EXP(), e);
 		}
 		if (db_code2 != null)
-			throw new DepartmentException(
-					DepartmentCons.DUP_DEPARTMENT_CODE_VALUE_MESS());
+			throw new DepartmentException(DepartmentCons.DUP_DEPARTMENT_CODE_VALUE_MESS());
 
 		// 事务模板,保证代码和部门信息的同步插入
 		Transaction.execute(new Trans() {
-
-			@Override
 			public void run(Object... args) throws Exception {
-				code.setType(getTypeCodeByCodeValue(DepartmentCons
-						.DEPARTMENT_TYPE_CODE_VALUE()));
+				code.setType(getTypeCodeByCodeValue(DepartmentCons.DEPARTMENT_TYPE_CODE_VALUE()));
 				long codeId = codeDAO.insert(code);
 				Code _code = new Code();
 				_code.setCodeId(codeId);
@@ -132,15 +117,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	}
 
-	public static void co(Long id) {
-		id = 10l;
-	}
-
-	public void updateDepartInfo(final Department department)
-			throws DepartmentException {
-
+	public void updateDepartInfo(final Department department) throws DepartmentException {
 		this.departCodeLogic(department);
-
 		Code db_code = null;
 		try {
 			db_code = codeDAO.selectOneByRemark(code.getRemark());
@@ -149,8 +127,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 		}
 
 		if (db_code != null && db_code.getCodeId() != code.getCodeId())
-			throw new DepartmentException(
-					DepartmentCons.DUP_DEPARTMENT_NAME_MESS());
+			throw new DepartmentException(DepartmentCons.DUP_DEPARTMENT_NAME_MESS());
 
 		Code db_code2 = null;
 		try {
@@ -160,21 +137,16 @@ public class DepartmentServiceImpl implements DepartmentService {
 		}
 
 		if (db_code2 != null && db_code2.getCodeId() != code.getCodeId())
-			throw new DepartmentException(
-					DepartmentCons.DUP_DEPARTMENT_CODE_VALUE_MESS());
+			throw new DepartmentException(DepartmentCons.DUP_DEPARTMENT_CODE_VALUE_MESS());
 
 		Code parent = code.getParent();
 		if (parent.getCodeId() == code.getCodeId())
-			throw new DepartmentException(
-					DepartmentCons.PARENT_CAN_NOT_SAME_TO_SELFT_MESS());
+			throw new DepartmentException(DepartmentCons.PARENT_CAN_NOT_SAME_TO_SELFT_MESS());
 
 		// 事务模板,保证代码和部门信息的同步更新
 		Transaction.execute(new Trans() {
-
-			@Override
 			public void run(Object... args) throws Exception {
-				code.setType(getTypeCodeByCodeValue(DepartmentCons
-						.DEPARTMENT_TYPE_CODE_VALUE()));
+				code.setType(getTypeCodeByCodeValue(DepartmentCons.DEPARTMENT_TYPE_CODE_VALUE()));
 				codeDAO.update(code);
 				department.setCode(null);
 				String now = CommonUtil.getNowTime();
@@ -182,35 +154,29 @@ public class DepartmentServiceImpl implements DepartmentService {
 				departmentDAO.update(department);
 			}
 		}, "");
-
 	}
 
-	public PageMod<Department> getPageDepartInfo(int pageNum, int numPerPage)
-			throws DepartmentException {
-		List<Department> pojos = departmentDAO.divPage(pageNum, numPerPage);
+	public PageMod<Department> getPageDepartInfo(int pageNum, int numPerPage) throws DepartmentException {
+		Collection<Department> pojos = departmentDAO.divPage(pageNum, numPerPage);
 		if (pojos != null) {
 			departmentDAO.cascadeSelect(pojos.toArray(new Department[] {}));
 			for (Department depart : pojos) {
 				try {
 					codeDAO.cascadeSelect(new Code[] { depart.getCode() });
 				} catch (CodeException e) {
-					throw new DepartmentException(
-							DepartmentCons.CODE_DATA_OP_EXP(), e);
+					throw new DepartmentException(DepartmentCons.CODE_DATA_OP_EXP(), e);
 				}
 			}
 		}
+		
 		long allCount = departmentDAO.countAll();
-
 		return new PageMod<Department>(pojos, allCount);
 	}
 
-	public EditPage<Department> getEditPage(long departId)
-			throws DepartmentException {
-
+	public EditPage<Department> getEditPage(long departId) throws DepartmentException {
 		Department pojo = departmentDAO.selectOneByDepartId(departId);
 		if (pojo == null)
-			throw new DepartmentException(
-					DepartmentCons.DEPARTMENT_NOT_FOUND_MESS());
+			throw new DepartmentException(DepartmentCons.DEPARTMENT_NOT_FOUND_MESS());
 
 		departmentDAO.cascadeSelect(pojo);
 		String model = DepartmentCons.MODEL_NAME();
@@ -219,26 +185,21 @@ public class DepartmentServiceImpl implements DepartmentService {
 		return new EditPage<Department>(model, action, pojo);
 	}
 
-	public void removeDepartInfo(final long departId)
-			throws DepartmentException {
-
+	public void removeDepartInfo(final long departId) throws DepartmentException {
 		this.checkDepartExist(departId);
-
 		Transaction.execute(new Trans() {
-			@Override
 			public void run(Object... args) throws Exception {
 				Department depart = departmentDAO.selectOneByDepartId(departId);
 				departmentDAO.delete(departId);
 				codeDAO.deleteByCodeId(depart.getCode().getCodeId());
 			}
 		}, "");
-
 	}
 
-	public void batchRemoveDepartInfo(long[] departIds)
-			throws DepartmentException {
-		for (long departId : departIds)
-			this.removeDepartInfo(departId);
+	public void batchRemoveDepartInfo(long[] departIds) throws DepartmentException {
+		for (long departId : departIds){
+			removeDepartInfo(departId);
+		}
 	}
 
 	public DepartmentDAO getDepartmentDAO() {
@@ -249,9 +210,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 		this.departmentDAO = departmentDAO;
 	}
 
-	public List<Code> queryParentDeparts() throws DepartmentException {
-		Code type = getTypeCodeByCodeValue(DepartmentCons
-				.DEPARTMENT_TYPE_CODE_VALUE());
+	public Collection<Code> queryParentDeparts() throws DepartmentException {
+		Code type = getTypeCodeByCodeValue(DepartmentCons.DEPARTMENT_TYPE_CODE_VALUE());
 		return departmentDAO.joinCodeSelectByCodeTypeId(type.getCodeId());
 	}
 
@@ -263,44 +223,35 @@ public class DepartmentServiceImpl implements DepartmentService {
 		this.codeDAO = codeDAO;
 	}
 
-	public List<Department> getTopDepartments() throws DepartmentException {
-		// 表示顶级部门
-		List<Department> pojos = null;
-
+	public Collection<Department> getTopDepartments() throws DepartmentException {
 		try {
-			Code top = codeService.getAndCreateCodeByCodeValue(DepartmentCons
-					.DEPARTMENT_TYPE_CODE_VALUE());
-
-			Code type = getTypeCodeByCodeValue(DepartmentCons
-					.DEPARTMENT_TYPE_CODE_VALUE());
-			pojos = departmentDAO.selectDepartmentByParentId(top.getCodeId(),
-					type.getCodeId());
+			Code top = codeService.getAndCreateCodeByCodeValue(DepartmentCons.DEPARTMENT_TYPE_CODE_VALUE());
+			Code type = getTypeCodeByCodeValue(DepartmentCons.DEPARTMENT_TYPE_CODE_VALUE());
+			Collection<Department> pojos = departmentDAO.selectDepartmentByParentId(top.getCodeId(),type.getCodeId());
 
 			if (pojos != null)
 				departmentDAO.cascadeSelect(pojos.toArray(new Department[] {}));
-
-		} catch (CodeException e) {
+			
+			return pojos;
+		} catch (Exception e) {
 			throw new DepartmentException(DepartmentCons.CODE_DATA_OP_EXP(), e);
 		}
-
-		return pojos;
 	}
 
-	public List<Department> getSubDepartments(long codeParentId)
-			throws DepartmentException {
-		Code type = getTypeCodeByCodeValue(DepartmentCons
-				.DEPARTMENT_TYPE_CODE_VALUE());
-		List<Department> pojos = departmentDAO.selectDepartmentByParentId(
-				codeParentId, type.getCodeId());
-		if (pojos != null)
-			departmentDAO.cascadeSelect(pojos.toArray(new Department[] {}));
-
-		return pojos;
+	public Collection<Department> getSubDepartments(long codeParentId) throws DepartmentException {
+		try {
+			Code type = getTypeCodeByCodeValue(DepartmentCons.DEPARTMENT_TYPE_CODE_VALUE());
+			Collection<Department> pojos = departmentDAO.selectDepartmentByParentId(codeParentId, type.getCodeId());
+			if (pojos != null)
+				departmentDAO.cascadeSelect(pojos.toArray(new Department[] {}));
+	
+			return pojos;
+		} catch (Exception e) {
+			throw new DepartmentException(DepartmentCons.CODE_DATA_OP_EXP(), e);
+		}
 	}
 
-	public String getDepartmentDWZTree(List<Department> departments,
-			String ulStyle, String ulOncheckHandler) throws DepartmentException {
-
+	public String getDepartmentDWZTree(Collection<Department> departments, String ulStyle, String ulOncheckHandler) throws DepartmentException {
 		if (departments == null)
 			departments = this.getTopDepartments();
 
@@ -314,25 +265,20 @@ public class DepartmentServiceImpl implements DepartmentService {
 			ulOncheckHandler = "";
 
 		StringBuilder ul = new StringBuilder();
-		ul.append(String.format("<ul class='%s' oncheck='%s'>", ulStyle,
-				ulOncheckHandler));
+		ul.append(String.format("<ul class='%s' oncheck='%s'>", ulStyle, ulOncheckHandler));
 		for (Department depart : departments) {
 			long parentId = depart.getCode().getCodeId();
 			StringBuilder li = new StringBuilder();
 
-			List<Department> children = getSubDepartments(parentId);
-
+			Collection<Department> children = getSubDepartments(parentId);
 			if (children != null && children.size() > 0) {
 				// 递归
 				String subUl = getDepartmentDWZTree(children, null, null);
 
-				li.append(String.format(format, "", depart.getDepartId(),
-						"false", depart.getCode().getRemark(), subUl));
+				li.append(String.format(format, "", depart.getDepartId(), "false", depart.getCode().getRemark(), subUl));
 
 			} else {
-				li.append(String.format(format, "departmentIds", depart
-						.getDepartId(), "false", depart.getCode().getRemark(),
-						""));
+				li.append(String.format(format, "departmentIds", depart.getDepartId(), "false", depart.getCode().getRemark(), ""));
 			}
 
 			ul.append(li.toString());
@@ -343,16 +289,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 		return ul.toString();
 	}
 
-	private Code getTypeCodeByCodeValue(String codeValue)
-			throws DepartmentException {
-		Code code = null;
+	private Code getTypeCodeByCodeValue(String codeValue) throws DepartmentException {
 		try {
-			code = codeService.getAndCreateCodeByCodeValue(codeValue);
+			return codeService.getAndCreateCodeByCodeValue(codeValue);
 		} catch (CodeException e) {
 			throw new DepartmentException(DepartmentCons.CODE_DATA_OP_EXP(), e);
 		}
-
-		return code;
 	}
 
 }
