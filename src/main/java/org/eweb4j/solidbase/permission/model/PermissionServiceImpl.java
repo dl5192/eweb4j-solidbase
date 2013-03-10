@@ -32,8 +32,7 @@ public class PermissionServiceImpl implements PermissionService {
 		this.resourceDAO = resourceDAO;
 	}
 
-	private void addAndUpdateLogic(final Permission permission)
-			throws Exception {
+	private void addAndUpdateLogic(final Permission permission) throws Exception {
 		if (permission == null)
 			throw new Exception(PermissionCons.PERMISSION_NOT_FOUND_MESS());
 
@@ -214,9 +213,7 @@ public class PermissionServiceImpl implements PermissionService {
 		}, "");
 	}
 
-	public Permission findByURIAndHttpMethod(String uri, String httpMethodStr)
-			throws Exception {
-
+	public Permission findByURIAndHttpMethod(String uri, String httpMethodStr) throws Exception {
 		Resource res = resourceDAO.selectOneByUri(uri);
 		if (res == null)
 			return null;

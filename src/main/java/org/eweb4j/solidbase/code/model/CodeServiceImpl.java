@@ -14,11 +14,10 @@ import org.eweb4j.util.CommonUtil;
 
 public class CodeServiceImpl implements CodeService {
 	private CodeDAO codeDAO;
-	List<Code> pojos = null;
+	private Collection<Code> pojos = null;
 	long allCount = 0;
 
-	public PageMod<Code> queryByCodeTypeIdAndParentId(long codeTypeId,
-			long parentId, int pageNum, int numPerPage) throws CodeException {
+	public PageMod<Code> queryByCodeTypeIdAndParentId(long codeTypeId, long parentId, int pageNum, int numPerPage) throws CodeException {
 
 		// 如果代码类型忽略,则查询所有的代码信息
 		if (codeTypeId < 0) {
@@ -26,8 +25,7 @@ public class CodeServiceImpl implements CodeService {
 			allCount = codeDAO.countAll();
 		} else if (codeTypeId == 0) {
 			// 元类型
-			pojos = codeDAO.selectPageByCodeTypeId(CodeCons.META_CODE_ID(),
-					pageNum, numPerPage);
+			pojos = codeDAO.selectPageByCodeTypeId(CodeCons.META_CODE_ID(), pageNum, numPerPage);
 			allCount = codeDAO.countByCodeTypeId(CodeCons.META_CODE_ID());
 		} else {
 			Code db_type = codeDAO.selectOneByCodeId(codeTypeId);
@@ -36,8 +34,7 @@ public class CodeServiceImpl implements CodeService {
 
 			if (parentId < 0) {
 				// 某类型所有代码
-				pojos = codeDAO.selectPageByCodeTypeId(codeTypeId, pageNum,
-						numPerPage);
+				pojos = codeDAO.selectPageByCodeTypeId(codeTypeId, pageNum, numPerPage);
 				allCount = codeDAO.countByCodeTypeId(codeTypeId);
 
 			} else {
@@ -49,11 +46,9 @@ public class CodeServiceImpl implements CodeService {
 				if (db_parent == null)
 					throw new CodeException(CodeCons.PARENT_NOT_FOUND_MESS());
 
-				pojos = codeDAO.selectPageByCodeTypeIdAndParentId(codeTypeId,
-						parentId, pageNum, numPerPage);
+				pojos = codeDAO.selectPageByCodeTypeIdAndParentId(codeTypeId, parentId, pageNum, numPerPage);
 
-				allCount = codeDAO.countByCodeTypeIdAndParentId(codeTypeId,
-						parentId);
+				allCount = codeDAO.countByCodeTypeIdAndParentId(codeTypeId, parentId);
 			}
 		}
 
@@ -63,8 +58,7 @@ public class CodeServiceImpl implements CodeService {
 		return new PageMod<Code>(pojos, allCount);
 	}
 
-	public List<Code> getTypes(long typeId, String inputValue)
-			throws CodeException {
+	public List<Code> getTypes(long typeId, String inputValue) throws CodeException {
 		if (typeId <= 0)
 			typeId = CodeCons.META_CODE_ID();
 
@@ -75,9 +69,8 @@ public class CodeServiceImpl implements CodeService {
 		return new ArrayList<Code>(Arrays.asList(codes));
 	}
 
-	private Code[] handleCodes(long typeId, long parentId, String inputValue)
-			throws CodeException {
-		List<Code> db_codes = null;
+	private Code[] handleCodes(long typeId, long parentId, String inputValue) throws CodeException {
+		Collection<Code> db_codes = null;
 		if (parentId >= 0 || parentId == CodeCons.TOP_CODE_ID()) {
 			db_codes = codeDAO.selectByCodeTypeIdAndParentIdAndCodeValue(typeId, parentId, inputValue);
 		} else {
@@ -89,28 +82,22 @@ public class CodeServiceImpl implements CodeService {
 
 		final List<Code> pojos = new ArrayList<Code>();
 		Transaction.execute(new Trans() {
-
-			@Override
 			public void run(Object... args) throws CodeException {
-				Code metaType = codeDAO.selectOneByCodeId(CodeCons
-						.META_CODE_ID());
+				Code metaType = codeDAO.selectOneByCodeId(CodeCons.META_CODE_ID());
 				if (metaType == null) {
 					metaType = new Code();
 					metaType.setCodeId(CodeCons.META_CODE_ID());
 					metaType.setCodeValue(CodeCons.META_TYPE());
 					metaType.setRemark(CodeCons.META_TYPE());
 					String[] fields = { "codeId", "codeValue", "remark" };
-					Object[] values = { CodeCons.META_CODE_ID(),
-							CodeCons.META_TYPE(), CodeCons.META_TYPE() };
-					Code db_metaType = codeDAO.selectOneByCodeValue(CodeCons
-							.META_TYPE());
+					Object[] values = { CodeCons.META_CODE_ID(),CodeCons.META_TYPE(), CodeCons.META_TYPE() };
+					Code db_metaType = codeDAO.selectOneByCodeValue(CodeCons.META_TYPE());
 					if (db_metaType != null) {
 						metaType.setCodeValue(CodeCons.META_TYPE() + "_");
 						values[1] = metaType.getCodeValue();
 					}
 
-					Code db_metaType2 = codeDAO.selectOneByRemark(CodeCons
-							.META_TYPE());
+					Code db_metaType2 = codeDAO.selectOneByRemark(CodeCons.META_TYPE());
 					if (db_metaType2 != null) {
 						metaType.setRemark(CodeCons.META_TYPE() + "_");
 						values[2] = metaType.getRemark();
@@ -119,8 +106,7 @@ public class CodeServiceImpl implements CodeService {
 					long id = codeDAO.insert(fields, values);
 					if (id != CodeCons.META_CODE_ID()) {
 
-						codeDAO.update(new String[] { "codeId" },
-								new Object[] { CodeCons.META_CODE_ID() });
+						codeDAO.update(new String[] { "codeId" },new Object[] { CodeCons.META_CODE_ID() });
 					}
 
 					pojos.add(metaType);
@@ -138,8 +124,7 @@ public class CodeServiceImpl implements CodeService {
 		return codes;
 	}
 
-	public List<Code> getParents(long codeTypeId, String inputValue)
-			throws CodeException {
+	public List<Code> getParents(long codeTypeId, String inputValue) throws CodeException {
 		if (codeTypeId <= 0)
 			codeTypeId = CodeCons.META_CODE_ID();
 
@@ -147,16 +132,14 @@ public class CodeServiceImpl implements CodeService {
 		if (db_type == null)
 			throw new CodeException(CodeCons.TYPE_NOT_FOUND_MESS());
 
-		Code[] codes = this.handleCodes(codeTypeId, CodeCons.TOP_CODE_ID(),
-				inputValue);
+		Code[] codes = this.handleCodes(codeTypeId, CodeCons.TOP_CODE_ID(), inputValue);
 
 		Arrays.sort(codes, new ByInputValIndexComparator());
 
 		return new ArrayList<Code>(Arrays.asList(codes));
 	}
 
-	public long addCodeInfo(long codeTypeId, long parentId, Code code)
-			throws CodeException {
+	public long addCodeInfo(long codeTypeId, long parentId, Code code) throws CodeException {
 		if (code == null)
 			throw new CodeException(CodeCons.INVALID_CODE());
 
@@ -188,20 +171,31 @@ public class CodeServiceImpl implements CodeService {
 	}
 
 	public void removeOneCodeInfo(long codeId) throws CodeException {
-		if (codeId == CodeCons.META_CODE_ID()
-				|| codeId == CodeCons.TOP_CODE_ID())
+		if (codeId == CodeCons.META_CODE_ID() || codeId == CodeCons.TOP_CODE_ID())
 			throw new CodeException("该代码不允许删除");
 
 		Code db_code = codeDAO.selectOneByCodeId(codeId);
 		if (db_code == null)
 			throw new CodeException(CodeCons.CODE_NOT_FOUND_MESS());
 
-		codeDAO.deleteByCodeId(codeId);
+		try {
+			codeDAO.deleteByCodeId(codeId);
+		} catch (CodeException e){
+			throw new CodeException("删除失败，请确认所选项是否被其他地方引用");
+		}
 	}
 
 	public void removeCodes(Long[] ids) throws CodeException {
+		Collection<Code> codes = new ArrayList<Code>(ids.length);
 		for (long id : ids) {
-			removeOneCodeInfo(id);
+			Code code = new Code();
+			code.setCodeId(id);
+			codes.add(code);
+		}
+		try {
+			codeDAO.batchDelete(codes.toArray(new Code[]{}));
+		}catch(CodeException e){
+			throw new CodeException("删除失败，请确认所选项是否被其他地方引用");
 		}
 	}
 
@@ -215,7 +209,6 @@ public class CodeServiceImpl implements CodeService {
 
 	public EditPage<Code> getEditPage(long codeId) throws CodeException {
 		Code db_code = codeDAO.selectOneByCodeId(codeId);
-		System.out.println("fuckfuck!!!!!!!!!! " + db_code);
 		if (db_code == null)
 			throw new CodeException(CodeCons.CODE_NOT_FOUND_MESS());
 
@@ -240,10 +233,8 @@ public class CodeServiceImpl implements CodeService {
 		if (db_code == null)
 			throw new CodeException(CodeCons.CODE_NOT_FOUND_MESS());
 
-		Code db_code_dup_value = codeDAO.selectOneByCodeValue(code
-				.getCodeValue());
-		if (db_code_dup_value != null
-				&& db_code_dup_value.getCodeId() != codeId)
+		Code db_code_dup_value = codeDAO.selectOneByCodeValue(code.getCodeValue());
+		if (db_code_dup_value != null && db_code_dup_value.getCodeId() != codeId)
 			throw new CodeException(CodeCons.DUP_CODE_VALUE_MESS());
 
 		String now = CommonUtil.getNowTime();
@@ -252,10 +243,8 @@ public class CodeServiceImpl implements CodeService {
 		codeDAO.update(code);
 	}
 
-	public List<Code> getChildren(long codeTypeId, long parentId,
-			String inputValue) throws CodeException {
-		List<Code> pojos = codeDAO.selectByCodeTypeIdAndParentIdAndCodeValue(
-				codeTypeId, parentId, inputValue);
+	public Collection<Code> getChildren(long codeTypeId, long parentId, String inputValue) throws CodeException {
+		Collection<Code> pojos = codeDAO.selectByCodeTypeIdAndParentIdAndCodeValue(codeTypeId, parentId, inputValue);
 		if (pojos == null || pojos.size() == 0)
 			return pojos;
 
@@ -285,8 +274,7 @@ public class CodeServiceImpl implements CodeService {
 		return this.queryByCodeTypeIdAndParentId(code.getCodeId(), parentId, pageNum, numPerPage).getPojos();
 	}
 
-	public Code getAndCreateCodeByCodeValue(String codeValue)
-			throws CodeException {
+	public Code getAndCreateCodeByCodeValue(String codeValue) throws CodeException {
 		Code type = codeDAO.selectOneByCodeValue(codeValue);
 		if (type == null) {
 			type = new Code();

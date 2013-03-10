@@ -26,8 +26,7 @@ public interface CodeService {
 	 * @return ListPage
 	 * @throws CodeException
 	 */
-	public PageMod<Code> queryByCodeTypeIdAndParentId(long codeTypeId,
-			long parentId, int pageNum, int numPerPage) throws CodeException;
+	public PageMod<Code> queryByCodeTypeIdAndParentId(long codeTypeId, long parentId, int pageNum, int numPerPage) throws CodeException;
 
 	/**
 	 * 
@@ -38,8 +37,7 @@ public interface CodeService {
 	 * @return
 	 * @throws CodeException
 	 */
-	public Collection<Code> queryByCodeValueAndParentId(String codeValue,
-			long parentId, int pageNum, int numPerPage) throws CodeException;
+	public Collection<Code> queryByCodeValueAndParentId(String codeValue, long parentId, int pageNum, int numPerPage) throws CodeException;
 
 	/**
 	 * get the codetype list
@@ -49,8 +47,7 @@ public interface CodeService {
 	 * @return
 	 * @throws CodeException
 	 */
-	public Collection<Code> getTypes(long typeId, String inputValue)
-			throws CodeException;
+	public Collection<Code> getTypes(long typeId, String inputValue) throws CodeException;
 
 	/**
 	 * get the parent codes list
@@ -60,8 +57,7 @@ public interface CodeService {
 	 * @return
 	 * @throws CodeException
 	 */
-	public Collection<Code> getParents(long codeTypeId, String inputValue)
-			throws CodeException;
+	public Collection<Code> getParents(long codeTypeId, String inputValue) throws CodeException;
 
 	/**
 	 * 添加代码信息
@@ -72,8 +68,7 @@ public interface CodeService {
 	 * @return 
 	 * @throws CodeException
 	 */
-	public long addCodeInfo(long codeTypeId, long parentId, Code code)
-			throws CodeException;
+	public long addCodeInfo(long codeTypeId, long parentId, Code code) throws CodeException;
 
 	/**
 	 * 删除
@@ -113,8 +108,7 @@ public interface CodeService {
 	 * @param inputValue
 	 * @return
 	 */
-	public Collection<Code> getChildren(long bkTypeCodeTypeId, long pid,
-			String inputValue) throws CodeException;
+	public Collection<Code> getChildren(long bkTypeCodeTypeId, long pid, String inputValue) throws CodeException;
 
 	/**
 	 * 
@@ -130,6 +124,5 @@ public interface CodeService {
 	 * @return
 	 * @throws CodeException
 	 */
-	public Code getAndCreateCodeByCodeValue(String codeValue)
-			throws CodeException;
+	public Code getAndCreateCodeByCodeValue(String codeValue) throws CodeException;
 }

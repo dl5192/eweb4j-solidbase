@@ -1,6 +1,7 @@
 package org.eweb4j.solidbase.main.web;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -82,7 +83,7 @@ public class MainControl {
 
 			/* 用户有超能力采用缓存、并且不采用菜单控制 */
 			if ("yes".equals(loginUser.getSuperPower())) {
-				navMenus = navMenuService.findAllOrderBy("rank", 1);
+				navMenus = new ArrayList<NavMenu>(navMenuService.findAllOrderBy("rank", 1));
 				if (navMenus != null && navMenus.size() > 0)
 					treeMenus = dwz.getAccordion(
 							navMenus.get(0).getNavMenuId(), true);
@@ -104,8 +105,7 @@ public class MainControl {
 				if (navMenus.size() == 0) {
 
 					/* 从数据中获取导航菜单 */
-					List<NavMenu> _navMenus = navMenuService.findAllOrderBy(
-							"rank", 1);
+					Collection<NavMenu> _navMenus = navMenuService.findAllOrderBy("rank", 1);
 
 					if (_navMenus != null) {
 						for (NavMenu n : _navMenus) {
