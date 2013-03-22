@@ -55,7 +55,7 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 
 	public void batchDelete(Department... departments) throws DepartmentException {
 		try {
-			Db.batchDelete(departments, dsName);
+			Db.batchDelete(dsName, departments);
 		} catch (DAOException e) {
 			throw new DepartmentException(DepartmentCons.DATA_ACCESS_ERR(), e);
 		}

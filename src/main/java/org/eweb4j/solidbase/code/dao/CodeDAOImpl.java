@@ -21,7 +21,7 @@ public class CodeDAOImpl implements CodeDAO {
 
 	public void batchDelete(Code... codes) throws CodeException{
 		try {
-			Db.batchDelete(codes, dsName);
+			Db.batchDelete(dsName, codes);
 		} catch (DAOException e) {
 			throw new CodeException(CodeCons.DATA_ACCESS_ERR() + " | " + e.getMessage());
 		}

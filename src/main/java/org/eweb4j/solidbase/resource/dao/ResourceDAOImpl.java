@@ -84,7 +84,7 @@ public class ResourceDAOImpl implements ResourceDAO {
 
 	public void batchDelete(Resource... resources) throws ResourceException {
 		try {
-			Db.batchDelete(resources, dsName);
+			Db.batchDelete(dsName, resources);
 		} catch (DAOException e){
 			throw new ResourceException(ResourceCons.DATA_ACCESS_ERR(), e);
 		}
