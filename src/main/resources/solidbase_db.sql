@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50045
 File Encoding         : 65001
 
-Date: 2013-01-24 13:29:13
+Date: 2013-03-25 10:17:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -33,7 +33,7 @@ CREATE TABLE `t_code` (
   KEY `PARENT_ID` (`PARENT_ID`),
   CONSTRAINT `t_code_ibfk_1` FOREIGN KEY (`TYPE_ID`) REFERENCES `t_code` (`ID`) ON UPDATE CASCADE,
   CONSTRAINT `t_code_ibfk_2` FOREIGN KEY (`PARENT_ID`) REFERENCES `t_code` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_code
@@ -42,7 +42,7 @@ INSERT INTO `t_code` VALUES ('1', '元类型代码', '1', '1', '元类型代码'
 INSERT INTO `t_code` VALUES ('3', 'depart-level', '1', '1', '部门级别', null, '2012-02-28 22:01:47');
 INSERT INTO `t_code` VALUES ('4', 'depart', '1', '1', '部门', null, '2012-02-28 22:01:25');
 INSERT INTO `t_code` VALUES ('5', 'depart-cate', '1', '1', '部门类别', null, '2012-02-28 22:01:30');
-INSERT INTO `t_code` VALUES ('10', 'business', '5', '1', '业务部门', '2012-02-28 22:18:36', '2012-06-09 22:47:32');
+INSERT INTO `t_code` VALUES ('10', 'business', '5', '1', '业务部门', '2012-02-28 22:18:36', '2013-03-24 21:03:46');
 INSERT INTO `t_code` VALUES ('11', 'level-1', '3', '1', '一级', '2012-02-28 22:18:59', '2012-02-28 22:27:19');
 INSERT INTO `t_code` VALUES ('17', 'http-method', '1', '1', '资源操作', null, '2012-02-28 23:46:35');
 INSERT INTO `t_code` VALUES ('18', 'perm-cate', '1', '1', '权限分类', null, '2012-02-28 23:49:20');
@@ -52,11 +52,9 @@ INSERT INTO `t_code` VALUES ('21', 'PUT', '17', '1', '更新资源', '2012-02-28
 INSERT INTO `t_code` VALUES ('22', 'DELETE', '17', '1', '删除资源', '2012-02-28 23:47:29', '2012-02-28 23:47:29');
 INSERT INTO `t_code` VALUES ('23', 'user-module', '18', '1', '用户模块', '2012-02-28 23:49:54', '2012-03-08 08:29:46');
 INSERT INTO `t_code` VALUES ('25', 'tech', '5', '1', '技术部门', '2012-03-06 22:05:58', '2012-03-06 22:05:58');
-INSERT INTO `t_code` VALUES ('27', 'default-dev', '4', '31', '默认开发部', null, null);
-INSERT INTO `t_code` VALUES ('28', 'default-mark', '4', '31', '默认市场部', null, null);
-INSERT INTO `t_code` VALUES ('30', 'company', '5', '1', '公司', '2012-03-07 13:57:30', '2012-03-07 13:57:30');
+INSERT INTO `t_code` VALUES ('30', 'company', '5', '1', '公司', '2012-03-07 13:57:30', '2013-03-24 21:03:54');
 INSERT INTO `t_code` VALUES ('31', 'xx-company', '4', '4', 'XX公司', null, null);
-INSERT INTO `t_code` VALUES ('35', 'code-module', '18', '1', '代码模块', '2012-03-08 07:13:32', '2012-03-08 08:28:30');
+INSERT INTO `t_code` VALUES ('35', 'code-module', '18', '1', '代码模块', '2012-03-08 07:13:32', '2013-03-24 21:04:05');
 INSERT INTO `t_code` VALUES ('36', 'depart-module', '18', '1', '部门模块', '2012-03-08 07:17:53', '2012-03-08 08:28:44');
 INSERT INTO `t_code` VALUES ('37', 'main-module', '18', '1', '主模块', '2012-03-08 07:43:31', '2012-03-08 08:28:57');
 INSERT INTO `t_code` VALUES ('38', 'navmenu-module', '18', '1', '导航菜单模块', '2012-03-08 07:45:20', '2012-03-08 08:29:17');
@@ -65,11 +63,9 @@ INSERT INTO `t_code` VALUES ('40', 'perm-module', '18', '1', '权限模块', '20
 INSERT INTO `t_code` VALUES ('41', 'preference-module', '18', '1', '系统参数模块', '2012-03-08 08:30:40', '2012-03-08 08:30:40');
 INSERT INTO `t_code` VALUES ('42', 'role-module', '18', '1', '角色模块', '2012-03-08 08:30:51', '2012-03-08 08:30:51');
 INSERT INTO `t_code` VALUES ('43', 'resource-module', '18', '1', '资源模块', '2012-03-08 08:31:37', '2012-03-08 08:31:37');
-INSERT INTO `t_code` VALUES ('44', 'winon-tech-company', '4', '4', '万安科技有限公司', null, null);
-INSERT INTO `t_code` VALUES ('45', 'dev-dept', '4', '44', '开发部', null, null);
-INSERT INTO `t_code` VALUES ('46', 'business-dept', '4', '44', '业务部', null, null);
 INSERT INTO `t_code` VALUES ('47', 'level-2', '3', '1', '二级', '2012-06-09 19:29:40', '2012-06-09 19:29:53');
-INSERT INTO `t_code` VALUES ('48', 'test', '4', '44', '测试部门', null, null);
+INSERT INTO `t_code` VALUES ('50', 'test2', '4', '4', 'test2', null, null);
+INSERT INTO `t_code` VALUES ('51', 'test23', '4', '4', 'test232222', null, null);
 
 -- ----------------------------
 -- Table structure for `t_department`
@@ -89,15 +85,13 @@ CREATE TABLE `t_department` (
   CONSTRAINT `t_department_ibfk_1` FOREIGN KEY (`CODE_ID`) REFERENCES `t_code` (`ID`) ON UPDATE CASCADE,
   CONSTRAINT `t_department_ibfk_2` FOREIGN KEY (`DEPART_LEVEL`) REFERENCES `t_code` (`ID`) ON UPDATE CASCADE,
   CONSTRAINT `t_department_ibfk_3` FOREIGN KEY (`DEPART_CATE`) REFERENCES `t_code` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_department
 -- ----------------------------
-INSERT INTO `t_department` VALUES ('14', '44', '11', '30', '2012-03-14 13:48:29', '2012-03-14 13:48:29');
-INSERT INTO `t_department` VALUES ('15', '45', '11', '25', '2012-03-14 13:48:51', '2012-03-14 13:48:51');
-INSERT INTO `t_department` VALUES ('16', '46', '11', '10', '2012-03-14 13:49:17', '2012-06-09 19:25:38');
-INSERT INTO `t_department` VALUES ('17', '48', '47', '10', '2012-06-09 19:30:19', '2012-06-09 22:48:06');
+INSERT INTO `t_department` VALUES ('3', '50', '11', '25', '2013-03-24 21:07:30', '2013-03-24 21:07:30');
+INSERT INTO `t_department` VALUES ('4', '51', '47', '30', '2013-03-24 21:08:11', '2013-03-24 21:08:22');
 
 -- ----------------------------
 -- Table structure for `t_department_ext`
@@ -134,16 +128,19 @@ DROP TABLE IF EXISTS `t_files`;
 CREATE TABLE `t_files` (
   `id` bigint(20) NOT NULL auto_increment,
   `save_path` varchar(255) NOT NULL,
-  `cate_id` bigint(20) NOT NULL,
-  `file_name` varchar(255) NOT NULL,
+  `cate_id` bigint(20) default NULL,
+  `display_name` varchar(255) NOT NULL,
   `intro` varchar(1024) default NULL,
   `size` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `cate_id` (`cate_id`),
+  CONSTRAINT `t_files_ibfk_1` FOREIGN KEY (`cate_id`) REFERENCES `t_file_cate` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_files
 -- ----------------------------
+INSERT INTO `t_files` VALUES ('5', '2013-03-24/558714AEA6D99CE0EE739BD8CA6BE620.png', '6', 'asian1.png', 'test2', '0');
 
 -- ----------------------------
 -- Table structure for `t_file_cate`
@@ -152,14 +149,18 @@ DROP TABLE IF EXISTS `t_file_cate`;
 CREATE TABLE `t_file_cate` (
   `id` bigint(20) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
-  `thumb` varchar(255) default NULL,
+  `thumb_id` bigint(20) default NULL,
   `sort` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_file_cate
 -- ----------------------------
+INSERT INTO `t_file_cate` VALUES ('6', 'image', '1', '0');
+INSERT INTO `t_file_cate` VALUES ('7', 'word文档', '3', '0');
+INSERT INTO `t_file_cate` VALUES ('8', 'excel', '11', '0');
+INSERT INTO `t_file_cate` VALUES ('9', 'txt文件', '0', '0');
 
 -- ----------------------------
 -- Table structure for `t_nav_menu`
@@ -167,12 +168,12 @@ CREATE TABLE `t_file_cate` (
 DROP TABLE IF EXISTS `t_nav_menu`;
 CREATE TABLE `t_nav_menu` (
   `ID` bigint(20) NOT NULL auto_increment,
-  `NAME` varchar(16) NOT NULL,
+  `NAME` varchar(32) NOT NULL,
   `HREF` varchar(255) default NULL,
   `RANK` int(11) NOT NULL default '0',
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `NAME` (`NAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_nav_menu
@@ -183,6 +184,7 @@ INSERT INTO `t_nav_menu` VALUES ('5', '站点维护', 'main/switchEnv/5', '2');
 INSERT INTO `t_nav_menu` VALUES ('6', '数据采集', 'main/switchEnv/6', '3');
 INSERT INTO `t_nav_menu` VALUES ('8', '打开JSP', 'main/switchEnv/hello.jsp', '5');
 INSERT INTO `t_nav_menu` VALUES ('9', '打开HTML', 'main/switchEnv/hello.html', '4');
+INSERT INTO `t_nav_menu` VALUES ('15', '文件库', 'main/switchEnv/15', '0');
 
 -- ----------------------------
 -- Table structure for `t_permission`
@@ -202,7 +204,7 @@ CREATE TABLE `t_permission` (
   KEY `RESOURCE_ID` (`RESOURCE_ID`),
   CONSTRAINT `t_permission_ibfk_1` FOREIGN KEY (`TYPE`) REFERENCES `t_code` (`ID`) ON UPDATE CASCADE,
   CONSTRAINT `t_permission_ibfk_2` FOREIGN KEY (`RESOURCE_ID`) REFERENCES `t_resource` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=290 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=293 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_permission
@@ -309,6 +311,9 @@ INSERT INTO `t_permission` VALUES ('286', '更新某角色', '102', '42', '', '2
 INSERT INTO `t_permission` VALUES ('287', '编辑某角色', '103', '42', '', '2012-06-10 01:22:17', '2012-06-10 01:22:17');
 INSERT INTO `t_permission` VALUES ('288', '获取某角色已分配的菜单', '104', '42', '', '2012-06-10 01:22:42', '2012-06-10 01:22:42');
 INSERT INTO `t_permission` VALUES ('289', '获取某角色已分配的权限', '105', '42', '', '2012-06-10 01:23:00', '2012-06-10 01:23:00');
+INSERT INTO `t_permission` VALUES ('290', '查看版本', '106', '37', '查看版本', '2013-03-24 12:51:33', '2013-03-24 12:51:33');
+INSERT INTO `t_permission` VALUES ('291', '更新系统设置', '107', '41', '', '2013-03-24 13:41:13', '2013-03-24 13:41:13');
+INSERT INTO `t_permission` VALUES ('292', '访问系统设置页', '107', '41', '', '2013-03-24 13:42:19', '2013-03-24 21:58:57');
 
 -- ----------------------------
 -- Table structure for `t_perm_http_method`
@@ -323,7 +328,7 @@ CREATE TABLE `t_perm_http_method` (
   KEY `http_method` (`http_method`),
   CONSTRAINT `t_perm_http_method_ibfk_1` FOREIGN KEY (`perm_id`) REFERENCES `t_permission` (`ID`) ON UPDATE CASCADE,
   CONSTRAINT `t_perm_http_method_ibfk_2` FOREIGN KEY (`http_method`) REFERENCES `t_code` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=315 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=326 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_perm_http_method
@@ -484,6 +489,13 @@ INSERT INTO `t_perm_http_method` VALUES ('311', '289', '19');
 INSERT INTO `t_perm_http_method` VALUES ('312', '289', '20');
 INSERT INTO `t_perm_http_method` VALUES ('313', '264', '19');
 INSERT INTO `t_perm_http_method` VALUES ('314', '264', '20');
+INSERT INTO `t_perm_http_method` VALUES ('315', '290', '22');
+INSERT INTO `t_perm_http_method` VALUES ('316', '290', '19');
+INSERT INTO `t_perm_http_method` VALUES ('317', '290', '20');
+INSERT INTO `t_perm_http_method` VALUES ('318', '290', '21');
+INSERT INTO `t_perm_http_method` VALUES ('319', '291', '21');
+INSERT INTO `t_perm_http_method` VALUES ('324', '292', '19');
+INSERT INTO `t_perm_http_method` VALUES ('325', '292', '20');
 
 -- ----------------------------
 -- Table structure for `t_resource`
@@ -494,7 +506,7 @@ CREATE TABLE `t_resource` (
   `uri` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `uri` (`uri`)
-) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_resource
@@ -564,6 +576,7 @@ INSERT INTO `t_resource` VALUES ('102', 'roles/{roleId}');
 INSERT INTO `t_resource` VALUES ('103', 'roles/{roleId}/edit');
 INSERT INTO `t_resource` VALUES ('104', 'roles/{roleId}/menus');
 INSERT INTO `t_resource` VALUES ('105', 'roles/{roleId}/permissions');
+INSERT INTO `t_resource` VALUES ('107', 'settings');
 INSERT INTO `t_resource` VALUES ('57', 'treemenus');
 INSERT INTO `t_resource` VALUES ('61', 'treemenus/batchRemove');
 INSERT INTO `t_resource` VALUES ('62', 'treemenus/list');
@@ -599,6 +612,7 @@ INSERT INTO `t_resource` VALUES ('76', 'users/{id}/lock');
 INSERT INTO `t_resource` VALUES ('77', 'users/{id}/unLock');
 INSERT INTO `t_resource` VALUES ('90', 'users/{userId}/departments');
 INSERT INTO `t_resource` VALUES ('39', 'users/{userId}/roles');
+INSERT INTO `t_resource` VALUES ('106', 'version');
 
 -- ----------------------------
 -- Table structure for `t_role`
@@ -636,7 +650,7 @@ CREATE TABLE `t_role_menu` (
   KEY `MENU_ID` (`MENU_ID`),
   CONSTRAINT `t_role_menu_ibfk_3` FOREIGN KEY (`ROLE_ID`) REFERENCES `t_role` (`ID`) ON UPDATE CASCADE,
   CONSTRAINT `t_role_menu_ibfk_4` FOREIGN KEY (`MENU_ID`) REFERENCES `t_tree_menu` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=206 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=212 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_role_menu
@@ -647,10 +661,6 @@ INSERT INTO `t_role_menu` VALUES ('168', '7', '384');
 INSERT INTO `t_role_menu` VALUES ('169', '7', '385');
 INSERT INTO `t_role_menu` VALUES ('170', '7', '387');
 INSERT INTO `t_role_menu` VALUES ('171', '7', '389');
-INSERT INTO `t_role_menu` VALUES ('172', '6', '192');
-INSERT INTO `t_role_menu` VALUES ('173', '6', '193');
-INSERT INTO `t_role_menu` VALUES ('176', '6', '185');
-INSERT INTO `t_role_menu` VALUES ('177', '6', '186');
 INSERT INTO `t_role_menu` VALUES ('178', '5', '185');
 INSERT INTO `t_role_menu` VALUES ('179', '5', '186');
 INSERT INTO `t_role_menu` VALUES ('180', '5', '379');
@@ -679,6 +689,10 @@ INSERT INTO `t_role_menu` VALUES ('202', '5', '385');
 INSERT INTO `t_role_menu` VALUES ('203', '5', '387');
 INSERT INTO `t_role_menu` VALUES ('204', '5', '389');
 INSERT INTO `t_role_menu` VALUES ('205', '5', '395');
+INSERT INTO `t_role_menu` VALUES ('208', '5', '396');
+INSERT INTO `t_role_menu` VALUES ('209', '5', '397');
+INSERT INTO `t_role_menu` VALUES ('210', '6', '192');
+INSERT INTO `t_role_menu` VALUES ('211', '6', '193');
 
 -- ----------------------------
 -- Table structure for `t_role_navmenu`
@@ -715,7 +729,7 @@ CREATE TABLE `t_role_permission` (
   KEY `PERM_ID` (`PERM_ID`),
   CONSTRAINT `t_role_permission_ibfk_1` FOREIGN KEY (`ROLE_ID`) REFERENCES `t_role` (`ID`) ON UPDATE CASCADE,
   CONSTRAINT `t_role_permission_ibfk_2` FOREIGN KEY (`PERM_ID`) REFERENCES `t_permission` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=478 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=494 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_role_permission
@@ -805,16 +819,16 @@ INSERT INTO `t_role_permission` VALUES ('464', '8', '188');
 INSERT INTO `t_role_permission` VALUES ('465', '8', '187');
 INSERT INTO `t_role_permission` VALUES ('466', '8', '186');
 INSERT INTO `t_role_permission` VALUES ('467', '8', '185');
-INSERT INTO `t_role_permission` VALUES ('468', '6', '194');
-INSERT INTO `t_role_permission` VALUES ('469', '6', '193');
-INSERT INTO `t_role_permission` VALUES ('470', '6', '192');
-INSERT INTO `t_role_permission` VALUES ('471', '6', '191');
-INSERT INTO `t_role_permission` VALUES ('472', '6', '190');
-INSERT INTO `t_role_permission` VALUES ('473', '6', '189');
-INSERT INTO `t_role_permission` VALUES ('474', '6', '188');
-INSERT INTO `t_role_permission` VALUES ('475', '6', '187');
-INSERT INTO `t_role_permission` VALUES ('476', '6', '186');
-INSERT INTO `t_role_permission` VALUES ('477', '6', '185');
+INSERT INTO `t_role_permission` VALUES ('484', '6', '185');
+INSERT INTO `t_role_permission` VALUES ('485', '6', '187');
+INSERT INTO `t_role_permission` VALUES ('486', '6', '188');
+INSERT INTO `t_role_permission` VALUES ('487', '6', '189');
+INSERT INTO `t_role_permission` VALUES ('488', '6', '190');
+INSERT INTO `t_role_permission` VALUES ('489', '6', '191');
+INSERT INTO `t_role_permission` VALUES ('490', '6', '192');
+INSERT INTO `t_role_permission` VALUES ('491', '6', '193');
+INSERT INTO `t_role_permission` VALUES ('492', '6', '194');
+INSERT INTO `t_role_permission` VALUES ('493', '6', '186');
 
 -- ----------------------------
 -- Table structure for `t_setting`
@@ -822,16 +836,9 @@ INSERT INTO `t_role_permission` VALUES ('477', '6', '185');
 DROP TABLE IF EXISTS `t_setting`;
 CREATE TABLE `t_setting` (
   `id` bigint(20) NOT NULL auto_increment,
-  `user_default_role` bigint(20) default NULL,
+  `user_default_role` bigint(20) NOT NULL,
   `user_perm_control` varchar(255) NOT NULL,
-  `site_title` varchar(255) default NULL,
-  `seo_keyword` varchar(1024) default NULL,
-  `favicon_id` bigint(20) default NULL,
-  `seo_desc` varchar(1024) default NULL,
-  `logo_id` bigint(20) default NULL,
-  `foot_info` varchar(1024) default NULL,
-  `hot_num` int(11) NOT NULL default '4',
-  `new_num` int(11) NOT NULL default '0',
+  `file_base_dir` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `user_default_role` (`user_default_role`),
   CONSTRAINT `user_default_role` FOREIGN KEY (`user_default_role`) REFERENCES `t_role` (`ID`)
@@ -840,7 +847,7 @@ CREATE TABLE `t_setting` (
 -- ----------------------------
 -- Records of t_setting
 -- ----------------------------
-INSERT INTO `t_setting` VALUES ('1', '5', 'no', null, null, null, null, null, null, '4', '0');
+INSERT INTO `t_setting` VALUES ('1', '5', 'yes', 'D:/Java/JEE/EclipseWorkSpace/solidbase-webapp/target/eweb4j-solidbase-webapp/userfiles');
 
 -- ----------------------------
 -- Table structure for `t_tree_menu`
@@ -865,7 +872,7 @@ CREATE TABLE `t_tree_menu` (
   KEY `PID` (`PID`),
   CONSTRAINT `t_tree_menu_ibfk_1` FOREIGN KEY (`NAV_MENU_ID`) REFERENCES `t_nav_menu` (`ID`) ON UPDATE CASCADE,
   CONSTRAINT `t_tree_menu_ibfk_2` FOREIGN KEY (`PID`) REFERENCES `t_tree_menu` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=396 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=409 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_tree_menu
@@ -889,7 +896,7 @@ INSERT INTO `t_tree_menu` VALUES ('342', '列出全部部门', 'navTab', 'xssybm
 INSERT INTO `t_tree_menu` VALUES ('343', '添加部门', 'dialog', 'tjbm', '0', 'departments/new', '341', '0', '1', 'false', '500', '300');
 INSERT INTO `t_tree_menu` VALUES ('361', '分配部门', 'navTab', 'fpbm', '1', 'users/alloc-department', '151', '0', '1', 'false', '100', '100');
 INSERT INTO `t_tree_menu` VALUES ('362', '分配角色', 'navTab', 'fpjs', '1', 'users/alloc-role', '151', '0', '1', 'false', '100', '100');
-INSERT INTO `t_tree_menu` VALUES ('364', '文章管理', 'navTab', '', '0', '', '1', '7', '4', 'false', '1', '1');
+INSERT INTO `t_tree_menu` VALUES ('364', '文章管理', 'navTab', '', '0', '', '1', '1', '4', 'false', '1', '1');
 INSERT INTO `t_tree_menu` VALUES ('367', '新增角色', 'dialog', 'xzjs', '0', 'roles/new', '150', '0', '1', 'false', '300', '200');
 INSERT INTO `t_tree_menu` VALUES ('368', '分配权限', 'navTab', 'fpqx', '0', 'roles/alloc-permission', '153', '0', '1', 'false', '1', '1');
 INSERT INTO `t_tree_menu` VALUES ('369', '列出全部权限定义', 'navTab', 'xssyqxdy', '0', 'permissions/list', '153', '0', '1', 'false', '1', '1');
@@ -912,6 +919,17 @@ INSERT INTO `t_tree_menu` VALUES ('388', 'SEO设置', 'navTab', '', '0', '', '1'
 INSERT INTO `t_tree_menu` VALUES ('389', '关键词设置', 'navTab', 'gjcsz', '0', 'keywords/setting', '388', '0', '5', 'false', '0', '0');
 INSERT INTO `t_tree_menu` VALUES ('390', '数据采集', 'navTab', '', '0', '', '1', '0', '6', 'false', '0', '0');
 INSERT INTO `t_tree_menu` VALUES ('395', 'Web爬虫抓取', 'navTab', '', '0', '', '390', '0', '6', 'false', '0', '0');
+INSERT INTO `t_tree_menu` VALUES ('396', '系统设置', 'dialog', 'xtsz', '0', 'settings', '378', '1', '1', 'false', '450', '500');
+INSERT INTO `t_tree_menu` VALUES ('397', '查看版本', 'dialog', 'ckbb', '0', 'version', '378', '0', '1', 'false', '300', '200');
+INSERT INTO `t_tree_menu` VALUES ('398', '分类管理', 'navTab', '', '0', '', '1', '0', '4', 'false', '0', '0');
+INSERT INTO `t_tree_menu` VALUES ('401', '列出所有分类', 'navTab', 'xssywzfl', '0', 'art_cate', '398', '0', '4', 'false', '0', '0');
+INSERT INTO `t_tree_menu` VALUES ('402', '添加类别', 'dialog', 'tjwzfl', '0', 'art_cate/new', '398', '1', '4', 'false', '500', '300');
+INSERT INTO `t_tree_menu` VALUES ('403', '文件分类', 'navTab', '', '0', '', '1', '1', '15', 'false', '0', '0');
+INSERT INTO `t_tree_menu` VALUES ('404', '文件库', 'navTab', '', '0', '', '1', '0', '15', 'false', '0', '0');
+INSERT INTO `t_tree_menu` VALUES ('405', '所有类别', 'navTab', 'xssywjfl', '0', 'file_cate/list', '403', '0', '15', 'false', '0', '0');
+INSERT INTO `t_tree_menu` VALUES ('406', '添加文件类别', 'dialog', 'tjwjfl', '0', 'file_cate/new', '403', '0', '15', 'false', '500', '300');
+INSERT INTO `t_tree_menu` VALUES ('407', '显示所有文件', 'navTab', 'xssywj', '0', 'files/list', '404', '0', '15', 'false', '0', '0');
+INSERT INTO `t_tree_menu` VALUES ('408', '上传文件', 'dialog', 'scwj', '0', 'files/new', '404', '0', '15', 'false', '500', '300');
 
 -- ----------------------------
 -- Table structure for `t_user`
@@ -936,25 +954,16 @@ CREATE TABLE `t_user` (
   `HOME_PHONE` varchar(20) default NULL,
   `AVAILABLE_PERIOD` varchar(20) default NULL,
   `ID_NUM` varchar(20) default NULL,
-  `SUPER_POWER` enum('yes','no') NOT NULL default 'yes',
+  `SUPER_POWER` varchar(3) NOT NULL default 'no',
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `ACCOUNT` (`ACCOUNT`),
   KEY `TRUE_NAME` (`TRUE_NAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('9', 'solidbase', '4c5531126fd5b96261ebb2637c299e34', '正常', '2013-01-23 23:40:10', '127.0.0.1', '2012-03-06 21:55:51', '2012-03-06 21:55:51', '2012-06-10 01:32:52', '演示账号', 'eweb4j@163.com', '', '中国广东', '', '', '', '', '', 'yes');
-INSERT INTO `t_user` VALUES ('17', 'weiwei', '7bc16d8f67f52d74f0fc2df48096204a', '正常', '2012-06-10 11:09:34', '127.0.0.1', '2012-03-07 20:33:21', '2012-03-07 20:33:21', '2012-06-10 11:10:06', '匿名', '无', '无', '', '', '', '', '', '44162544554878985', 'no');
-INSERT INTO `t_user` VALUES ('18', 'code', 'c13367945d5d4c91047b3b50234aa7ab', '正常', '2012-06-10 00:42:14', '127.0.0.1', '2012-03-28 01:51:02', '2012-03-28 01:51:02', '2012-06-09 23:43:25', 'weiwei2', '', '', '', '', '', '', '', '', 'no');
-INSERT INTO `t_user` VALUES ('19', 'article', '92a2b5cb9c6906035c2864fa225e1940', '正常', '2012-03-30 17:03:44', '192.168.0.25', '2012-03-28 13:32:38', '2012-03-28 13:32:38', '2012-03-28 22:31:19', '', '', '', '', '', '', '', '', '', 'no');
-INSERT INTO `t_user` VALUES ('20', 'website', 'd1befa03c79ca0b84ecc488dea96bc68', '正常', '2012-03-30 14:58:22', '192.168.0.25', '2012-03-28 13:32:50', '2012-03-28 13:32:50', '2012-03-28 21:59:57', '', '', '', '', '', '', '', '', '', 'no');
-INSERT INTO `t_user` VALUES ('21', 'test', '098f6bcd4621d373cade4e832627b4f6', '正常', '2012-03-28 15:44:31', '127.0.0.1', '2012-03-28 14:03:22', '2012-03-28 14:03:22', '2012-03-28 14:03:22', '', '', '', '', '', '', '', '', '', 'yes');
-INSERT INTO `t_user` VALUES ('22', 'testweiwei', '71f62e874c426cfc9169e58a4e87cb4a', '正常', '2012-06-09 18:34:19', '127.0.0.1', '2012-06-09 18:34:10', '2012-06-09 18:34:10', '2012-06-09 18:36:35', '匿名', '无', '无', '', '', '', '', '', '', 'yes');
-INSERT INTO `t_user` VALUES ('23', 'test2', 'e10adc3949ba59abbe56e057f20f883e', '锁定', '2012-06-09 22:46:51', '127.0.0.1', '2012-06-09 22:46:40', '2012-06-09 22:46:40', '2012-06-09 22:46:40', '匿名', '无', '无', null, null, null, null, null, null, 'yes');
-INSERT INTO `t_user` VALUES ('24', 'eweb4j', '42853b07c1ca6f09a166c54c63671d0f', '正常', '2013-01-03 18:57:57', '127.0.0.1', '2013-01-03 18:57:50', '2013-01-03 18:57:50', '2013-01-03 18:57:50', '匿名', '无', '无', null, null, null, null, null, null, 'no');
-INSERT INTO `t_user` VALUES ('25', 'test111', '4061863caf7f28c0b0346719e764d561', '正常', '2013-01-24 12:41:36', '127.0.0.1', '2013-01-24 12:41:27', '2013-01-24 12:41:27', '2013-01-24 12:41:27', '匿名', '无', '无', null, null, null, null, null, null, 'no');
+INSERT INTO `t_user` VALUES ('9', 'solidbase', '4c5531126fd5b96261ebb2637c299e34', '正常', '2013-03-25 10:17:16', '127.0.0.1', '2012-03-06 21:55:51', '2012-03-06 21:55:51', '2012-06-10 01:32:52', '演示账号', 'eweb4j@163.com', '', '中国广东', '', '', '', '', '', 'yes');
 
 -- ----------------------------
 -- Table structure for `t_user_activity_log`
@@ -969,10 +978,8 @@ CREATE TABLE `t_user_activity_log` (
   `FAILURE_CAUSE` varchar(1000) NOT NULL default '',
   `USER_NAME` varchar(20) NOT NULL default '''佚名''',
   `USER_ACCOUNT` varchar(32) NOT NULL default '''匿名账号''',
-  PRIMARY KEY  (`ID`),
-  KEY `USER_ID` (`USER_ID`),
-  CONSTRAINT `t_user_activity_log_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `t_user` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=306 DEFAULT CHARSET=utf8;
+  PRIMARY KEY  (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=323 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_user_activity_log
@@ -1281,7 +1288,22 @@ INSERT INTO `t_user_activity_log` VALUES ('301', '24', '2013-01-03 18:58:02', '�
 INSERT INTO `t_user_activity_log` VALUES ('302', '24', '2013-01-03 18:58:03', '查看树形菜单列表', 'success', '', '匿名', 'eweb4j');
 INSERT INTO `t_user_activity_log` VALUES ('303', '24', '2013-01-03 18:58:08', '访问添加树形菜单页面', 'false', '用户权限不足, 无法执行[访问添加树形菜单页面]功能', '匿名', 'eweb4j');
 INSERT INTO `t_user_activity_log` VALUES ('304', '24', '2013-01-03 18:58:17', '退出后台', 'success', '', '匿名', 'eweb4j');
-INSERT INTO `t_user_activity_log` VALUES ('305', null, '2013-01-24 12:43:47', 'main', 'false', '系统出现异常：java.lang.Exception: 数据库操作错误', '\'佚名\'', '\'匿名账号\'');
+INSERT INTO `t_user_activity_log` VALUES ('307', '29', '2013-03-24 12:18:57', '访问后台主页', 'success', '', '匿名', 'fuck');
+INSERT INTO `t_user_activity_log` VALUES ('308', '29', '2013-03-24 12:19:01', '查看导航菜单列表', 'success', '', '匿名', 'fuck');
+INSERT INTO `t_user_activity_log` VALUES ('309', '29', '2013-03-24 12:19:02', '编辑某导航菜单', 'false', '用户权限不足, 无法执行[编辑某导航菜单]功能', '匿名', 'fuck');
+INSERT INTO `t_user_activity_log` VALUES ('310', '29', '2013-03-24 12:19:28', '删除某导航菜单', 'false', '用户权限不足, 无法执行[删除某导航菜单]功能', '匿名', 'fuck');
+INSERT INTO `t_user_activity_log` VALUES ('311', '29', '2013-03-24 12:19:31', '退出后台', 'success', '', '匿名', 'fuck');
+INSERT INTO `t_user_activity_log` VALUES ('312', '31', '2013-03-24 12:34:03', '访问后台主页', 'success', '', '匿名', 'weiwei2');
+INSERT INTO `t_user_activity_log` VALUES ('313', '31', '2013-03-24 12:34:05', '查看导航菜单列表', 'success', '', '匿名', 'weiwei2');
+INSERT INTO `t_user_activity_log` VALUES ('314', '31', '2013-03-24 12:34:08', '编辑某导航菜单', 'false', '用户权限不足, 无法执行[编辑某导航菜单]功能', '匿名', 'weiwei2');
+INSERT INTO `t_user_activity_log` VALUES ('315', '31', '2013-03-24 12:50:40', '编辑某导航菜单', 'false', '用户权限不足, 无法执行[编辑某导航菜单]功能', '匿名', 'weiwei2');
+INSERT INTO `t_user_activity_log` VALUES ('316', '31', '2013-03-24 12:50:43', '退出后台', 'success', '', '匿名', 'weiwei2');
+INSERT INTO `t_user_activity_log` VALUES ('317', '31', '2013-03-24 12:53:39', '访问后台主页', 'success', '', '匿名', 'weiwei2');
+INSERT INTO `t_user_activity_log` VALUES ('318', '31', '2013-03-24 12:53:45', '查看版本', 'false', '用户权限不足, 无法执行[查看版本]功能', '匿名', 'weiwei2');
+INSERT INTO `t_user_activity_log` VALUES ('319', '31', '2013-03-24 12:53:48', '退出后台', 'success', '', '匿名', 'weiwei2');
+INSERT INTO `t_user_activity_log` VALUES ('320', '31', '2013-03-24 12:54:18', '访问后台主页', 'success', '', '匿名', 'weiwei2');
+INSERT INTO `t_user_activity_log` VALUES ('321', '31', '2013-03-24 12:54:22', '查看版本', 'false', '用户权限不足, 无法执行[查看版本]功能', '匿名', 'weiwei2');
+INSERT INTO `t_user_activity_log` VALUES ('322', '31', '2013-03-24 12:54:24', '退出后台', 'success', '', '匿名', 'weiwei2');
 
 -- ----------------------------
 -- Table structure for `t_user_department`
@@ -1296,21 +1318,11 @@ CREATE TABLE `t_user_department` (
   KEY `DEPARTMENT_ID` (`DEPARTMENT_ID`),
   CONSTRAINT `t_user_department_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `t_user` (`ID`) ON UPDATE CASCADE,
   CONSTRAINT `t_user_department_ibfk_2` FOREIGN KEY (`DEPARTMENT_ID`) REFERENCES `t_department` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_user_department
 -- ----------------------------
-INSERT INTO `t_user_department` VALUES ('11', '17', '15');
-INSERT INTO `t_user_department` VALUES ('12', '17', '16');
-INSERT INTO `t_user_department` VALUES ('13', '9', '15');
-INSERT INTO `t_user_department` VALUES ('14', '9', '16');
-INSERT INTO `t_user_department` VALUES ('22', '20', '15');
-INSERT INTO `t_user_department` VALUES ('23', '20', '16');
-INSERT INTO `t_user_department` VALUES ('24', '21', '17');
-INSERT INTO `t_user_department` VALUES ('25', '20', '17');
-INSERT INTO `t_user_department` VALUES ('26', '17', '17');
-INSERT INTO `t_user_department` VALUES ('27', '9', '17');
 
 -- ----------------------------
 -- Table structure for `t_user_ext`
@@ -1345,24 +1357,12 @@ CREATE TABLE `t_user_role` (
   KEY `ROLE_ID` (`ROLE_ID`),
   CONSTRAINT `t_user_role_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `t_user` (`ID`) ON UPDATE CASCADE,
   CONSTRAINT `t_user_role_ibfk_2` FOREIGN KEY (`ROLE_ID`) REFERENCES `t_role` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_user_role
 -- ----------------------------
 INSERT INTO `t_user_role` VALUES ('4', '9', '5');
-INSERT INTO `t_user_role` VALUES ('5', '18', '6');
-INSERT INTO `t_user_role` VALUES ('6', '20', '7');
-INSERT INTO `t_user_role` VALUES ('11', '21', '8');
-INSERT INTO `t_user_role` VALUES ('12', '21', '7');
-INSERT INTO `t_user_role` VALUES ('16', '20', '5');
-INSERT INTO `t_user_role` VALUES ('17', '19', '5');
-INSERT INTO `t_user_role` VALUES ('20', '17', '5');
-INSERT INTO `t_user_role` VALUES ('21', '19', '8');
-INSERT INTO `t_user_role` VALUES ('22', '21', '6');
-INSERT INTO `t_user_role` VALUES ('23', '21', '5');
-INSERT INTO `t_user_role` VALUES ('24', '24', '5');
-INSERT INTO `t_user_role` VALUES ('25', '24', '8');
-INSERT INTO `t_user_role` VALUES ('26', '24', '7');
-INSERT INTO `t_user_role` VALUES ('27', '24', '6');
-INSERT INTO `t_user_role` VALUES ('28', '25', '5');
+INSERT INTO `t_user_role` VALUES ('35', '9', '6');
+INSERT INTO `t_user_role` VALUES ('36', '9', '7');
+INSERT INTO `t_user_role` VALUES ('37', '9', '8');
