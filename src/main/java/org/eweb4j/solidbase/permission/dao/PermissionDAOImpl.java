@@ -83,7 +83,7 @@ public class PermissionDAOImpl implements PermissionDAO {
 		}
 	}
 
-	public Permission selectOneByResourceAndHttpMethod(long resId, long[] httpMethods) throws Exception {
+	public Permission selectOneByResourceAndHttpMethod(long resId, Collection<Long> httpMethods) throws Exception {
 		try {
 
 			/**
@@ -103,7 +103,6 @@ public class PermissionDAOImpl implements PermissionDAO {
 			 * 		and ph.http_method in ()
 			 * 		and p.id = ph.perm_id
 			 */
-			
 			return Db.ar(PermHttpIndex.class)
 						.dao()
 						.alias("ph")
@@ -111,7 +110,7 @@ public class PermissionDAOImpl implements PermissionDAO {
 						.select(Permission.class)
 						.where()
 							.field("p.resource").equal(resId)
-							.and("ph.http").in(new Object[]{httpMethods})
+							.and("ph.http").in(httpMethods.toArray())
 							.enableExpress(true)
 							.and("ph.perm").equal("p.permId")
 						.queryOne();

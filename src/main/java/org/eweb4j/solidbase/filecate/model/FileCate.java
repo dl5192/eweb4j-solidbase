@@ -1,15 +1,13 @@
-package org.eweb4j.solidbase.filecate;
-
-import java.util.ArrayList;
-import java.util.List;
+package org.eweb4j.solidbase.filecate.model;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.eweb4j.solidbase.files.model.Files;
 
 /**
  * TODO
@@ -25,17 +23,12 @@ public class FileCate {
 	
 	private String name;// 类别名称
 	
-	private String thumb;// 类别缩略图
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="thumb_id")
+	private Files thumb;// 类别缩略图
 	
 	private int sort;// 类别排序
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="parent_id")
-	private FileCate parent;// 父类别
-
-	@OneToMany(mappedBy = "parent")
-	private List<FileCate> children = new ArrayList<FileCate>();// 子类别
-
 	public Long getId() {
 		return this.id;
 	}
@@ -52,11 +45,11 @@ public class FileCate {
 		this.name = name;
 	}
 
-	public String getThumb() {
-		return this.thumb;
+	public Files getThumb() {
+		return thumb;
 	}
 
-	public void setThumb(String thumb) {
+	public void setThumb(Files thumb) {
 		this.thumb = thumb;
 	}
 
@@ -66,22 +59,6 @@ public class FileCate {
 
 	public void setSort(int sort) {
 		this.sort = sort;
-	}
-
-	public FileCate getParent() {
-		return this.parent;
-	}
-
-	public void setParent(FileCate parent) {
-		this.parent = parent;
-	}
-
-	public List<FileCate> getChildren() {
-		return this.children;
-	}
-
-	public void setChildren(List<FileCate> children) {
-		this.children = children;
 	}
 	
 }

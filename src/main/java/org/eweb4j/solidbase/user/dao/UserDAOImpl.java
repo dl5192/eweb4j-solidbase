@@ -5,11 +5,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eweb4j.orm.Db;
-import org.eweb4j.orm.LikeType;
-import org.eweb4j.orm.dao.DAOException;
 import org.eweb4j.orm.dao.DAOFactory;
 import org.eweb4j.solidbase.user.model.User;
-import org.eweb4j.solidbase.user.model.UserCons;
 
 public class UserDAOImpl implements UserDAO {
 
@@ -96,6 +93,10 @@ public class UserDAOImpl implements UserDAO {
 
 	public void cascadeSelect(User[] users, String... fields) {
 		DAOFactory.getCascadeDAO(dsName).select(users, fields);
+	}
+
+	public void batchRemove(User... users) {
+		Db.batchDelete(users);
 	}
 
 }

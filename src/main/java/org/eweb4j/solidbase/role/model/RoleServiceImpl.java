@@ -1,5 +1,6 @@
 package org.eweb4j.solidbase.role.model;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eweb4j.component.dwz.menu.treemenu.TreeMenuCons;
@@ -81,13 +82,13 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	public PageMod<Role> getPage(int p, int n) throws RoleException {
-		List<Role> pojos = roleDAO.divPage(p, n);
+		Collection<Role> pojos = roleDAO.divPage(p, n);
 		long allCount = this.roleDAO.countAll();
 
 		return new PageMod<Role>(pojos, allCount);
 	}
 
-	public List<Role> getAll() throws RoleException {
+	public Collection<Role> getAll() throws RoleException {
 		return this.roleDAO.selectAll();
 	}
 
@@ -115,11 +116,10 @@ public class RoleServiceImpl implements RoleService {
 		}
 	}
 
-	public PageMod<Role> queryByKeyword(String keyword, int pageNum,
-			int numPerPage) throws RoleException {
+	public PageMod<Role> queryByKeyword(String keyword, int pageNum, int numPerPage) throws RoleException {
 		if (keyword == null)
 			keyword = "";
-		List<Role> pojos = null;
+		Collection<Role> pojos = null;
 		long allCount = 0;
 		if (keyword.length() == 0) {
 			return this.getPage(pageNum, numPerPage);

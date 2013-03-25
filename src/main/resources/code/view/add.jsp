@@ -1,4 +1,4 @@
-﻿<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <div class="page">
 	<div class="pageContent">
         <form method="post" action="${BaseURL}${model}/" class="pageForm required-validate" onsubmit="return validateCallback(this, ${openType}AjaxDone)">

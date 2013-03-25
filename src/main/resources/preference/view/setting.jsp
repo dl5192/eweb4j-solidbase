@@ -7,7 +7,7 @@
             <div class="pageFormContent" layoutH="58">
                 <input type="hidden" name="id" value="${pojo.id}" />
 				
-				<span style="clear: both; display: block; height: 10px;" />
+				<span style="clear: both; display: block; height: 10px;" ></span>
                 
                 <label for="setting.userDefaultRole.roleId">默认用户角色：</label>
                 <select name="setting.userDefaultRole.roleId" class="combox">
@@ -21,19 +21,23 @@
 					</c:forEach>
 				</select>
 				
-                <span style="clear: both; display: block; height: 10px;" />
+                <span style="clear: both; display: block; height: 10px;" ></span>
                 
                 <label for="setting.userPermControl">权限控制：</label>
                 <select name="setting.userPermControl" class="required combox">
                 	<option value="">请选择</option>
-                    <option value="yes" 
-                    	<c:if test="${pojo.userPermControl=='yes'}">selected="selected"</c:if>
-                    >关闭</option>
                     <option value="no" 
                     	<c:if test="${pojo.userPermControl=='no'}">selected="selected"</c:if>
+                    >关闭</option>
+                    <option value="yes" 
+                    	<c:if test="${pojo.userPermControl=='yes'}">selected="selected"</c:if>
                     >开启</option>
                 </select> 
                 
+                <span style="clear: both; display: block; height: 10px;" ></span>
+                
+                <label for="setting.fileBaseDir">文件保存目录：</label>
+                <input class="required" name="setting.fileBaseDir" value="${pojo.fileBaseDir}" />
             </div>
             
             <div class="formBar">

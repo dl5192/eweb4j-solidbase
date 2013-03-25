@@ -27,15 +27,13 @@ public class DepartmentCons {
 
 	public static String DWZ_SUCCESS_JSON(String _mess) {
 		String openType = OPEN_TYPE();
-		String callbackType = "dialog".equalsIgnoreCase(openType) ? "reloadTab"
-				: "closeCurrent";
+		String callbackType = "dialog".equalsIgnoreCase(openType) ? "reloadTab" : "closeCurrent";
 		String mess = _mess == null ? "操作成功" : _mess;
 		String rel = map.get("SHOW_LIST_REL");
 		String path = map.get("SHOW_LIST_PATH");
 		path = MVCConfigConstant.BASE_URL + path;
 		String title = map.get("SHOW_LIST_TITLE");
-		return new CallBackJson("200", mess, rel, path, callbackType, title)
-				.toString();
+		return new CallBackJson("200", mess, rel, path, callbackType, title).toString();
 	}
 
 	public static String OPEN_TYPE() {

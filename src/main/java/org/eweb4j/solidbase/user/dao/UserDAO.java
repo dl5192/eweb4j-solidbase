@@ -38,4 +38,6 @@ public interface UserDAO {
 	public void updateByFields(User user, String... fields);
 
 	public void cascadeDelete(User user, String... fields);
+
+	public void batchRemove(User... users);
 }

@@ -1,5 +1,6 @@
 package org.eweb4j.solidbase.user.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eweb4j.mvc.view.EditPage;
@@ -40,8 +41,7 @@ public class UserServiceImpl implements UserService {
 			this.departmentDAO = departmentDAO;
 	}
 
-	public User login(String sessionAuthcode, String ip, User user)
-			throws Exception {
+	public User login(String sessionAuthcode, String ip, User user) throws Exception {
 		String authcode = user.getAuthcode();
 		if (authcode == null || sessionAuthcode == null|| !authcode.equalsIgnoreCase(sessionAuthcode))
 			throw new Exception(UserCons.INCONRECT_AUTH_CODE());
@@ -66,12 +66,11 @@ public class UserServiceImpl implements UserService {
 		db_User.setLastLoginTime(CommonUtil.getNowTime());
 		db_User.setStatus(UserCons.NORMAL());
 		userDAO.updateLoginStatus(db_User);
-
+		userDAO.cascadeSelect(new User[]{db_User}, "roles");
 		return db_User;
 	}
 
-	public void register(final String sessionAuthcode, final User user)
-			throws Exception {
+	public void register(final String sessionAuthcode, final User user) throws Exception {
 		String authcode = user.getAuthcode();
 
 		if (authcode == null || sessionAuthcode == null || !authcode.equalsIgnoreCase(sessionAuthcode))
@@ -95,18 +94,15 @@ public class UserServiceImpl implements UserService {
 		user.setModifyTime(now);
 		
 		Setting setting = Setting.inst.find().first();
-		if (setting != null){
-			user.setSuperPower(setting.getUserPermControl());
+		if (setting != null)
 			user.getRoles().add(setting.getUserDefaultRole());
-		}
-
+		user.setSuperPower("no");
 		Transaction.execute(new Trans() {
 			public void run(Object... args) throws Exception {
 				userDAO.insert(user);
 				userDAO.cascadeInsert(user);
 			}
 		});
-
 	}
 
 	private void userRoleAndDepartLogic(final User user) throws Exception {
@@ -133,13 +129,22 @@ public class UserServiceImpl implements UserService {
 		if (ids == null || ids.length == 0)
 			throw new Exception(UserCons.USER_NOT_FOUND());
 
+		final List<User> users = new ArrayList<User>(ids.length);
 		for (Long id : ids) {
-			User user = userDAO.getOne(id);
-			if (user == null)
-				throw new Exception(UserCons.USER_NOT_FOUND());
-
-			userDAO.removeOne(id);
+			User u = new User();
+			u.setId(id);
+			users.add(u);
 		}
+		
+		Transaction.execute(new Trans() {
+			public void run(Object... args) throws Exception {
+				for (User u : users){
+					userDAO.cascadeDelete(u, "logs", "roles", "departments");
+				}
+				
+				userDAO.batchRemove(users.toArray(new User[]{}));
+			}
+		});
 	}
 
 	public void removeOne(Long id) throws Exception {

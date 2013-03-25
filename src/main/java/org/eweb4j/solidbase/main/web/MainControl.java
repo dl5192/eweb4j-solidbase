@@ -78,16 +78,13 @@ public class MainControl {
 		final HttpSession session = MVC.ctx().getRequest().getSession(true);
 		try {
 
-			User loginUser = (User) session.getAttribute(UserCons
-					.LOGIN_USER_ATTR_NAME());
+			User loginUser = (User) session.getAttribute(UserCons.LOGIN_USER_ATTR_NAME());
 
 			/* 用户有超能力采用缓存、并且不采用菜单控制 */
 			if ("yes".equals(loginUser.getSuperPower())) {
 				navMenus = new ArrayList<NavMenu>(navMenuService.findAllOrderBy("rank", 1));
 				if (navMenus != null && navMenus.size() > 0)
-					treeMenus = dwz.getAccordion(
-							navMenus.get(0).getNavMenuId(), true);
-
+					treeMenus = dwz.getAccordion(navMenus.get(0).getNavMenuId(), true);
 			} else {
 
 				/* 树形菜单权限集 */

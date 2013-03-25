@@ -23,7 +23,7 @@ public interface PermissionDAO {
 
 	Permission selectOneByName(String name) throws Exception;
 
-	Permission selectOneByResourceAndHttpMethod(long resId, long[] httpMethods) throws Exception;
+	Permission selectOneByResourceAndHttpMethod(long resId, Collection<Long> httpMethods) throws Exception;
 
 	Collection<Permission> selectByTypeId(long permTypeId) throws Exception;
 

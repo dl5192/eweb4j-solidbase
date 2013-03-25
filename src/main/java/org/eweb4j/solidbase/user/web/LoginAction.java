@@ -64,9 +64,6 @@ public class LoginAction extends BaseAction {
 				}
 			}
 
-			log.fatal("treeMenuPerms-->" + treeMenuPerms.toString());
-			log.fatal("navMenuPerms-->" + navMenuPerms.toString());
-
 			loginUser.setTreeMenuPerms(treeMenuPerms);
 			loginUser.setNavMenuPerms(navMenuPerms);
 

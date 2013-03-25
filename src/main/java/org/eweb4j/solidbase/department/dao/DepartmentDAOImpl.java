@@ -112,17 +112,30 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 	public Collection<Department> selectDepartmentByParentId(long parentId, final long departTypeId) throws DepartmentException {
 		// select * from t_dept d where d.code.id in (select c.id from t_code c where c.parent.id = {} and c.type.id = {}) 
 		try {
-			String sql = DAOFactory.getDAO(Code.class, dsName)
-				.select("codeId")
-				.where()
-					.field("parent").equal(parentId)
-					.and("type").equal(departTypeId)
-				.toSql();
+//			String sql = DAOFactory.getDAO(Code.class, dsName)
+//				.select("codeId")
+//				.where()
+//					.field("parent").equal(parentId)
+//					.and("type").equal(departTypeId)
+//				.toSql();
 			
-			return DAOFactory.getDAO(Department.class, dsName)
-				.selectAll()
+//			return DAOFactory.getDAO(Department.class, dsName)
+//				.selectAll()
+//				.where()
+//					.field("code").inSql(sql).fillArgs(parentId, departTypeId)
+//				.query();
+			
+			return Db.ar(Department.class)
+				.dao()
+				.alias("d")
+				.join("code", "c")
+				.select(Department.class)
 				.where()
-					.field("code").inSql(sql)
+					.field("c.parent").equal(parentId)
+					.and("c.type").equal(departTypeId)
+					.enableExpress(true)
+					.and("d.code").equal("c.codeId")
+				.groupBy("c.codeId")
 				.query();
 			
 		} catch (DAOException e) {

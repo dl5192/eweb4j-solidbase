@@ -1,6 +1,6 @@
 package org.eweb4j.solidbase.setting;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.ws.rs.QueryParam;
@@ -24,7 +24,7 @@ public class SettingsControl {
 		
 		model.put("pojo", Setting.inst.find().first());
 		
-		List<Role> roles = null;
+		Collection<Role> roles = null;
 		try {
 			roles = roleService.getAll();
 		} catch (RoleException e) {

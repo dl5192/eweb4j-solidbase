@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans>
-	<ioc id="DWZ" scope="singleton" class="org.eweb4j.component.dwz.EWeb4JDWZImpl">
+	<ioc id="DWZ" scope="prototype" class="org.eweb4j.component.dwz.EWeb4JDWZImpl">
 		<inject ref="NavMenuService" name="navMenuService" type=""
 			value="" />
 		<inject ref="TreeMenuService" name="treeMenuService" type=""

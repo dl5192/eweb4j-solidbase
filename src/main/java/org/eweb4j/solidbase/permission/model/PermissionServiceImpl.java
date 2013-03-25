@@ -228,12 +228,7 @@ public class PermissionServiceImpl implements PermissionService {
 				httpMethodIds.add(method.getCodeId());
 		}
 
-		long[] methodIds = new long[httpMethodIds.size()];
-		for (int i = 0; i < methodIds.length; i++) {
-			methodIds[i] = httpMethodIds.get(i);
-		}
-
-		return permissionDAO.selectOneByResourceAndHttpMethod(resId, methodIds);
+		return permissionDAO.selectOneByResourceAndHttpMethod(resId, httpMethodIds);
 	}
 
 	public Collection<Permission> findByTypeId(long permTypeId) throws Exception {

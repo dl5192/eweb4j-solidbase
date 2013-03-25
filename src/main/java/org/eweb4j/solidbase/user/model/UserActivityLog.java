@@ -3,7 +3,6 @@ package org.eweb4j.solidbase.user.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -19,8 +18,8 @@ public class UserActivityLog {
 	@Id
 	private long id;
 
-	@OneToOne(mappedBy = "user_id")
-	private User user; // xxx用户
+	@Column(name="user_id")
+	private Long user; // xxx用户
 
 	@Column(name = "user_name")
 	private String userName;
@@ -45,11 +44,11 @@ public class UserActivityLog {
 		this.id = id;
 	}
 
-	public User getUser() {
+	public Long getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(Long user) {
 		this.user = user;
 	}
 

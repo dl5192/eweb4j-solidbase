@@ -19,6 +19,7 @@ import org.eweb4j.solidbase.permission.model.PermissionService;
 import org.eweb4j.solidbase.role.model.Role;
 import org.eweb4j.solidbase.role.model.RoleCons;
 import org.eweb4j.solidbase.role.model.RoleService;
+import org.eweb4j.solidbase.setting.Setting;
 import org.eweb4j.solidbase.user.model.User;
 import org.eweb4j.solidbase.user.model.UserActivityLog;
 import org.eweb4j.solidbase.user.model.UserActivityLogCons;
@@ -71,7 +72,14 @@ public class PermissionVerifyFilter {
 		if (loginUser == null)
 			return null;
 
-		log.info("loginUser -> " + loginUser.getAccount());
+		log.debug("loginUser -> " + loginUser.getAccount());
+		
+		// 如果系统关闭了权限控制功能
+		Setting setting = Setting.inst.find().first();
+		if (setting != null){
+			if ("no".equals(setting.getUserPermControl()))
+				return null;
+		}
 		
 		// 该用户拥有超能力，可以免权限检查
 		if ("yes".equals(loginUser.getSuperPower()))
@@ -83,7 +91,12 @@ public class PermissionVerifyFilter {
 			return "out:<script>alert('当前登录的账户没有任何权限');</script>";
 		}
 
-		log.info("roles -> " + roles);
+		ual.setUser(loginUser.getId());
+		ual.setUserAccount(loginUser.getAccount());
+		ual.setUserName(loginUser.getTrueName());
+		ual.setTime(CommonUtil.getNowTime());
+		
+		log.debug("roles -> " + roles);
 		
 		permName = uri;
 
@@ -93,33 +106,30 @@ public class PermissionVerifyFilter {
 			Permission permission = permService.findByURIAndHttpMethod(uri, httpMethod);
 			
 			if (permission != null)
-				log.info("first find perm -> " + permission.getPermId()+"|"+permission.getName());
+				log.debug("first find perm -> " + permission.getPermId()+"|"+permission.getName());
 			
 			if (permission == null){
 				ActionConfigBean actionBean = context.getActionConfigBean();
 				if (actionBean != null){
 					String actionName = actionBean.getUriMapping();
 					
-					log.info("action -> " + actionName + "@" + httpMethod);
+					log.debug("action -> " + actionName + "@" + httpMethod);
 					
 					permission = permService.findByURIAndHttpMethod(actionName, httpMethod);
 					if (permission != null)
-						log.info("first find perm -> " + permission.getPermId()+"|"+permission.getName());
+						log.debug("first find perm -> " + permission.getPermId()+"|"+permission.getName());
 					//else
 						//return dwz.getFailedJson("抱歉，当前所访问的功能尚未开通，敬请期待！").toString();// 没有被定义成权限的Action不允许访问
 				}//else
 					//return null;// 如果不是Action且没有定义成权限则表示是普通的URI，默认放过
 			}
 			
-			if (permission == null)
+			if (permission == null) {
+				log.debug("current perm not defined");
 				return null;//没有定义为权限的通通放过
+			}
 			
 			permName = permission.getName();
-			ual.setUser(loginUser);
-			ual.setUserAccount(loginUser.getAccount());
-			ual.setUserName(loginUser.getTrueName());
-			ual.setTime(CommonUtil.getNowTime());
-
 			role_item: for (Role r : roles) {
 
 				Role role = roleService.findPermissionByRoleId(r.getRoleId());
@@ -130,13 +140,13 @@ public class PermissionVerifyFilter {
 					continue;
 				}
 
-				log.info(r.getRoleId() + "|" + role.getRoleId() + "======== role-perms -> " + perms);
+				log.debug(r.getRoleId() + "|" + role.getRoleId() + "======== role-perms -> " + perms);
 				
 				for (Permission perm : perms) {
 					// 权限通过
 					if (permission != null && permission.getPermId() == perm.getPermId()) {
 						isSuccess = true;
-						log.info("perm verify success");
+						log.debug("perm verify success");
 						break role_item;
 					}
 					
@@ -144,7 +154,7 @@ public class PermissionVerifyFilter {
 				}
 			}
 			
-			log.info("isSuccess --> " + isSuccess);
+			log.debug("isSuccess --> " + isSuccess);
 			
 			if (!isSuccess)
 				mess = String.format("用户权限不足, 无法执行[%s]功能", this.permName);
@@ -155,7 +165,6 @@ public class PermissionVerifyFilter {
 			isSuccess = false;
 		}
 
-		log.info("mess -> " + mess);
 		
 		// user log
 		ual.setActivity(permName);

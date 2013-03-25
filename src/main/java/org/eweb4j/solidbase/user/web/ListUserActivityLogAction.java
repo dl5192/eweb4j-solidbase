@@ -21,8 +21,7 @@ import org.eweb4j.solidbase.user.model.UserCons;
 @Path("${UserConstant.MODEL_NAME}")
 public class ListUserActivityLogAction {
 
-	private UserActivityLogService service = IOC.getBean(UserActivityLogCons
-			.IOC_SERVICE_BEAN_ID());
+	private UserActivityLogService service = IOC.getBean(UserActivityLogCons.IOC_SERVICE_BEAN_ID());
 
 	private int pageNum = 1;
 	private int numPerPage = 20;
@@ -46,8 +45,7 @@ public class ListUserActivityLogAction {
 			dpc = new DivPageComp(pageNum, numPerPage, allCount, 10);
 
 			listPage = new ListPage("users/logs", searchForm, pojos, dpc);
-			listPage = DataAssemUtil.assemHead(listPage, pojos,
-					UserActivityLogCons.getMap());
+			listPage = DataAssemUtil.assemHead(listPage, pojos, UserActivityLogCons.getMap());
 
 			model.put("listPage", listPage);
 			model.put("random", Math.random());

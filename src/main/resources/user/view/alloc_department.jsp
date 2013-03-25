@@ -7,8 +7,11 @@
 	<form method="post" action="${BaseURL}${action}" class="pageForm required-validate" onsubmit="return validateCallback(this, ${openType}AjaxDone);">
 	<div class="panelBar" style="padding:5px">
 		<ul class="toolBar" >
-			<li><input style="width:100px; height:23px;" type="submit" value="确认提交" href="#"
-				target="dialog" mask="true"></input></li>
+			<div class="buttonActive buttonActiveHover">
+				<div class="buttonContent">
+					<button type="submit">确认提交</button>
+				</div>
+			</div>
 		</ul>
 	</div>
 	<div id="jbsxBox2" class="unitBox"

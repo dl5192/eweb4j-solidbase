@@ -28,9 +28,11 @@ import org.eweb4j.util.JsonConverter;
 public class Role implements Serializable {
 
 	private static final long serialVersionUID = -4887320664899008770L;
+	
 	@Id
 	@Column(name = "id")
 	private long roleId;// 自增长ID
+	
 	private String name;// 角色名称
 	
 	private String description;// 角色描述

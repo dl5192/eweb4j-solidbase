@@ -22,8 +22,8 @@
 					<label>现有资源：</label>
 					<select name="" class="" id="uriSel" onchange="onSelectUri();">
 						<option value="" >请选择</option>
-						<c:forEach var="uri" items="${actions}" >
-							<option value="${uri.name}#${uri.reqMethod}">${uri.name}@${uri.reqMethod}</option>
+						<c:forEach var="action" items="${actions}" >
+							<option value="${action.uriMapping}#${action.httpMethod}">${action.uriMapping}@${action.httpMethod}</option>
 						</c:forEach>
 					</select>
                 </div>
@@ -58,7 +58,7 @@
                 	<dt>HTTP方法：</dt>
 					<dd>
 						
-						<c:forEach var="httpMethod" items="${httpMethods}">
+						<c:forEach var="httpMethod" items="${httpMethodList}">
 							<label><input type="checkbox" name="httpMethods" class="method" value="${httpMethod.codeId}" checkVal="${httpMethod.codeValue}" />${httpMethod.remark}</label>
 						</c:forEach>
 					</dd>

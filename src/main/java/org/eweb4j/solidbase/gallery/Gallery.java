@@ -10,7 +10,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import org.eweb4j.solidbase.files.Files;
+import org.eweb4j.solidbase.files.model.Files;
 
 /**
  * TODO

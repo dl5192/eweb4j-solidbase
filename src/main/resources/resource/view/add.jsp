@@ -5,7 +5,7 @@
         <form method="post" action="${BaseURL}${model}/" class="pageForm required-validate" onsubmit="return validateCallback(this, ${openType}AjaxDone)">
             <div class="pageFormContent" layoutH="58">
 				
-				<span style="clear: both; display: block; height: 10px;" />
+				<span style="clear: both; display: block; height: 10px;"></span>
 				<label>资源标识符URI：</label>
 				<input class="required " name="resource.uri" type="text" />
 		

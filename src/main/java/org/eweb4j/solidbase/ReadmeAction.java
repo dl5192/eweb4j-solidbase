@@ -6,6 +6,10 @@ package org.eweb4j.solidbase;
  * @copyright eweb4j.org 2012
  *
  */
-public class Readme {
+public class ReadmeAction {
 
+	public String doVersion(){
+		return "1.9.2-SNAPSHOT";
+	}
+	
 }

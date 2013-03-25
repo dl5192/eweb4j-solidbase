@@ -1,4 +1,4 @@
-package org.eweb4j.solidbase.files;
+package org.eweb4j.solidbase.files.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.eweb4j.solidbase.filecate.FileCate;
+import org.eweb4j.solidbase.filecate.model.FileCate;
 
 /**
  * 文件
@@ -29,8 +29,8 @@ public class Files {
 	@JoinColumn(name="cate_id")
 	private FileCate cate; //文件类别
 	
-	@Column(name = "file_name")
-	private String fileName ;// 文件名字 
+	@Column(name = "display_name")
+	private String displayName ;// 文件名字 
 	
 	private String intro ;; // 文件简介
 	
@@ -60,12 +60,12 @@ public class Files {
 		this.cate = cate;
 	}
 
-	public String getFileName() {
-		return this.fileName;
+	public String getDisplayName() {
+		return displayName;
 	}
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 
 	public String getIntro() {

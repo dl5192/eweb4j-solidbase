@@ -3,7 +3,7 @@
 <beans>
 	<eweb4j>
 		<reload>0</reload>
-		<debug>1</debug>
+		<debug>0</debug>
 		<locales>
 			<locale language="zh" country="CN"/>
 		</locales>
@@ -21,6 +21,8 @@
 			<file id="PermissionConstant" path="permission/conf/permission.properties" global="false" />
 			<file id="UserActivityLogConstant" path="user/conf/user-log.properties" global="false" />
 			<file id="ResourceConstant" path="resource/conf/resource.properties" global="false" />
+			<file id="FileCateConstant" path="files/conf/file_cate.properties" global="false" />
+			<file id="FilesConstant" path="files/conf/files.properties" global="false" />
 		</properties>
 		<ioc>
 			<open>1</open>

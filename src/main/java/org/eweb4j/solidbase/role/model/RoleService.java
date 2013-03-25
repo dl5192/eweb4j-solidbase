@@ -1,6 +1,6 @@
 package org.eweb4j.solidbase.role.model;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.eweb4j.mvc.view.EditPage;
 import org.eweb4j.mvc.view.PageMod;
@@ -56,7 +56,7 @@ public interface RoleService {
 	 * @return
 	 * @throws RoleException
 	 */
-	public List<Role> getAll() throws RoleException;
+	public Collection<Role> getAll() throws RoleException;
 
 	/**
 	 * 获取编辑页面数据，

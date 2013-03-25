@@ -9,7 +9,6 @@ import javax.persistence.Table;
 import org.eweb4j.mvc.validator.annotation.Enumer;
 import org.eweb4j.mvc.validator.annotation.Required;
 import org.eweb4j.orm.Model;
-import org.eweb4j.solidbase.files.Files;
 import org.eweb4j.solidbase.role.model.Role;
 
 /**
@@ -32,31 +31,8 @@ public class Setting extends Model<Setting>{
 	@Enumer(words={"yes", "no"})
 	private String userPermControl;//yes | no
 	
-	@Column(name = "site_title")
-	private String siteTitle;//网站标题
-	
-	@Column(name = "seo_keyword")
-	private String seoKeyword;//网站seo关键词
-	
-	@OneToOne
-	@JoinColumn(name="favicon_id")
-	private Files favicon;//网站favicon
-	
-	@Column(name = "seo_desc")
-	private String seoDesc;//网站SEO描述
-	
-	@OneToOne
-	@JoinColumn(name="logo_id")
-	private Files logo;//网站LOGO图片
-	
-	@Column(name = "foot_info")
-	private String footInfo;//网站底部信息
-	
-	@Column(name = "hot_num")
-	private Integer hotNum = 10;//网站热门文章列表条目数
-	
-	@Column(name = "new_num")
-	private Integer newNum = 10;//网站最新文章列表条目数
+	@Column(name="file_base_dir")
+	private String fileBaseDir;//文件保存的基本路径
 
 	public Role getUserDefaultRole() {
 		return userDefaultRole;
@@ -74,68 +50,12 @@ public class Setting extends Model<Setting>{
 		this.userPermControl = userPermControl;
 	}
 
-	public String getSiteTitle() {
-		return this.siteTitle;
+	public String getFileBaseDir() {
+		return fileBaseDir;
 	}
 
-	public void setSiteTitle(String siteTitle) {
-		this.siteTitle = siteTitle;
-	}
-
-	public String getSeoKeyword() {
-		return this.seoKeyword;
-	}
-
-	public void setSeoKeyword(String seoKeyword) {
-		this.seoKeyword = seoKeyword;
-	}
-
-	public Files getFavicon() {
-		return this.favicon;
-	}
-
-	public void setFavicon(Files favicon) {
-		this.favicon = favicon;
-	}
-
-	public String getSeoDesc() {
-		return this.seoDesc;
-	}
-
-	public void setSeoDesc(String seoDesc) {
-		this.seoDesc = seoDesc;
-	}
-
-	public Files getLogo() {
-		return this.logo;
-	}
-
-	public void setLogo(Files logo) {
-		this.logo = logo;
-	}
-
-	public String getFootInfo() {
-		return this.footInfo;
-	}
-
-	public void setFootInfo(String footInfo) {
-		this.footInfo = footInfo;
-	}
-
-	public Integer getHotNum() {
-		return this.hotNum;
-	}
-
-	public void setHotNum(Integer hotNum) {
-		this.hotNum = hotNum;
-	}
-
-	public Integer getNewNum() {
-		return this.newNum;
-	}
-
-	public void setNewNum(Integer newNum) {
-		this.newNum = newNum;
+	public void setFileBaseDir(String fileBaseDir) {
+		this.fileBaseDir = fileBaseDir;
 	}
 	
 }

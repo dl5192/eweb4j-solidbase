@@ -15,8 +15,7 @@ public interface UserService {
 	 *            包含用户填写的账号密码
 	 * @return
 	 */
-	public User login(String session_authcode, String ip, User user)
-			throws Exception;
+	public User login(String session_authcode, String ip, User user) throws Exception;
 
 	/**
 	 * 注册
@@ -86,8 +85,7 @@ public interface UserService {
 	 * @param numPerPage
 	 * @return
 	 */
-	public PageMod<User> getSearchResult(String keyword, int pageNum,
-			int numPerPage) throws Exception;
+	public PageMod<User> getSearchResult(String keyword, int pageNum, int numPerPage) throws Exception;
 
 	/**
 	 * 锁定用户账号，使其账号无法登陆

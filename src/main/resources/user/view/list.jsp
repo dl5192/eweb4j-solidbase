@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <div class="pageHeader">
 	<form rel="pagerForm" onsubmit="return navTabSearch(this);" action="${BaseURL}${listPage.searchForm.action}" method="get">
 	<div class="searchBar">
@@ -23,8 +24,8 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="add" href="${BaseURL}${listPage.model}/new" target="dialog" width="500" height="600" title="添加"><span>添加</span></a></li>
-			<li><a class="edit" href="${BaseURL}${listPage.model}/{pojo_id}/edit" width="500" height="600" target="dialog" warn="请选择一条记录"><span>修改</span></a></li>
+			<li><a class="add" href="${BaseURL}${listPage.model}/new" rel="${listPage.model}_new" target="dialog" width="500" height="600" title="添加"><span>添加</span></a></li>
+			<li><a class="edit" href="${BaseURL}${listPage.model}/{pojo_id}/edit" rel="${listPage.model}_edit" width="500" height="600" target="dialog" warn="请选择一条记录"><span>修改</span></a></li>
 			<li><a title="确实要删除这些用户信息吗?" target="selectedTodo" rel="ids" href="${BaseURL}${listPage.model}/batchRemove?_method=delete" class="delete"><span>删除</span></a></li>
 			<li><a title="确实要锁定这些用户吗?" target="selectedTodo" rel="ids" href="${BaseURL}${listPage.model}/batchLock?_method=put" class="lock"><span>锁定</span></a></li>
 			<li><a title="确实要解锁这些用户吗?" target="selectedTodo" rel="ids" href="${BaseURL}${listPage.model}/batchUnLock?_method=put" class="unLock"><span>解锁</span></a></li>
@@ -39,8 +40,8 @@
 				<!--th width="50">ID</th-->
 				<th width="200">账号</th>
 				<th width="200">姓名</th>
-				<th width="200">角色</th>
-				<th width="200">部门</th>
+				<th width="100">角色</th>
+				<th width="100">部门</th>
 				<th width="200">办公电话</th>
 				<th width="200">手机号码</th>
 				<!-- 
@@ -52,12 +53,12 @@
 				<th width="200">上一次登陆时间</th>
 				<th width="200">上一次登陆IP</th>
 				<th width="200">注册时间</th>
-				<th width="160">操作</th>
+				<th width="250">操作</th>
 			</tr>
 		</thead>
 		<tbody>
-        <c:if test="${listPage.pojos == null}">
-	    	<tr><td><center>抱歉，没有任何记录。</center></td></tr>
+        <c:if test="${fn:length(listPage.pojos) == 0 || listPage.pojos == null}">
+	    	<tr><td><center>还没有内容。<a href="${BaseURL}${listPage.model}/new" rel="${listPage.model}_new" target="dialog" style="color:blue; text-decoration:underline;">点击添加+</a></center></td></tr>
 	    </c:if>
         
 		<c:forEach var="pojo" items="${listPage.pojos}">
@@ -94,7 +95,7 @@
                 	<a title="锁定" target="ajaxTodo" href="${BaseURL}${listPage.model}/${pojo.id}/lock?_method=put" class="btnLock">锁定</a>
                     <a title="解锁" target="ajaxTodo" href="${BaseURL}${listPage.model}/${pojo.id}/unLock?_method=put" class="btnUnLock">解锁</a>
 					<a title="删除" target="ajaxTodo" href="${BaseURL}${listPage.model}/${pojo.id}?_method=delete" class="btnDel">删除</a>
-					<a title="编辑" width="500" height="600" target="dialog" href="${BaseURL}${listPage.model}/${pojo.id}/edit" class="btnEdit">编辑</a>
+					<a title="编辑user_${pojo.id}" width="500" height="600" target="dialog" href="${BaseURL}${listPage.model}/${pojo.id}/edit" rel="${listPage.model}_${pojo.id}_edit" class="btnEdit">编辑</a>
 				</td>
 			</tr>
 		</c:forEach>
