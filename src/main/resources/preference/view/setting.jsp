@@ -37,7 +37,7 @@
                 <span style="clear: both; display: block; height: 10px;" ></span>
                 
                 <label for="setting.fileBaseDir">文件保存目录：</label>
-                <input class="required" name="setting.fileBaseDir" value="${pojo.fileBaseDir}" />
+                <input class="required" size="50" name="setting.fileBaseDir" value="${pojo.fileBaseDir}" />
             </div>
             
             <div class="formBar">

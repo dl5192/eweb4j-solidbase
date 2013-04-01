@@ -2,6 +2,7 @@ package org.eweb4j.solidbase.files.model;
 
 import java.io.File;
 
+import org.eweb4j.config.ConfigConstant;
 import org.eweb4j.mvc.view.PageMod;
 import org.eweb4j.orm.Db;
 import org.eweb4j.orm.Page;
@@ -20,7 +21,7 @@ public class FilesServiceImpl implements FilesService{
 		
 		//检查保存文件的目录是否合法
 		Setting setting = Db.ar(Setting.class).find().first();
-		String uploadBaseDir = setting.getFileBaseDir();
+		String uploadBaseDir = setting.getFileBaseDir().replace("${RootPath}", ConfigConstant.ROOT_PATH);
 		if (uploadBaseDir == null || uploadBaseDir.trim().length() == 0)
 			throw new FilesException("Setting.FileBaseDir can not be empty");
 		

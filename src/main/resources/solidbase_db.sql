@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50045
 File Encoding         : 65001
 
-Date: 2013-03-25 10:17:43
+Date: 2013-03-29 18:52:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -133,14 +133,14 @@ CREATE TABLE `t_files` (
   `intro` varchar(1024) default NULL,
   `size` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `cate_id` (`cate_id`),
+  KEY `cate_id` (`cate_id`),
   CONSTRAINT `t_files_ibfk_1` FOREIGN KEY (`cate_id`) REFERENCES `t_file_cate` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_files
 -- ----------------------------
-INSERT INTO `t_files` VALUES ('5', '2013-03-24/558714AEA6D99CE0EE739BD8CA6BE620.png', '6', 'asian1.png', 'test2', '0');
+INSERT INTO `t_files` VALUES ('11', '2013-03-29/E5FFD035464B3976484DC4AD008F940C.jpg', '6', '321.jpg', '', '0');
 
 -- ----------------------------
 -- Table structure for `t_file_cate`
@@ -173,7 +173,7 @@ CREATE TABLE `t_nav_menu` (
   `RANK` int(11) NOT NULL default '0',
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `NAME` (`NAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_nav_menu
@@ -847,7 +847,7 @@ CREATE TABLE `t_setting` (
 -- ----------------------------
 -- Records of t_setting
 -- ----------------------------
-INSERT INTO `t_setting` VALUES ('1', '5', 'yes', 'D:/Java/JEE/EclipseWorkSpace/solidbase-webapp/target/eweb4j-solidbase-webapp/userfiles');
+INSERT INTO `t_setting` VALUES ('1', '5', 'yes', '${RootPath}/userfiles');
 
 -- ----------------------------
 -- Table structure for `t_tree_menu`
@@ -872,7 +872,7 @@ CREATE TABLE `t_tree_menu` (
   KEY `PID` (`PID`),
   CONSTRAINT `t_tree_menu_ibfk_1` FOREIGN KEY (`NAV_MENU_ID`) REFERENCES `t_nav_menu` (`ID`) ON UPDATE CASCADE,
   CONSTRAINT `t_tree_menu_ibfk_2` FOREIGN KEY (`PID`) REFERENCES `t_tree_menu` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=409 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=410 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_tree_menu
@@ -905,7 +905,7 @@ INSERT INTO `t_tree_menu` VALUES ('374', '资源管理', 'navTab', '', '0', '', 
 INSERT INTO `t_tree_menu` VALUES ('375', '列出所有资源', 'navTab', 'xssyzy', '0', 'resources/list', '374', '0', '1', 'false', '0', '0');
 INSERT INTO `t_tree_menu` VALUES ('376', '新增资源', 'dialog', 'xzzy', '0', 'resources/new', '374', '0', '1', 'false', '300', '150');
 INSERT INTO `t_tree_menu` VALUES ('377', '查看用户日志', 'navTab', 'xssyyhrz', '1', 'users/logs', '151', '0', '1', 'false', '0', '0');
-INSERT INTO `t_tree_menu` VALUES ('378', '系统参数', 'navTab', '', '0', '', '1', '0', '1', 'false', '0', '0');
+INSERT INTO `t_tree_menu` VALUES ('378', '系统参数', 'navTab', '', '0', '', '1', '-1', '1', 'false', '0', '0');
 INSERT INTO `t_tree_menu` VALUES ('379', '全部参数', 'navTab', 'xssyxtcs', '0', 'preferences/list', '378', '0', '1', 'false', '0', '0');
 INSERT INTO `t_tree_menu` VALUES ('380', '分配菜单', 'navTab', 'fpcd', '0', 'roles/alloc-menu', '153', '0', '1', 'false', '0', '0');
 INSERT INTO `t_tree_menu` VALUES ('381', '全部文章', 'navTab', 'xssywz', '0', 'articles/list', '364', '0', '4', 'false', '0', '0');
@@ -958,12 +958,13 @@ CREATE TABLE `t_user` (
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `ACCOUNT` (`ACCOUNT`),
   KEY `TRUE_NAME` (`TRUE_NAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('9', 'solidbase', '4c5531126fd5b96261ebb2637c299e34', '正常', '2013-03-25 10:17:16', '127.0.0.1', '2012-03-06 21:55:51', '2012-03-06 21:55:51', '2012-06-10 01:32:52', '演示账号', 'eweb4j@163.com', '', '中国广东', '', '', '', '', '', 'yes');
+INSERT INTO `t_user` VALUES ('9', 'solidbase', '4c5531126fd5b96261ebb2637c299e34', '正常', '2013-03-29 18:40:15', '127.0.0.1', '2012-03-06 21:55:51', '2012-03-06 21:55:51', '2012-06-10 01:32:52', '演示账号', 'eweb4j@163.com', '', '中国广东', '', '', '', '', '', 'yes');
+INSERT INTO `t_user` VALUES ('10', 'demo', 'fe01ce2a7fbac8fafaed7c982a04e229', '正常', '2013-03-29 18:51:27', '127.0.0.1', '2013-03-29 18:51:16', '2013-03-29 18:51:16', '2013-03-29 18:51:16', '匿名', '无', '无', null, null, null, null, null, null, 'no');
 
 -- ----------------------------
 -- Table structure for `t_user_activity_log`
@@ -979,7 +980,7 @@ CREATE TABLE `t_user_activity_log` (
   `USER_NAME` varchar(20) NOT NULL default '''佚名''',
   `USER_ACCOUNT` varchar(32) NOT NULL default '''匿名账号''',
   PRIMARY KEY  (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=323 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=333 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_user_activity_log
@@ -1304,6 +1305,16 @@ INSERT INTO `t_user_activity_log` VALUES ('319', '31', '2013-03-24 12:53:48', '�
 INSERT INTO `t_user_activity_log` VALUES ('320', '31', '2013-03-24 12:54:18', '访问后台主页', 'success', '', '匿名', 'weiwei2');
 INSERT INTO `t_user_activity_log` VALUES ('321', '31', '2013-03-24 12:54:22', '查看版本', 'false', '用户权限不足, 无法执行[查看版本]功能', '匿名', 'weiwei2');
 INSERT INTO `t_user_activity_log` VALUES ('322', '31', '2013-03-24 12:54:24', '退出后台', 'success', '', '匿名', 'weiwei2');
+INSERT INTO `t_user_activity_log` VALUES ('323', '10', '2013-03-29 18:51:27', '访问后台主页', 'success', '', '匿名', 'demo');
+INSERT INTO `t_user_activity_log` VALUES ('324', '10', '2013-03-29 18:51:28', '访问后台主页', 'success', '', '匿名', 'demo');
+INSERT INTO `t_user_activity_log` VALUES ('325', '10', '2013-03-29 18:51:31', '查看版本', 'false', '用户权限不足, 无法执行[查看版本]功能', '匿名', 'demo');
+INSERT INTO `t_user_activity_log` VALUES ('326', '10', '2013-03-29 18:51:34', '访问系统设置页', 'false', '用户权限不足, 无法执行[访问系统设置页]功能', '匿名', 'demo');
+INSERT INTO `t_user_activity_log` VALUES ('327', '10', '2013-03-29 18:51:37', '切换左边树形菜单', 'success', '', '匿名', 'demo');
+INSERT INTO `t_user_activity_log` VALUES ('328', '10', '2013-03-29 18:51:37', '切换左边树形菜单', 'success', '', '匿名', 'demo');
+INSERT INTO `t_user_activity_log` VALUES ('329', '10', '2013-03-29 18:51:40', '查看导航菜单列表', 'success', '', '匿名', 'demo');
+INSERT INTO `t_user_activity_log` VALUES ('330', '10', '2013-03-29 18:51:40', '查看导航菜单列表', 'success', '', '匿名', 'demo');
+INSERT INTO `t_user_activity_log` VALUES ('331', '10', '2013-03-29 18:51:42', '编辑某导航菜单', 'false', '用户权限不足, 无法执行[编辑某导航菜单]功能', '匿名', 'demo');
+INSERT INTO `t_user_activity_log` VALUES ('332', '10', '2013-03-29 18:51:44', '访问添加导航菜单页面', 'false', '用户权限不足, 无法执行[访问添加导航菜单页面]功能', '匿名', 'demo');
 
 -- ----------------------------
 -- Table structure for `t_user_department`
@@ -1357,7 +1368,7 @@ CREATE TABLE `t_user_role` (
   KEY `ROLE_ID` (`ROLE_ID`),
   CONSTRAINT `t_user_role_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `t_user` (`ID`) ON UPDATE CASCADE,
   CONSTRAINT `t_user_role_ibfk_2` FOREIGN KEY (`ROLE_ID`) REFERENCES `t_role` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_user_role
@@ -1366,3 +1377,4 @@ INSERT INTO `t_user_role` VALUES ('4', '9', '5');
 INSERT INTO `t_user_role` VALUES ('35', '9', '6');
 INSERT INTO `t_user_role` VALUES ('36', '9', '7');
 INSERT INTO `t_user_role` VALUES ('37', '9', '8');
+INSERT INTO `t_user_role` VALUES ('38', '10', '5');
